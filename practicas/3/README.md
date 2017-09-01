@@ -68,7 +68,7 @@ práctica.
    obtener la fecha del sistema y guardarla en un archivo:
 
 		$ git checkout practica3a
-		$ date > practicas/3/GunnarWolf/A/hora_actual.txt
+		$ date > practicas/3/WolfGunnar/A/hora_actual.txt
 
    El comando `git checkout` tiene por efecto que el _punto actual de
    trabajo_ en el repositorio sea el que le indicamos; podemos
@@ -78,7 +78,7 @@ práctica.
 
 4. Como ya sabemos, agrego el archivo y hago mi *commit*:
 
-		$ git add practicas/3/GunnarWolf/A/hora_actual.txt
+		$ git add practicas/3/WolfGunnar/A/hora_actual.txt
 		$ git commit -m 'Agrego el archivo de Gunnar Wolf para la práctica 3A'
 
 5. Ahora, vamos a la rama de la práctica 3B:
@@ -88,8 +88,8 @@ práctica.
 	Puedes verificar que tu archivo en el directorio de 3A no
     existe. ¡No te preocupes, no se ha perdido!
 
-		$ ls practicas/3/GunnarWolf/A/hora_actual.txt
-		ls: cannot access practicas/3/GunnarWolf/A/hora_actual.txt: No such file or directory
+		$ ls practicas/3/WolfGunnar/A/hora_actual.txt
+		ls: cannot access practicas/3/WolfGunnar/A/hora_actual.txt: No such file or directory
 
 	Ahora, generemos un archivo ejemplo. Puede ser cualquier cosa, en
 	este caso (desde un sistema Linux) puede ser la información de tu
@@ -97,8 +97,8 @@ práctica.
 	`/proc/cpuinfo` sólo existe en Linux; ponle cualquier contenido
 	que elijas en caso de estar usando otro sistema):
 
-	    $ cp /proc/cpuinfo practicas/3/GunnarWolf/B/cpuinfo.txt
-		$ git add practicas/3/GunnarWolf/B/cpuinfo.txt
+	    $ cp /proc/cpuinfo practicas/3/WolfGunnar/B/cpuinfo.txt
+		$ git add practicas/3/WolfGunnar/B/cpuinfo.txt
 		$ git commit -m 'Agrego el archivo de Gunnar Wolf para la práctica 3B'
 
 6. Enviamos los cambios a GitHub. Dado que éstos no están en la rama
