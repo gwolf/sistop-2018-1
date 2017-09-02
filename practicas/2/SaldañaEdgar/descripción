@@ -1,0 +1,16 @@
+Sistema Operativo: GNU/Linux
+Programa ejecutado: printf "Hola"
+Programa para hacer las trazas: strace
+
+# de línea		Descripción
+11				 Abre la biblioteca que define llamadas a sistema
+12				 Lee a partir del descriptor de archivo 832 bytes
+13				 Obtiene el estado del archivo con fd = 3
+14				 Mapea el archivo con fd = 3 en la memoria
+15				 Protege un espacio en la memoria que comienza con la dirección del primer argumento
+16				 Mapea el archivo con fd = 3 en la memoria
+17				 Mapea el archivo con fd = -1 en la memoria
+19-21			    Mapea el archivo con fd = -1 en la memoria
+22				 Configura el estado del hilo con la arquitectura especificada
+23-25			    Protege áreas específicas de la memoria a solo lectura
+27-28			    Cambia el tamaño del segmento de datos
