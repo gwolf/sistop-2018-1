@@ -1,0 +1,42 @@
+echo "Estoy trabajando desde linux, estoy usando asi mismo el programa de 'strace' y el programa  objetivo cp, La verdad elegi este programa ya que fue el primero que se me vino a la mente, y ya que no conozco ninguna traza de ninguno, por que no empezar con uno 'conocido'
+> > 
+> > execve("/bin/cp", ["cp"], [/* 52 vars */]) = 0
+> //Aqui lo que puedo observar es que se abre la ejecucion del programa y asu vez declara 25 variabels en '0'.
+> brk(0)                                  = 0x1b51000
+> access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+> //nos cambia el final del segmentos que entraran para que se pueda dar un valor razonable en el muestro de la pantalla, asi mismo, podemos ver que segudo accesa al programa.
+> access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)// DEspues de estas lineas le procigen
+> open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+> fstat(3, {st_mode=S_IFREG|0644, st_size=120154, ...}) = 0
+> mmap(NULL, 120154, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fc56cc78000
+> close(3)                                = 0
+> access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+> open("/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+> read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0[\0\0\0\0\0\0"..., 832) = 832
+> fstat(3, {st_mode=S_IFREG|0644, st_size=134296, ...}) = 0
+> //Despues le prosigen lineas que solo nos mantiene en un ciclo de apertura y cierre, asi como tambien las opciones del lectura qeu tiene el mismo sistema para dar a concoer el comadno 'cp'-
+> mprotect(0x7fc56c873000, 2093056, PROT_NONE) = 0
+> mmap(0x7fc56ca72000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1f 
+> //Posteromente aparece el comando de mprotect que nos dice que proteje la memoria, yo piendo que despues de esto lo que nos marca esto es que almacena en memoria lo que va  asuceder, por mismo guarda espacio apra hacerlo
+> fstat(3, {st_mode=S_IFREG|0644, st_size=134296, ...}) = 0
+> mmap(NULL, 2238192, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fc56c853000
+> mprotect(0x7fc56c873000, 2093056, PROT_NONE) = 0
+> //En las lineas siguientes vemos otra funcion fstat la cual nos regresa la informacion ya optenida en este caso ya fue porcesada y generada, exsiten dos formas fstat y stat, son cimpletamente diferentes ya que por un simple descriptor fd, de ahi en feura hacn lo mismo, siguiendo con las mismas instruciiones, se puede ver la funcion mmap,la cual crea un espacio para guardar la direccion de memoria que poco a poco sera usada para 'cp'.
+> mprotect(0x7fc56c43b000, 16384, PROT_READ) = 0
+> mprotect(0x7fc56be41000, 4096, PROT_READ) = 0
+> mprotect(0x7fc56c07f000, 4096, PROT_READ) = 0
+> mprotect(0x7fc56c649000, 4096, PROT_READ) = 0
+> mprotect(0x7fc56c851000, 4096, PROT_READ) = 0
+> mprotect(0x7fc56ca72000, 4096, PROT_READ) = 0
+> mprotect(0x61e000, 4096, PROT_READ)     = 0
+> mprotect(0x7fc56cc98000, 4096, PROT_READ) = 0
+> munmap(0x7fc56cc78000, 120154)          = 0
+> statfs("/sys/fs/selinux", 0x7ffdbd9b7640) = -1 
+> //En este conjunto de isntrucciones, se puede ver como se van protejienod las localidades de memoria, asi mismo se van declarando en 0, quiero creer que se crean asi para que no guarde basura, y asi la forzamos que esten en cero, posteriomente aparece otra funcion llamada statfs, que como se comento en parrafos apsados en la contraparte de la funcion mencioanda , pero en esta se encuentra la variaon geteuid()                               = 1000
+> open("/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+> //en esta linea no solo se abre el archivo si no tambien, se puede observar que regresa una isntruccion real con un valor de 1000.
+> lose(2)                                = 0
+> exit_group(1)                           = ?
+> +++ exited with 1 +++
+> //finalemnte se cierra y tambien salen del grupo , con esto se da finalizado la seccion de trazas y te da la opcion de regresar a donde estabas anteriormente.
+
