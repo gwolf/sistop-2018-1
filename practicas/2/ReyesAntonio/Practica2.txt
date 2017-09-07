@@ -1,0 +1,58 @@
+Sistema Operativo: Linux Mint.
+Use Strace de Linux desde la consola.
+Trace la creacion de archivo con CD porque pense que al tratarse de la creacion de un archivo podrian ocurrir cosas muy interesantes.
+
+
+rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 😎 = 0 
+Cambia la mascara de señales que estan bloqueadas para que el que las llama, y elimina las que no estan bloqueadas.
+
+getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+Obtiene y establecen recursos respectivamente.Cada recurso tiene una función asociada.
+
+
+statfs("/sys/fs/selinux", 0x7ffeeaec34d0) = -1 ENOENT (No such file or directory)
+Devuelve informacion sobre un sistema de archivos en este caso el de la direccion del primer argumento.
+
+statfs("/selinux", 0x7ffeeaec34d0)      = -1 ENOENT (No such file or directory)
+Devuelve informacion sobre un sistema de archivos en este caso el de la direccion del primer argumento.
+
+brk(NULL)                               = 0xd6f000
+brk(0xd90000)                           = 0xd90000
+Establece el final del segmento de datos al valor especificado por el argumento, cuando este valor es razonable el sistema tiene suficiente memoria.
+
+open("/proc/filesystems", O_RDONLY)     = 3
+Abre el archivo de /proc/filesystems en solo lectura.
+
+fstat(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+Devuelve informacion sobre un archivo.
+
+read(3, "nodev\tsysfs\nnodev\trootfs\nnodev\tr"..., 1024) = 369
+read(3, "", 1024)                       = 0
+Intenta leer y contar bits desde el descriptor del archivo.
+
+close(3)                                = 0
+Cierra el descriptor de archivo.
+
+open("/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+Abre el archivo de /usr/lib/locale/locale-archive en solo lectura el uso de O_CLOEXEC es importante para multiproceso de programas.
+
+fstat(3, {st_mode=S_IFREG|0644, st_size=5557808, ...}) = 0
+Devuelve informacion sobre un archivo.
+
+mmap(NULL, 5557808, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ff56ff34000
+Crea una nueva asignacion en el espacio de direcciones virtual, el addr es null y entonces se elige la direccion donde crear el mapeo.
+
+close(3)                                = 0
+Cierra el descriptor de archivos.
+
+mkdir("TareaWolf", 0777)                = 0
+Crea la carpeta en la direccion 0777.
+
+Observaciones:
+Pude notar que mientras se crea el archivo, constantemente se esta pidiendo informacion del sistema de archivos, y bastante "movimiento" en la memoria,
+eso me hace pensar en que el sistema operativo se "preocupa" mucho en ver el estado de la memoria y del sistema de archivos y eso lo hace tan seguro
+en comparacion de otros sistemas operativos. Por otra parte se puede ver que las funciones o metodos utilizados son las interrupciones de las que se hacian
+mencion en la clase.
+
+
+
