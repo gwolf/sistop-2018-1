@@ -1,0 +1,35 @@
+Sistema Operativo: Fedora26
+Programa : strace
+Programa trazado: ls
+Por que? fue el que seme ocurio
+Observaciones: Me doy cuenta que aun con la alluda de 'man' hay varias funciones que no entiendo por completo. Me parecio una practica ilustrativa ya que al tratar de entender que esta haciendo el sistema operativo pude conoser un poco mas sobre su funcionamiento  
+
+
+
+
+
+brk(NULL)                               = 0xec177ee000	  CAMBIA LA POSICION DEL FINAL DEL SEGMENTO DE DATOS SUPONGO QUE SIRVE PARA REPOSICIONAR EN RAM LOS DATOS SOLISITADOS  
+brk(0xec1780f000)                       = 0xec1780f000
+access("/etc/selinux/config", F_OK)     = 0
+open("/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3 VERIFICA LOS PERMISOS QUE TIENE EL USUARIO SOBRE EL ARCHIVO PARA SAVER QUE SELE ESTA PERMITIDO HACER CON EL
+fstat(3, {st_mode=S_IFREG|0644, st_size=109229520, ...}) = 0	TE DA LAS CONDICIONES DEL ARCHIVO
+mmap(NULL, 109229520, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f8f7c1d7000 CREA UN NUEVO MAPEO EN UNA DIRECCION VIRTUAL
+close(3)                                = 0 SIERRA EL DESCRIPTOR DEL ARCHIVO 
+ioctl(1, TCGETS, {B38400 opost isig icanon echo ...}) = 0	CONTROLA LOS PARAMETROS ESPESIFICOS DE UN ARCHIVO DE UN DISPOSITIVO 
+ioctl(1, TIOCGWINSZ, {ws_row=24, ws_col=80, ws_xpixel=0, ws_ypixel=0}) = 0
+open(".", O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3	INISIALIZA UN PROGRAMA EN UNA NUEVA TERMINAL VIRTUAL
+fstat(3, {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+getdents(3, /* 60 entries */, 32768)    = 2208	TRAE LAS ENTRADAS DE UN DIRECTORIO (SU CONTENIDO)
+getdents(3, /* 0 entries */, 32768)     = 0
+close(3)                                = 0
+open("/usr/lib64/gconv/gconv-modules.cache", O_RDONLY) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=26254, ...}) = 0
+mmap(NULL, 26254, PROT_READ, MAP_SHARED, 3, 0) = 0x7f8f83ab4000
+close(3)                                = 0
+futex(0x7f8f83465888, FUTEX_WAKE_PRIVATE, 2147483647) = 0	LLAMADA AL SISTEMA QUE BLOQUEA AL PROGRAMA HASTA QUE SIERTA CONDICION SEA VERDADERA
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 0), ...}) = 0
+write(1, " 11-Oct-2016.odt\n", 17 11-Oct-2016.odt	COPIA UN MENSAJE A LA TERMINAL PARA QUE PUEDA SER VISTA POR EL USUARIO
+)      = 17
+write(1, " Algoritmos\n", 12 Algoritmos
+)           = 12
+
