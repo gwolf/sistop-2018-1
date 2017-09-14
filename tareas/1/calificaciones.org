@@ -1,0 +1,80 @@
+* Entregadas en tiempo ⇒ Hasta 2017.09.12 23:59:59
+
+** Edgar Saldaña
+- Lenguaje :: C
+- Código :: [[./SaldañaEdgar/rec.c]]
+- Documentación :: [[./SaldañaEdgar/README]]
+- Estrategia :: Recursión sobre la función =openDir(ruta,
+                profundidad)=, decrementando la segunda. 
+- Calificación :: 10
+- Comentarios ::
+  - Bonito y amigable: El que presente el árbol de archivos anidado,
+    representando un verdadero árbol, e indicando claramente el tipo
+    de objeto que es cada objeto representado es muy bienvenido.
+  - Respecto a la documentación: =dirent.h= y =sys/types.h= _sí_ son
+    bibliotecas estándar. De hecho, se les conoce como _la biblioteca
+    estándar_ del lenguaje C; Es el conjunto de bibliotecas que
+    _siempre_ debe esta disponible para que una implementación sea un
+    C válido. Les dejo como referencia un [[https://www.tutorialspoint.com/c_standard_library/][documento en Tutorials Point]]
+    al respecto.
+  - ¡Ojo! Tu variable =salto=, que guarda el espacio en blanco antes
+    de entrar a un directorio, es de longitud fija (500
+    caracteres). Cada que entras a un directorio le agregas siete
+    espacios, y cada que termina dicho directorio le _agregas_ siete
+    retrocesos. Eso significa que con sólo entrar y salir de 35
+    directorios, tu programa se va a morir (tal como lo describes en
+    tu =README=).
+    - ¿No crees que sería más limpio dejar de depender de =salto=, y
+      generar los espacios al vuelo? Algo tan simple como lo
+      siguiente -- Tu línea 55 dice:
+
+      #+BEGIN_SRC C
+      printf("\t%s%s%s\n", salto, KNRM, ent -> d_name);
+      #+END_SRC
+
+      Podrías reemplazarla por una versión más simple, que además
+      considere un ancho máximo de pantalla (digamos, 70 caracteres):
+
+      #+BEGIN_SRC C
+      char salto[70];
+      /* (...) */
+      for (i=0; i<profundidad; i++) {
+            if (i > 10)
+                break;
+            strcat(salto, "      ");
+      }
+      printf("\t%s%s%s\n", salto, KNRM, ent->d_name);
+      #+END_SRC
+
+** Héctor Martínez
+- Lenguaje :: Python
+- Código :: [[./MartinezHector/programa.py]]
+- Documentación :: [[./MartinezHector/documentacion.txt]]
+- Estrategia :: Uso de función propia de Python =os.walk()=
+- Calificación :: 6
+- Comentarios ::
+  - Empleaste una función del lenguaje que hace precisamente la tarea
+    que tenías que realizar tú: =os.walk()= toma un directorio, lo
+    /camina/, y va entregando un objeto por cada archivo dentro del árbol.
+
+* Extemporáneas ⇒ Hasta 2017.09.19 23:59:59
+Calificadas sobre 8.0
+
+** Jorge Ferrusca y Ricardo Hernández
+- Lenguaje :: 
+- Código :: 
+- Documentación :: 
+- Estrategia ::
+- Calificación :: 
+- Comentarios :: 
+
+** Jesús Tirado
+- Lenguaje :: 
+- Código :: 
+- Documentación :: 
+- Estrategia ::
+- Calificación :: 
+- Comentarios :: 
+
+* Muy extemporáneas ⇒ Hasta 2017.10.03 23:59:59
+Calificadas sobre 5.0
