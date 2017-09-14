@@ -61,18 +61,18 @@
 Calificadas sobre 8.0
 
 ** Jorge Ferrusca y Ricardo Hernández
-- Lenguaje :: 
-- Código :: 
-- Documentación :: 
-- Estrategia ::
+- Lenguaje :: C
+- Código :: [[./FerruscaJorge-HernandezRicardo/archivos.c]]
+- Documentación :: [[./FerruscaJorge-HernandezRicardo/instrucciones.txt]]
+- Estrategia :: 
 - Calificación :: 
 - Comentarios :: 
 
 ** Jesús Tirado
-- Lenguaje :: 
-- Código :: 
-- Documentación :: 
-- Estrategia ::
+- Lenguaje :: C
+- Código :: [[./TiradoJesus/tarea1.c]]
+- Documentación :: [[./TiradoJesus/tarea1.pdf]]
+- Estrategia :: 
 - Calificación :: 
 - Comentarios :: 
 
