@@ -11,7 +11,7 @@ al grupo)
 |--------+-------------------------------------------+----------------+------------+------------|
 | Fecha  | Tema                                      | Integrantes    | Documentos | Evaluación |
 |--------+-------------------------------------------+----------------+------------+------------|
-| 21/sep | Rootkits: Escondiéndose del administrador | Eduardo Valdez |            |            |
+| 28/sep | Rootkits: Escondiéndose del administrador | Eduardo Valdez |            |            |
 |--------+-------------------------------------------+----------------+------------+------------|
 
 * Evaluaciones de exposiciones

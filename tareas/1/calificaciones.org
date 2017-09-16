@@ -1,0 +1,176 @@
+* Entregadas en tiempo ⇒ Hasta 2017.09.12 23:59:59
+
+** Edgar Saldaña
+- Lenguaje :: C
+- Código :: [[./SaldañaEdgar/rec.c]]
+- Documentación :: [[./SaldañaEdgar/README]]
+- Estrategia :: Recursión sobre la función =openDir(ruta,
+                profundidad)=, decrementando la segunda. 
+- Calificación :: 10
+- Comentarios ::
+  - Bonito y amigable: El que presente el árbol de archivos anidado,
+    representando un verdadero árbol, e indicando claramente el tipo
+    de objeto que es cada objeto representado es muy bienvenido.
+  - Respecto a la documentación: =dirent.h= y =sys/types.h= _sí_ son
+    bibliotecas estándar. De hecho, se les conoce como _la biblioteca
+    estándar_ del lenguaje C; Es el conjunto de bibliotecas que
+    _siempre_ debe esta disponible para que una implementación sea un
+    C válido. Les dejo como referencia un [[https://www.tutorialspoint.com/c_standard_library/][documento en Tutorials Point]]
+    al respecto.
+  - ¡Ojo! Tu variable =salto=, que guarda el espacio en blanco antes
+    de entrar a un directorio, es de longitud fija (500
+    caracteres). Cada que entras a un directorio le agregas siete
+    espacios, y cada que termina dicho directorio le _agregas_ siete
+    retrocesos. Eso significa que con sólo entrar y salir de 35
+    directorios, tu programa se va a morir (tal como lo describes en
+    tu =README=).
+    - ¿No crees que sería más limpio dejar de depender de =salto=, y
+      generar los espacios al vuelo? Algo tan simple como lo
+      siguiente -- Tu línea 55 dice:
+
+      #+BEGIN_SRC C
+      printf("\t%s%s%s\n", salto, KNRM, ent -> d_name);
+      #+END_SRC
+
+      Podrías reemplazarla por una versión más simple, que además
+      considere un ancho máximo de pantalla (digamos, 70 caracteres):
+
+      #+BEGIN_SRC C
+      char salto[70];
+      /* (...) */
+      for (i=0; i<profundidad; i++) {
+            if (i > 10)
+                break;
+            strcat(salto, "      ");
+      }
+      printf("\t%s%s%s\n", salto, KNRM, ent->d_name);
+      #+END_SRC
+
+** Héctor Martínez
+- Lenguaje :: Python
+- Código :: [[./MartinezHector/programa.py]]
+- Documentación :: [[./MartinezHector/documentacion.txt]]
+- Estrategia :: Uso de función propia de Python =os.walk()=
+- Calificación :: 6
+- Comentarios ::
+  - Empleaste una función del lenguaje que hace precisamente la tarea
+    que tenías que realizar tú: =os.walk()= toma un directorio, lo
+    /camina/, y va entregando un objeto por cada archivo dentro del árbol.
+
+* Extemporáneas ⇒ Hasta 2017.09.19 23:59:59
+Calificadas sobre 8.0
+
+** Jorge Ferrusca y Ricardo Hernández
+- Lenguaje :: C
+- Código :: [[./FerruscaJorge-HernandezRicardo/archivos.c]]
+- Documentación :: [[./FerruscaJorge-HernandezRicardo/instrucciones.txt]]
+- Estrategia :: Intentan hacer una recursión sobre
+                =funcionPrincipal()=, pero no alcanzan a implementarla
+                — Manejo equivocado de variables globales (abundo más adelante
+- Calificación :: 9 × 0.8 = 7.2
+- Comentarios ::
+  - Me gustó mucho el programa; se nota que se documentaron e
+    intentaron hacerlo completo
+    - Me gustaría darles el 10 (aunque fuera ×0.8, por la fecha de
+      entrega), pero no implementaron el punto específico que les pedí
+      :-(
+  - La interfaz usuario está trabajada: Muestra información útil de
+    los archivos y demás objetos.
+  - Lo que hacen en =tamArchivo()= es... ¿Ingenioso?  ¿Ingenuo, al
+    mismo tiempo? ¿Por qué abrir un archivo y hacer un =fseek(archivo,
+    0L, SEEK_END)= a cada uno de ellos, en vez de usar =stat()=?
+    - Esto los lleva a algunas distorsiones... Por ejemplo, ¿por qué
+      muchos directorios reportan medir 9223372036854775807 bytes?
+      (tip obvio: 2**63 = 9223372036854775808)
+    - Pero además, es *muchísimo* menos eficiente. ¿Cuántas llamadas
+      al sistema tienen que hacer para averiguar el tamaño? =stat()=
+      es muchísimo más eficiente.
+  - La razón por la que no les funcionó la recursión es su uso de
+    variables globales: ¿Por qué declarar a =char *rutaDirectorio=,
+    =int aux= y =DIR *dir= en el nivel más externo? Si éstas variables
+    fueran internas a la =funcionPrincipal()= y fueran enviadas a las
+    funciones derivadas que lo requirieran, el bloque que tienen
+    comentado en las líneas 48-52 no destruiría el estado del
+    programa.
+
+    Recuerden el punto para ahora que hablemos de la memoria: como
+    está en este momento, estas funciones se guardan en la _sección de
+    datos_, y no en el _stack_ como debería ser.
+
+** Jesús Tirado
+- Lenguaje :: C
+- Código :: [[./TiradoJesus/tarea1.c]]
+- Documentación :: [[./TiradoJesus/tarea1.pdf]]
+- Estrategia :: Profundidad fija, con función de primer nivel
+                (=es_directorio()=) y de segundo nivel
+                (=lista_directorio()=) que repiten parte de su
+                funcionalidad
+- Calificación :: 8×0.8=6.4
+- Comentarios ::
+  - El método que empleas para determinar cuándo es directorio y
+    cuándo no (la presencia del caracter =.=) me gusta, por ser una
+    heurística generada por tí y demostrar ingenio. Tristemente, como
+    tú mismo lo documentas, es completamente falsa :-] Los directorios
+    pueden tener "apellidos", y los archivos pueden no tenerlos.
+
+    La respuesta más sencilla sería el uso de la función =stat()=, que
+    entre los datos que arroja es el tipo de archivo del que se trata
+
+  - Qué bueno que incluyes capturas de ejecuciones exitosas... Porque
+    yo no pude llegar tan lejos:
+
+    #+BEGIN_SRC text
+    gwolf@matlalli『49』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out ..
+    README.md
+    ..
+    .
+    MartinezHector
+    -->abriendo el directorio MartinezHector
+    Segmentation fault
+    gwolf@matlalli『50』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out ../..
+    README.md
+    .placeholder
+    ..
+    .
+    1
+    -->abriendo el directorio 1
+    Segmentation fault
+    gwolf@matlalli『51』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /etc/
+    .
+    ..
+    mailcap
+    -->abriendo el directorio mailcap
+    Segmentation fault
+    gwolf@matlalli『52』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /usr/
+    src
+    -->abriendo el directorio src
+    Segmentation fault
+    gwolf@matlalli『53』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /tmp
+    .
+    ..
+    RUM invitación.jpg
+    ssh-4XRqlfp6YU0y
+    -->abriendo el directorio ssh-4XRqlfp6YU0y
+    Segmentation fault
+    gwolf@matlalli『54』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/
+    ..
+    .
+    lost+found
+    -->abriendo el directorio lost+found
+    Segmentation fault
+    gwolf@matlalli『55』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/gwolf/
+    .
+    ..
+    llaves RSA de 1024 a 2048.pdf
+    .gnuplot_history
+    feh_012433_000001_filelist
+    -->abriendo el directorio feh_012433_000001_filelist
+    Segmentation fault
+    gwolf@matlalli『56』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/gwolf/vcs
+    com_transc_y_sist_emerg
+    -->abriendo el directorio com_transc_y_sist_emerg
+    Segmentation fault
+    #+END_SRC
+
+* Muy extemporáneas ⇒ Hasta 2017.10.03 23:59:59
+Calificadas sobre 5.0

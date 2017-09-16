@@ -1,0 +1,16 @@
+# Archivo de "documentación"
+
+Entorno / ambiente de desarollo: Basado en Unix (Linux), utilizando el compilador gcc porque es
+el que teníamos ambos, y utilizamos adicionalmente a la bilbioteca estandar, la de entrada-salida
+<stdio.h>; <string.h> para manejar cadenas, como strcmp que es para comparar y strlen que es para la longitud de una cadena; <dirent.h> para el manejo de directorios, que es lo importante en esta tarea; <sys/stat.h> para ejecutar la función stat(); <stdlib.h> para la macro EXIT_SUCCESS o EXIT_FAILURE, en sistemas POSIX, EXIT_SUCCESS representa un 0.
+
+El programa debe ser invocado de la siguiente manera:
+$ ./ejecutable path
+donde:
+./ -> es la dirección donde se encuentra tu carpeta, en dado caso que estes trabajando sobre tu carpeta actual, se escribe "./"
+ejecutable -> es el programa que genera C al momento de compilar
+path -> único argumento que recibe el programa. Es la dirección relativa o absoluta del directorio donde quieras mostrar los archivos que se encuentren dentro de él.
+
+La salida esperada es la impresión de los archivos que se encuentren dentro del directorio escogido, delante del nombre irá el tamaño en bytes y al final el tipo de archivo que es (directorio, archivo regular, etc.)
+
+Este programa solo muestra la informmación del directorio actual, sin embargo queremos que esto sea recursivo para cuando encuentre que un archivo es de tipo directorio, entre en él y haga lo mismo que en el anterior, esto todavía está en proceso de realización... (todavía no nos queda)

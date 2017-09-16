@@ -68,3 +68,8 @@ se le pueda especificar por parámetros el nivel de profundidad a que
 va a entrar, que entregue la salida ordenada... No quiero robarles sus
 ideas. ¡Sean creativos! Hagan de este programa _algo más bonito_ y/o
 _algo más útil_, y tendrán el 10.
+
+## Calificaciones
+
+Pueden consultar
+[las calificaciones que han obtenido y comentarios a sus trabajos](./calificaciones.org).

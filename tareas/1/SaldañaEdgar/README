@@ -1,0 +1,17 @@
+Rec es un programa que, de manera recursiva, recorre directorios y muestra los archivos que hay dentro de ellos.
+Fue programado en ambiente GNU/Linux. El compilador que se utilizó fue gcc. Las bibliotecas no estándar son: dirent.h y sys/types.h.
+
+Para invocarlo debe recibir dos argumentos: el directorio por el que comenzará a hacer el recorrido y el nivel de profundización que se desea.
+Por ejemplo, si deseo recorrer los directorios a partir de el directorio anterior del que me encuentro, profundizando a 2 niveles, debería ejecutar:
+
+./rec .. 2
+
+archivo--	    README.md
+directorio--	SaldañaEdgar
+archivo--	       rec
+archivo--	       .rec.c.swp
+archivo--	       rec.c
+
+Como se observa, el programa indica para cada archivo si se trata de un directorio o de un archivo regular.
+
+Nota: Se observó que en directorios que contienen una gran cantidad de subdirectorios, rec puede tener problemas de estabilidad, generando violaciones de segmento.

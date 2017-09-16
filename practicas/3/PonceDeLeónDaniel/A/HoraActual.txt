@@ -1,0 +1,2 @@
+La hora actual es: 14:59:33.12
+Escriba una nueva hora: 
