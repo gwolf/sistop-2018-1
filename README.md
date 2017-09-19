@@ -54,7 +54,11 @@ a todo*, me duele un poco utilizar un servicio propietario (GitHub) en vez
 de las alternativas plenamente libres que hay para esta infraestructura,
 pero al mismo tiempo me resulta importante iniciarlos en el uso de esta
 importante herramienta de desarrollo colaborativo, así como su interacción
-en tanto red social.
+en tanto red social. Como sea, los invito a leer un artículo llamado
+[The GitHub Threat](https://carlchenet.com/the-github-threat/) (_la amenaza
+de GitHub_) para profundizar un poco en esta cuestión, que va desde lo 
+técnico hasta lo ideológico, desde la historia comparable de otros
+espacios similares hasta meras suposiciones.
 
 ## ¿Cómo lo usaremos en la materia? ##
 
