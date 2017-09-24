@@ -1,7 +1,6 @@
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Superbloque {
+public class Superbloque implements Serializable {
 
 	/*Descripción del volumen*/
 	
@@ -14,21 +13,8 @@ public class Superbloque {
 
 		sist_archivos = "SISTEMA_DE_ARCHIVOS_SISTOP";
 		etiqueta_vol = System.getProperty("user.dir");
-
-
-		/* Guardo los metadatos del superbloque en superb.dat*/
-
-		try (FileOutputStream fos = new FileOutputStream("superbloque.bin");
-			ObjectOutputStream oos = new ObjectOutputStream(fos)){
-			oos.writeObject(sist_archivos);
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-
-	}
-
-	Superbloque(String nombre){
-
+		tamanio_bloque = 4096;
+		tamanio_vol = 4096000;
 	}
 
 	public void getTipoSistema(String[] args) {

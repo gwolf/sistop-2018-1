@@ -23,4 +23,9 @@ public class Comando {
 	//Lista la ayuda
 	public static void help() {
 	}
+
+	//Lista metadatos del superbloque
+	public static void superb() {
+		System.out.println(Sistema.superb.tamanio_vol);
+	}
 }
