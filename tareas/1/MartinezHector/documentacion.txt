@@ -1,0 +1,7 @@
+Mi programa esta echo en lenguaje Python, esta diseñado para un linux, y se compilo en gcc.
+la bibloteca que use es la de os.
+Para su compilacion solo se necesita la etiqueta de 'python3' , posteriormente se escribe la ruta de donde se encuentra el programa.
+
+Ejemplo:  python3   sistop-2018-1/tareas/programa.py
+Posteriormente aparecera la ruta de donde se encuentra actualmente el directorio y su subdirectorios y su contenido de cada uno." >documentacion.pdf
+
