@@ -57,8 +57,72 @@
     que tenías que realizar tú: =os.walk()= toma un directorio, lo
     /camina/, y va entregando un objeto por cada archivo dentro del árbol.
 
-* Extemporáneas ⇒ Hasta 2017.09.19 23:59:59
-Calificadas sobre 8.0
+** Ricardo Santiago
+- Lenguaje :: C
+- Codigo :: [[./SantiagoRicardo/tarea1.c]]
+- Documentación :: [[./SantiagoRicardo/docTareaUno.txt]],
+                   [[./SantiagoRicardo/prueba1.png]],
+                   [[./SantiagoRicardo/prueba2.png]]
+- Estrategia :: Recursión; omite de ésta a los los directorios que
+                /inician/ con =.= o =..=
+- Calificación :: 8
+- Comentarios ::
+  - La entrega fue en tiempo, pero el commit se "ensució" mucho; le
+    pedí a Ricardo que lo enviara de nuevo.
+  - Cuestiones de estilo: Por legibilidad, te recomiendo fuertemente
+    colocar tus comentarios antes del código en cuestión, no dejando
+    un espacio en blanco tan grande antes de comentar. Vamos, en vez
+    de:
+
+    #+BEGIN_SRC C
+    	if (argc != 2) {				//verifica que el usuario halla indicado el nombre del directorio antes de ejecutar el programa
+		printf("Indique el directorio a mostrar\n");
+		return 1;
+	}
+	dirContenido(argv[1]);			//se listara el directorio indicado en consola
+	printf("\n");
+    #+END_SRC
+
+    Resulta mucho más claro:
+
+    #+BEGIN_SRC C
+        //verifica que el usuario halla indicado el nombre del directorio antes de ejecutar el programa
+    	if (argc != 2) {
+		printf("Indique el directorio a mostrar\n");
+		return 1;
+	}
+	//se listara el directorio indicado en consola
+	dirContenido(argv[1]);
+	printf("\n");
+    #+END_SRC
+  - Otra relativo a los comentarios: Comentar cosas obvias te quita
+    tiempo, y no le agrega nada de claridad al programa. Vale la pena
+    comentar únicamente las cosas que no son obvias al leer el
+    código. Esto es:
+    #+BEGIN_SRC C
+    	DIR *dir; //apuntador a directorio
+	struct dirent *archivo;	//define una apuntador a estructura dirent
+	struct stat info; //define una variable tipo stat para obtener informacion del fichero/directorio
+    #+END_SRC
+    Todos estos comentarios salen sobrando.
+  - Te falta declarar que estás usando funciones de comparación de
+    cadenas:
+    #+BEGIN_SRC sh
+     gcc tarea1.c
+     tarea1.c: In function ‘dirContenido’:
+     tarea1.c:27:7: warning: implicit declaration of function ‘strcmp’ [-Wimplicit-function-declaration]
+     if((strcmp(archivo->d_name,".") != 0)&&(strcmp(archivo->d_name,"..") != 0)!= 0){ //verifica que el archivo no sea el directorio actual o el directorio padre
+         ^~~~~~
+    #+END_SRC
+    Si estás usando =strcmp=, debes declarar =#include <string.h>=
+  - Si estás utilizando enteros en C, el valor verdadero es 0, y los
+    demás números falso. Esto es, puedes simplificar tu comparación:
+    #+BEGIN_SRC C
+    if (strcmp(archivo->d_name, ".") && strcmp(archivo->d_name, "..")) {
+        stat(archivo->d_name, &info);
+	// (...)
+    #+END_SRC
+
 
 ** Jorge Ferrusca y Ricardo Hernández
 - Lenguaje :: C
@@ -67,7 +131,7 @@ Calificadas sobre 8.0
 - Estrategia :: Intentan hacer una recursión sobre
                 =funcionPrincipal()=, pero no alcanzan a implementarla
                 — Manejo equivocado de variables globales (abundo más adelante
-- Calificación :: 9 × 0.8 = 7.2
+- Calificación :: 9
 - Comentarios ::
   - Me gustó mucho el programa; se nota que se documentaron e
     intentaron hacerlo completo
@@ -96,6 +160,13 @@ Calificadas sobre 8.0
     Recuerden el punto para ahora que hablemos de la memoria: como
     está en este momento, estas funciones se guardan en la _sección de
     datos_, y no en el _stack_ como debería ser.
+
+* Extemporáneas ⇒ Hasta 2017.09.19 23:59:59
+Calificadas sobre 8.0
+
+*Nota:* Por las afectaciones del sismo, el tiempo se "detiene" hasta
+el 10 de octubre. Todas las tareas recibidas hasta ese día serán
+calificadas sobre 8; no habrá calificación sobre 5.
 
 ** Jesús Tirado
 - Lenguaje :: C
@@ -172,5 +243,51 @@ Calificadas sobre 8.0
     Segmentation fault
     #+END_SRC
 
-* Muy extemporáneas ⇒ Hasta 2017.10.03 23:59:59
-Calificadas sobre 5.0
+
+** Anibal Medina
+- Lenguaje :: Python
+- Código :: [[./MedinaAnibal/Existencia.py]]
+- Documentación :: [[./MedinaAnibal/instrucciones]]
+- Estrategia :: Uso de función propia de Python =os.walk()=
+- Calificación :: 5×0.8=4
+- Comentarios ::
+  - Respecto a la documentación: Python no es un lenguaje que se
+    compile expresamente como un paso; si lo fuera, te generaría un
+    archivo ejecutable. Lo correcto sería decir, "...para su
+    ejecución..."
+  - Empleaste una función del lenguaje que hace precisamente la tarea
+    que tenías que realizar tú: =os.walk()= toma un directorio, lo
+    /camina/, y va entregando un objeto por cada archivo dentro del
+    árbol; curiosamente /recortas/ la /caminata/ para que sólo muestre
+    el directorio actual.
+  - ¿Probaste el código? No funcionaba por varias razones. El juego de
+    diferencias que tuve que hacer para que tu programa funcionara es
+    casi tan extenso como el programa mismo:
+    #+BEGIN_SRC diff
+--- a/tareas/1/MedinaAnibal/Existencia.py
++++ b/tareas/1/MedinaAnibal/Existencia.py
+@@ -1,13 +1,13 @@
+ #_*_ encoding: utf-8 _*_
+ import os
+-class Existencia:
+-       rut = raw_input("Ingresa tu ruta: ")
+-       if rut == NULL:
+-               rut='.'
+-class Recorrer(Existenci):
++class Recorrer:
++        def __init__(self):
++               self.rut = raw_input("Ingresa tu ruta: ")
++               if self.rut == None:
++                       self.rut='.'
+        def  run(self):
+-               if os.path.isfile(rut)== True:
+-                       for dirName, subdirList, fileList in os.walk(rut):
++                if os.path.isdir(self.rut)== True:
++                       for dirName, subdirList, fileList in os.walk(self.rut):
+                                print('Directorio: %s' % dirName)
+                        for fname in fileList:
+                                print('\t%s' % fname)
+
+    #+END_SRC
+
+
