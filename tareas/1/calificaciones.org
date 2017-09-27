@@ -161,7 +161,7 @@
     está en este momento, estas funciones se guardan en la _sección de
     datos_, y no en el _stack_ como debería ser.
 
-* Extemporáneas ⇒ Hasta 2017.09.19 23:59:59
+* Extemporáneas ⇒ Hasta 2017.10.10 23:59:59
 Calificadas sobre 8.0
 
 *Nota:* Por las afectaciones del sismo, el tiempo se "detiene" hasta
