@@ -1,0 +1,49 @@
+//documentacion 
+
+El Programa fue desarrollado en lenguaje C, utilizando las bibliotecas estandar del ANSI C
+y las bibliotecas exclusivas de los sistemas UNIX para manejar directorios.
+Trabajado en UBUNTU
+compilar como
+gcc tarea1.c -o dirx
+ejecutar como
+./direx [indique_el_nombre_del_directorio]		//el directorio puede ser el acual o un sub directorio dentro del mismo o el 
+							  padre del mismo.
+
+
+<stdio.h>		Biblioteca ANSI C para entrada y salida estandar
+<dirent.h>		Biblioteca UNIX
+<sys/types.h>		Biblioteca UNIX
+<sys/stat.h>		Biblioteca UNIX
+<unistd.h>		Biblioteca UNIX
+
+
+-funcion principal 
+int main(int argc, char *argv[]){//desarrollo}	se encarga de recuperar el nombre del directorio a explorar
+
+-prototipos funcion de exploracion
+void dirContenido(char *directorio){//desarrollo} recibe como parametros una cadena, la cual es el nombre del
+						  directorio indicado en el main(). No retorna nada
+
+struct dirent *archivo;		Apuntador a la estructura dirent de la biblioteca UNIX dirent, para extraer el
+				nombre del archivo al que se apunta.
+struct stat info;		variable info tipo stat, la cual es una estructura de la biblioteca Unix <sys/stat>
+				en la que se contiene la informacion del archvo al que se apunta. es fundamental ya
+				que a partir de ella se extrae la informacion necesaria para identificar un directorio.
+opendir()			Funcion para abrir el directorio especificado
+readdir()			funcion para leer el contenido del directorio especificado
+stat()				Funcion que opera como llamada al sistema, con la cual, se extrae la informacion del archivo
+				al que se apunta en cada iteracion del while y se vacea en la estructura stat
+S_ISDIR()			verifica que el archivo al que apunta es un directorio a partir de la informacion extraida en
+				stat() y vaciada en la estructura stat.
+closedir()			Cierra el flujo con el que se trabajan los directorios y ficheros.
+
+Breve descripcion del desarrollo
+	Se abre el directorio indicado por el usuario.
+	El nombre es enviado a la funcion dirContenido() y se abre el flujo para ese directorio
+	Se comiena a explorar y a listar los elementos del directorio. Se verifica si el nombre proporcionado por
+	el apuntador a dirent en su campo d_name es distinto del directorio actual o al directorio padre,
+	si es asi, entonces mediante la funcion stat() actualizamos la informacion en la estructura stat,
+	ahora verificamos mediante los datos obtenidos desde la estructura stat si el elemento al que se apunta 
+	en cada iteracion del ciclo while se trata de un directorio: si es asi, imprimimos un mensaje en pantalla
+	indicand que encontramos un directorio e invocamos a la misma fucnion dirContenido() para listar de manera
+	recursiva al directoio.

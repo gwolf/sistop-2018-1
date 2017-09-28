@@ -2,8 +2,8 @@
 
 ## Fecha de entrega
 
-La fecha límite de entrega del proyecto es el jueves **28 de
-septiembre** de 2017, con límite para el _pull request_ de las 23:59
+La fecha límite de entrega del proyecto es el jueves **10 de
+octubre** de 2017, con límite para el _pull request_ de las 23:59
 hora central de México. A diferencia de tareas y prácticas, **no se
 aceptan** entregas extemporáneas.
 
