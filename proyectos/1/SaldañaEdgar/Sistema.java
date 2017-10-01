@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Sistema implements Serializable {
 
 	static Superbloque superb;
+	static DirectorioRaiz R = new DirectorioRaiz();
 
 	public static void main(String[] args) {
 
@@ -26,8 +27,6 @@ public class Sistema implements Serializable {
 		}
 
 		menu();
-
-
 	}
 
 	public static void montar() {
@@ -52,16 +51,47 @@ public class Sistema implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		File raiz = new File("raiz.bin");
+
+		if (raiz.exists()){
+			try (FileInputStream fis = new FileInputStream("raiz.bin");
+			ObjectInputStream ois = new ObjectInputStream(fis)) {
+				R = (DirectorioRaiz) ois.readObject();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+
+	public static void guardaRaiz(){
+		try (FileOutputStream fos = new FileOutputStream("raiz.bin");
+			ObjectOutputStream oos = new ObjectOutputStream(fos)){
+			oos.writeObject(R);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public static int menu(){
 
 		Scanner teclado = new Scanner(System.in);
 		String cmd = "NULL";
+		String new_file = "NULL";
 
 		while (true) {
-			System.out.print(">>");
+			System.out.print("R>");
 			cmd = teclado.nextLine();
+
+			if (cmd.startsWith("mkd")){
+				new_file = cmd.substring(4);
+				cmd = "mkd";
+			}
+
+			if (cmd.startsWith("mkf")){
+				new_file = cmd.substring(4);
+				cmd = "mkf";
+			}
 
 			switch (cmd) {
 
@@ -74,7 +104,14 @@ public class Sistema implements Serializable {
 			 case "super": Comando.superb();
 			 break;
 
-			 case "exit": return 0;
+			 case "mkf": Comando.mkf(new_file);
+			 break;
+
+			 case "mkd": Comando.mkd(new_file);
+			 break;
+
+			 case "exit": guardaRaiz();
+			 				return 0;
 
 			 default: System.out.println("No reconozco ese comando, por favor intenta de nuevo");
 			 break;
