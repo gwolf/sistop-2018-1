@@ -16,8 +16,4 @@ public class Superbloque implements Serializable {
 		tamanio_bloque = 4096;
 		tamanio_vol = 4096000;
 	}
-
-	public void getTipoSistema(String[] args) {
-		
-	}
 }

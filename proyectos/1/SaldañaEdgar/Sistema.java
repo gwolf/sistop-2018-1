@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Sistema implements Serializable {
 
 	static Superbloque superb;
-	static DirectorioRaiz R = new DirectorioRaiz();
+	static Directorio R = new Directorio(); //La raíz
+	static String ruta = "R";
 
 	public static void main(String[] args) {
 
@@ -57,7 +58,7 @@ public class Sistema implements Serializable {
 		if (raiz.exists()){
 			try (FileInputStream fis = new FileInputStream("raiz.bin");
 			ObjectInputStream ois = new ObjectInputStream(fis)) {
-				R = (DirectorioRaiz) ois.readObject();
+				R = (Directorio) ois.readObject();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -78,19 +79,26 @@ public class Sistema implements Serializable {
 		Scanner teclado = new Scanner(System.in);
 		String cmd = "NULL";
 		String new_file = "NULL";
+		String dir = "NULL";
 
 		while (true) {
-			System.out.print("R>");
+			System.out.print(Sistema.ruta+">");
 			cmd = teclado.nextLine();
 
-			if (cmd.startsWith("mkd")){
+			//Separo al comando del argumento
+			if (cmd.startsWith("mkd ")){
 				new_file = cmd.substring(4);
 				cmd = "mkd";
 			}
 
-			if (cmd.startsWith("mkf")){
+			if (cmd.startsWith("mkf ")){
 				new_file = cmd.substring(4);
 				cmd = "mkf";
+			}
+
+			if (cmd.startsWith("enter ")){
+				dir = cmd.substring(6);
+				cmd = "enter";
 			}
 
 			switch (cmd) {
@@ -98,7 +106,7 @@ public class Sistema implements Serializable {
 			 case "help": Comando.help();
 			 break;
 
-			 case "ls": Comando.ls();
+			 case "ls": Comando.ls(ruta);
 			 break;
 
 			 case "super": Comando.superb();
@@ -108,6 +116,12 @@ public class Sistema implements Serializable {
 			 break;
 
 			 case "mkd": Comando.mkd(new_file);
+			 break;
+
+			 case "back": Comando.back();
+			 break;
+
+			 case "enter": Comando.enter(dir);			
 			 break;
 
 			 case "exit": guardaRaiz();

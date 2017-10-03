@@ -2,7 +2,6 @@ import java.io.Serializable;
 
 public class Inodo implements Serializable {
 
-	String nombre_arch;
 	int num_inodo;
 	int longitud;
 	int permisos;
@@ -16,6 +15,8 @@ public class Inodo implements Serializable {
 	}
 	Inodo(int num, char type){
 		num_inodo = num;
+		longitud = 0;
+		permisos = 7;
 		tipo = (type == 'd')? "directorio":"archivo";
 	}
 }

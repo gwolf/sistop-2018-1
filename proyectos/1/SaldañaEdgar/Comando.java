@@ -3,15 +3,33 @@ import java.io.File;
 public class Comando {
 
 	//Listar contenido del directorio
-	public static void ls() {
-		for (int i = 0; i < Sistema.R.nombres_arch.size(); i++) {
-			System.out.println(Sistema.R.nombres_arch.get(i)+"\t"+Sistema.R.inodos_arch.get(i).tipo);
+	public static void ls(String ruta) {
+
+		String[] lista = ruta.split(">");
+		String dir = lista[lista.length-1];
+		String tipo = "NULL";
+
+		if (dir.equals("R")) {
+			for (int i = 0; i < Sistema.R.nombres_arch.size(); i++) {
+
+			if((Sistema.R.inodos_arch.get(i).tipo == "archivo"))
+				tipo = "archivo   ";
+			else
+				tipo = "directorio";
+			System.out.println(tipo+"\t"+Sistema.R.inodos_arch.get(i).longitud+" bytes"+"\t\t"+Sistema.R.nombres_arch.get(i));
+			}
+		}else{
+			System.out.println(dir);
 		}	
 	}
 
 	//Crear directorio
 	public static void mkd(String nombre) {
 		Sistema.R.entra(nombre,'d');
+		File dir = new File(nombre);
+		dir.mkdir();
+		Directorio n = new Directorio(nombre);
+		Sistema.R.lista_directorios.add(n);
 	}
 
 	//Crear archivo
@@ -23,8 +41,34 @@ public class Comando {
 	public static void open() {
 	}
 
+	public static void back() {
+		if (Sistema.ruta.equals("R")) {
+			System.out.println("Ya estás en el directorio raíz");
+		}else{
+			String[] lista = Sistema.ruta.split(">");
+			Sistema.ruta = "";
+			for (int i = 0; i<lista.length-1; i++) {
+				Sistema.ruta = Sistema.ruta.concat(lista[i]);
+				if(i != lista.length-2)
+					Sistema.ruta = Sistema.ruta.concat(">");
+			System.out.println(Sistema.ruta);
+			}
+		}
+	}
+
 	//Entrar a directorio
-	public static void enter() {
+	public static void enter(String dir) {
+		if (!Sistema.R.nombres_arch.contains(dir)) {
+			System.out.println("No existe ese directorio, para crearlo escribe mkd "+dir);
+		}else{
+			int inodo = Sistema.R.nombres_arch.indexOf(dir);
+			if (Sistema.R.inodos_arch.get(inodo).tipo == "directorio"){
+				Sistema.ruta = Sistema.ruta.concat(">"+dir);
+
+			}
+			else
+				System.out.println(dir+" no es un directorio, imposible acceder");
+		}	
 	}
 
 	//Lista la ayuda
