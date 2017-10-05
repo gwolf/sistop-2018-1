@@ -30,6 +30,7 @@ public class Comando {
 		if(esValido(nombre)){
 			Inodo i = new Inodo('d');
 			Sistema.R.inodos_arch.add(i);
+			//Se asigna como num_inodo el mismo número de la posición que ocupa en la lista
 			Sistema.R.inodos_arch.get(Sistema.R.inodos_arch.size()-1).num_inodo = Sistema.R.inodos_arch.size()-1;
 			Sistema.R.nombres_arch.add(nombre);
 			Directorio n = new Directorio(nombre);
@@ -40,16 +41,33 @@ public class Comando {
 	}
 
 	//Crear archivo
-	/*public static void mkf(String nombre) {
-		Sistema.R.entra(nombre,'f');
-		try{
-			Runtime p = Runtime.getRuntime();
-			p.exec ("firefox");
-			System.out.println("bien");
+	public static void mkf(String nombre) {
+
+		if(esValido(nombre)){
+			Inodo i = new Inodo('f');
+			Sistema.R.inodos_arch.add(i);
+			Sistema.R.inodos_arch.get(Sistema.R.inodos_arch.size()-1).num_inodo = Sistema.R.inodos_arch.size()-1;
+			Sistema.R.nombres_arch.add(nombre);
+			/*try{
+				Runtime p = Runtime.getRuntime();
+				p.exec ("nano");
+				System.out.println("bien");
+			}
+			catch (Exception e){
+			e.printStackTrace();
+			}*/
 		}
-		catch (Exception e)
-		{e.printStackTrace();}
-	}*/
+	}
+
+	//Eliminar archivo o directorio si es que existe
+	public static void rem(String nombre){
+		int i = Sistema.R.nombres_arch.indexOf(nombre);
+		if (i != -1) {
+			Sistema.R.inodos_arch.remove(i);
+			String nom = Sistema.R.nombres_arch.remove(i);
+			Sistema.dd.directorios.remove(nom);			
+		}
+	}
 
 	//Abrir archivo
 	public static void open() {

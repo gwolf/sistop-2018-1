@@ -115,6 +115,10 @@ public class Sistema implements Serializable {
 				dir = cmd.substring(6);
 				cmd = "enter";
 			}
+			if (cmd.startsWith("rem ")){
+				dir = cmd.substring(4);
+				cmd = "rem";
+			}
 
 			switch (cmd) {
 
@@ -127,11 +131,15 @@ public class Sistema implements Serializable {
 			 case "super": Comando.superb();
 			 break;
 
-			 case "mkf": //Comando.mkf(new_file);
+			 case "mkf": Comando.mkf(new_file);
+			 				guardaDatos();
 			 break;
 
 			 case "mkd": Comando.mkd(new_file);
 			 				guardaDatos();
+			 break;
+
+			 case "rem": Comando.rem(dir);
 			 break;
 
 			 case "back": Comando.back();
