@@ -1,0 +1,36 @@
+#+title: Evaluación de exposición:
+#+author: Gunnar Wolf
+
+- Tema presentado por :: Eduardo Valdez
+- Calificación global :: (6.54 × 0.3) + (7.5 × 0.7) = *7.21*
+
+* Evaluación grupal
+|--------------+------------+----------+-----------+-------|
+| Originalidad | Relevancia | Claridad | Presencia | Total |
+|--------------+------------+----------+-----------+-------|
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|           10 |        7.5 |        5 |       7.5 |  7.50 |
+|           10 |         10 |      7.5 |       7.5 |  8.75 |
+|            5 |          5 |      7.5 |         5 |  5.63 |
+|          7.5 |         10 |        5 |         5 |  6.88 |
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|          7.5 |          5 |        5 |         5 |  5.63 |
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|          7.5 |        7.5 |        5 |       7.5 |  6.88 |
+|          7.5 |          5 |        5 |         5 |  5.63 |
+|          7.5 |         10 |        5 |         0 |  5.63 |
+|           10 |        7.5 |      7.5 |         5 |  7.50 |
+|--------------+------------+----------+-----------+-------|
+|         7.88 |       7.50 |     5.58 |      5.19 |  6.54 |
+#+TBLFM: @>$1..@>$4=vmean(@II..@III-1); f-2::@2$>..@>$>=vmean($1..$4); f-2
+* Evaluación del docente
+
+- Originalidad del tema :: Bueno (7.5)
+- Material desarrollado :: Bueno (7.5)
+- Contenido :: Bueno (7.5)
+- Fuentes bibliográficas :: Suficiente (5)
+- Uso del tiempo :: Excelente (10)
+- Dominio del tema :: Bueno (7.5)
+- Presencia :: Bueno (7.5)
+- Global :: 7.5×0.1 + 7.5×0.2 + 7.5×0.2 + 5×0.1 + 10×0.1 + 7.5×0.15 + 7.5×0.15 = *7.5*

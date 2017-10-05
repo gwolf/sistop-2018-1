@@ -8,10 +8,9 @@ La evaluación de las exposiciones sigue los criterios descritos en las
 al grupo)
 
 
-|--------+-------------------------------------------+----------------+------------+------------|
-| Fecha  | Tema                                      | Integrantes    | Documentos | Evaluación |
-|--------+-------------------------------------------+----------------+------------+------------|
-| 28/sep | Rootkits: Escondiéndose del administrador | Eduardo Valdez |            |            |
-|--------+-------------------------------------------+----------------+------------+------------|
+|-------+-------------------------------------------+----------------+-----------------------------------+--------------------------------|
+| Fecha | Tema                                      | Integrantes    | Documentos                        | Evaluación                     |
+|-------+-------------------------------------------+----------------+-----------------------------------+--------------------------------|
+| 3/oct | Rootkits: Escondiéndose del administrador | Eduardo Valdez | [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_diapositivas.pdf][Presentación (PDF)]], [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_reporte.pdf][Reporte (PDF)]] | [[./ValdezEduardo/evaluacion.org]] |
+|-------+-------------------------------------------+----------------+-----------------------------------+--------------------------------|
 
-* Evaluaciones de exposiciones
