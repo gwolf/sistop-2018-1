@@ -16,26 +16,40 @@ public class Comando {
 				tipo = "archivo   ";
 			else
 				tipo = "directorio";
-			System.out.println(tipo+"\t"+Sistema.R.inodos_arch.get(i).longitud+" bytes"+"\t\t"+Sistema.R.nombres_arch.get(i));
+			System.out.println(Sistema.R.inodos_arch.get(i).get_numero()+"\t"+ tipo+"\t"+Sistema.R.inodos_arch.get(i).longitud+" bytes"+"\t\t"+Sistema.R.nombres_arch.get(i));
 			}
 		}else{
+			//Datos.lista_directorios();
 			System.out.println(dir);
 		}	
 	}
 
-	//Crear directorio
+	//Crear directorio y lo guarda como objeto en el espacio de datos
 	public static void mkd(String nombre) {
-		Sistema.R.entra(nombre,'d');
-		File dir = new File(nombre);
-		dir.mkdir();
-		Directorio n = new Directorio(nombre);
-		Sistema.R.lista_directorios.add(n);
+		
+		if(esValido(nombre)){
+			Inodo i = new Inodo('d');
+			Sistema.R.inodos_arch.add(i);
+			Sistema.R.inodos_arch.get(Sistema.R.inodos_arch.size()-1).num_inodo = Sistema.R.inodos_arch.size()-1;
+			Sistema.R.nombres_arch.add(nombre);
+			Directorio n = new Directorio(nombre);
+			Sistema.dd.directorios.add(Sistema.R.inodos_arch.size()-1,n);
+		}
+		//File dir = new File(nombre);
+		//dir.mkdir();
 	}
 
 	//Crear archivo
-	public static void mkf(String nombre) {
+	/*public static void mkf(String nombre) {
 		Sistema.R.entra(nombre,'f');
-	}
+		try{
+			Runtime p = Runtime.getRuntime();
+			p.exec ("firefox");
+			System.out.println("bien");
+		}
+		catch (Exception e)
+		{e.printStackTrace();}
+	}*/
 
 	//Abrir archivo
 	public static void open() {
@@ -51,7 +65,6 @@ public class Comando {
 				Sistema.ruta = Sistema.ruta.concat(lista[i]);
 				if(i != lista.length-2)
 					Sistema.ruta = Sistema.ruta.concat(">");
-			System.out.println(Sistema.ruta);
 			}
 		}
 	}
@@ -62,7 +75,7 @@ public class Comando {
 			System.out.println("No existe ese directorio, para crearlo escribe mkd "+dir);
 		}else{
 			int inodo = Sistema.R.nombres_arch.indexOf(dir);
-			if (Sistema.R.inodos_arch.get(inodo).tipo == "directorio"){
+			if (Sistema.R.inodos_arch.get(inodo).tipo.equals("directorio")){
 				Sistema.ruta = Sistema.ruta.concat(">"+dir);
 
 			}
@@ -91,5 +104,13 @@ public class Comando {
 		System.out.println("El sistema de archivos se llama: "+Sistema.superb.sist_archivos);
 		System.out.println("Tamaño del volumen: "+Sistema.superb.tamanio_vol+" bytes");
 		System.out.println("Tamaño del bloque: "+Sistema.superb.tamanio_bloque+" bytes");
+	}
+
+	private static boolean esValido(String nombre){
+		if (Sistema.R.nombres_arch.contains(nombre)){
+			System.out.println("Ya existe un archivo o directorio con ese nombre, intenta con otro");
+			return false;
+		}
+	return true;
 	}
 }

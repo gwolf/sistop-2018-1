@@ -11,6 +11,7 @@ public class Sistema implements Serializable {
 	static Superbloque superb;
 	static Directorio R = new Directorio(); //La raíz
 	static String ruta = "R";
+	static Datos dd = new Datos();
 
 	public static void main(String[] args) {
 
@@ -43,7 +44,8 @@ public class Sistema implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	//Recupera desde archivos .bin, si es posible, los objetos
+	//superbloque, raíz y datos. Los carga a la memoria.
 	public static void configurar() {
 
 		try (FileInputStream fis = new FileInputStream("superbloque.bin");
@@ -62,7 +64,20 @@ public class Sistema implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}	
+		}
+
+		File datos = new File("datos.bin");
+
+		if (datos.exists()){
+
+			try (FileInputStream fis = new FileInputStream("datos.bin");
+			ObjectInputStream ois = new ObjectInputStream(fis)) {
+				dd = (Datos) ois.readObject();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	public static void guardaRaiz(){
@@ -112,10 +127,11 @@ public class Sistema implements Serializable {
 			 case "super": Comando.superb();
 			 break;
 
-			 case "mkf": Comando.mkf(new_file);
+			 case "mkf": //Comando.mkf(new_file);
 			 break;
 
 			 case "mkd": Comando.mkd(new_file);
+			 				guardaDatos();
 			 break;
 
 			 case "back": Comando.back();
@@ -130,6 +146,15 @@ public class Sistema implements Serializable {
 			 default: System.out.println("No reconozco ese comando, por favor intenta de nuevo");
 			 break;
 			}
+		}
+	}
+
+	private static void guardaDatos(){
+		try (FileOutputStream fos = new FileOutputStream("datos.bin");
+			ObjectOutputStream oos = new ObjectOutputStream(fos)){
+			oos.writeObject(dd);
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 }
