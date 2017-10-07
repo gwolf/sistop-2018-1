@@ -1,6 +1,19 @@
 import java.io.File;
 
+
+
 public class Comando {
+
+	//Definición de constantes para colorear el texto
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_BLACK = "\u001B[30m";
+	public static final String ANSI_RED = "\u001B[31m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+	public static final String ANSI_CYAN = "\u001B[36m";
+	public static final String ANSI_WHITE = "\u001B[37m";
 
 	//Listar contenido del directorio
 	public static void ls(String ruta) {
@@ -12,16 +25,17 @@ public class Comando {
 		if (dir.equals("R")) {
 			for (int i = 0; i < Sistema.R.nombres_arch.size(); i++) {
 
-			if((Sistema.R.inodos_arch.get(i).tipo == "archivo"))
-				tipo = "archivo   ";
-			else
-				tipo = "directorio";
-			System.out.println(Sistema.R.inodos_arch.get(i).get_numero()+"\t"+ tipo+"\t"+Sistema.R.inodos_arch.get(i).longitud+" bytes"+"\t\t"+Sistema.R.nombres_arch.get(i));
+				if((Sistema.R.inodos_arch.get(i).tipo.equals("archivo")))
+					tipo = ANSI_BLUE+"archivo   "+ANSI_RESET;
+				else
+					tipo = ANSI_PURPLE+"directorio"+ANSI_RESET;
+
+				System.out.println(ANSI_YELLOW+ Sistema.R.nombres_arch.get(i)+ANSI_RESET+"\t\t"+ tipo+"\t"+Sistema.R.inodos_arch.get(i).fecha_creacion+"\t"+Sistema.R.inodos_arch.get(i).longitud+" bytes"+"\t   "+Sistema.R.inodos_arch.get(i).get_numero());
 			}
 		}else{
 			//Datos.lista_directorios();
 			System.out.println(dir);
-		}	
+		}
 	}
 
 	//Crear directorio y lo guarda como objeto en el espacio de datos
@@ -30,14 +44,10 @@ public class Comando {
 		if(esValido(nombre)){
 			Inodo i = new Inodo('d');
 			Sistema.R.inodos_arch.add(i);
-			//Se asigna como num_inodo el mismo número de la posición que ocupa en la lista
-			Sistema.R.inodos_arch.get(Sistema.R.inodos_arch.size()-1).num_inodo = Sistema.R.inodos_arch.size()-1;
 			Sistema.R.nombres_arch.add(nombre);
 			Directorio n = new Directorio(nombre);
-			Sistema.dd.directorios.add(Sistema.R.inodos_arch.size()-1,n);
+			Sistema.dd.directorios.add(n);
 		}
-		//File dir = new File(nombre);
-		//dir.mkdir();
 	}
 
 	//Crear archivo
@@ -46,7 +56,6 @@ public class Comando {
 		if(esValido(nombre)){
 			Inodo i = new Inodo('f');
 			Sistema.R.inodos_arch.add(i);
-			Sistema.R.inodos_arch.get(Sistema.R.inodos_arch.size()-1).num_inodo = Sistema.R.inodos_arch.size()-1;
 			Sistema.R.nombres_arch.add(nombre);
 			/*try{
 				Runtime p = Runtime.getRuntime();
@@ -65,7 +74,8 @@ public class Comando {
 		if (i != -1) {
 			Sistema.R.inodos_arch.remove(i);
 			String nom = Sistema.R.nombres_arch.remove(i);
-			Sistema.dd.directorios.remove(nom);			
+			Sistema.dd.directorios.remove(nom);	
+			Sistema.R.inodos_ocupados.remove(i);		
 		}
 	}
 

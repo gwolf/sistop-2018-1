@@ -27,7 +27,6 @@ public class Sistema implements Serializable {
 			System.out.println("No se detectó el sistema de archivos SISTOP en este volumen, a continuación se montará");
 			montar();
 		}
-
 		menu();
 	}
 
@@ -92,9 +91,9 @@ public class Sistema implements Serializable {
 	public static int menu(){
 
 		Scanner teclado = new Scanner(System.in);
-		String cmd = "NULL";
+		String cmd;
 		String new_file = "NULL";
-		String dir = "NULL";
+		String dir = "NULL"; 
 
 		while (true) {
 			System.out.print(Sistema.ruta+">");
