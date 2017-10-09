@@ -27,6 +27,8 @@ public class Sistema implements Serializable {
 			System.out.println("No se detectó el sistema de archivos SISTOP en este volumen, a continuación se montará");
 			montar();
 		}
+		System.out.println("\n¡Bienvenido a SISTOP!");
+		System.out.println("Escribe help para listar los comandos posibles\n");
 		menu();
 	}
 
@@ -92,8 +94,9 @@ public class Sistema implements Serializable {
 
 		Scanner teclado = new Scanner(System.in);
 		String cmd;
-		String new_file = "NULL";
+		String file = "NULL";
 		String dir = "NULL"; 
+		String arg = "NULL";
 
 		while (true) {
 			System.out.print(Sistema.ruta+">");
@@ -101,12 +104,12 @@ public class Sistema implements Serializable {
 
 			//Separo al comando del argumento
 			if (cmd.startsWith("mkd ")){
-				new_file = cmd.substring(4);
+				file = cmd.substring(4);
 				cmd = "mkd";
 			}
 
 			if (cmd.startsWith("mkf ")){
-				new_file = cmd.substring(4);
+				file = cmd.substring(4);
 				cmd = "mkf";
 			}
 
@@ -118,36 +121,57 @@ public class Sistema implements Serializable {
 				dir = cmd.substring(4);
 				cmd = "rem";
 			}
+			if (cmd.startsWith("add ")){
+				file = cmd.substring(4);
+				cmd = "add";
+			}
+			if (cmd.startsWith("look ")) {
+				file = cmd.substring(5);
+				cmd = "look";
+			}
+			if (cmd.startsWith("chmod ")) {
+				arg = cmd.substring(6);
+				cmd = "chmod";
+			}
 
 			switch (cmd) {
 
-			 case "help": Comando.help();
-			 break;
+				case "help": Comando.help();
+				break;
 
-			 case "ls": Comando.ls(ruta);
-			 break;
+				case "ls": Comando.ls(ruta);
+				break;
 
-			 case "super": Comando.superb();
-			 break;
+				case "super": Comando.superb();
+				break;
 
-			 case "mkf": Comando.mkf(new_file);
-			 				guardaDatos();
-			 break;
+				case "mkf": Comando.mkf(file);
+								guardaDatos();
+				break;
 
-			 case "mkd": Comando.mkd(new_file);
-			 				guardaDatos();
-			 break;
+				case "mkd": Comando.mkd(file);
+								guardaDatos();
+				break;
 
-			 case "rem": Comando.rem(dir);
-			 break;
+				case "add": Comando.add(file);
+				break;
 
-			 case "back": Comando.back();
-			 break;
+				case "look": Comando.look(file);
+				break;
 
-			 case "enter": Comando.enter(dir);			
-			 break;
+				case "rem": Comando.rem(dir);
+				break;
 
-			 case "exit": guardaRaiz();
+				case "chmod": Comando.chmod(arg);
+				break;
+
+				case "back": Comando.back();
+				break;
+
+				case "enter": Comando.enter(dir);			
+				break;
+
+				case "exit": guardaRaiz();
 			 				return 0;
 
 			 default: System.out.println("No reconozco ese comando, por favor intenta de nuevo");
