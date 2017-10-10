@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-
+	
 import os
 import stat
 import errno
@@ -15,9 +14,8 @@ import logging
 LOG_FILENAME = 'dictfs.log'
 logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
 
-# Only make one of this whe getstat() is called. Real FS has one per entry (file
-# or directory).
-#
+
+	# Manda a llamar getstat(), y tiene una entrada de archivo 
 class MyStat(fuse.Stat):
     def __init__(self):
         self.st_mode = 0
@@ -30,7 +28,7 @@ class MyStat(fuse.Stat):
         self.st_atime = 0
         self.st_mtime = 0
         self.st_ctime = 0
-
+	#Se almacena en memoria el archivo que entro
 # My FS, only stored in memory :P
 #
 class DictFS(Fuse):
@@ -51,14 +49,15 @@ class DictFS(Fuse):
                 path.append(entry)
         return path
 
-    # Return list of path elements as string
+
+    # regresa la lista de la ruta como cadena
     def __join_path(self, path):
         joined_path = '/'
         for element in path:
             joined_path += (element + '/')
         return joined_path[:-1]
 
-    # Return dict of a given path
+    # retorno de camino camno dado
     def __get_dir(self, path):
         level = self.root
         path = self.__path_list(path)
@@ -67,31 +66,29 @@ class DictFS(Fuse):
                 if type(level[entry]) is dict:
                     level = level[entry]
                 else:
-                    # Walk over files?
                     return {}
             else:
-                # Walk over non-existent dirs?
                 return {}
         return level
 
-    # Return dict of a given path plus last name of path
+    #Retorno de un directorio por apellido
     def __navigate(self, path):
-        # Path analysis
+        # Analiza la ruta
         path = self.__path_list(path)
         entry = path.pop()
-        # Get level
+        # observa en que nivel se enceuntra
         level = self.__get_dir(self.__join_path(path))
         return level, entry
 
-    ### FILESYSTEM FUNCTIONS ###
+    ### Funciones de archivos
 
     def getattr(self, path):
         st = MyStat()
         logging.debug('*** getattr(%s)', path)
 
-        # Ask for root dir
+        # en donde esta la raiz del directorio
         if path == '/':
-            #return self.root.stats
+            
             st.st_mode = stat.S_IFDIR | 0755
             st.st_nlink = 2
             return st
@@ -99,14 +96,13 @@ class DictFS(Fuse):
         level, entry = self.__navigate(path)
 
         if level.has_key(entry):
-            # Entry found
-            # is a directory?
+            # Encuentra la entrada, con permisos
             if type(level[entry]) is dict:
                 st.st_mode = stat.S_IFDIR | 0755 # rwx r-x r-x
                 st.st_nlink = 2
                 logging.debug('*** getattr_dir_found: %s', entry)
                 return st
-            # is a file?
+            # Es un Directorio
             if type(level[entry]) is str:
                 st.st_mode = stat.S_IFREG | 0666 # rw- rw- rw-
                 st.st_nlink = 1
@@ -114,7 +110,7 @@ class DictFS(Fuse):
                 logging.debug('*** getattr_file_found: %s', entry)
                 return st
 
-        # File not found
+        # Directorio no encontrado
         logging.debug('*** getattr_entry_not_found')
         return -errno.ENOENT
 
@@ -123,10 +119,10 @@ class DictFS(Fuse):
 
         file_entries = ['.','..']
 
-        # Get filelist
+        # Obtener lista de archivos
         level = self.__get_dir(path)
 
-        # Get all directory entries
+        # Entradas del directorio
         if len(level.keys()) > 0:
             file_entries += level.keys()
 
@@ -139,7 +135,7 @@ class DictFS(Fuse):
 
         level, entry = self.__navigate(path)
 
-        # Make new dir
+        # Crear nuevo directorio
         level[entry] = {}
 
     def mknod ( self, path, mode, dev ):
@@ -147,33 +143,28 @@ class DictFS(Fuse):
 
         level, filename = self.__navigate(path)
 
-        # Make empty file
+        # Creacion de archivo vacio
         level[filename] = ''
 
-    # This method could maintain opened (or locked) file list and,
-    # of course, it could check file permissions.
-    # For now, only check if file exists...
+    #Funcion que mantiene abierto la lista de los directorios
+    ## Se comprueban permisos 
     def open ( self, path, flags ):
         logging.debug('*** open(%s, %d)', path, flags)
 
         level, filename = self.__navigate(path)
 
-        # File exists?
+        #Verifica existencia del Directorio
         if not level.has_key(filename):
             return -errno.ENOENT
 
-        # No exception or no error means OK
 
-    # In this example this method is the same as open(). This method
-    # is called by close() syscall, it's means that if open() maintain
-    # an opened-file list, or lock files, or something... this method
-    # must do reverse operation (refresh opened-file list, unlock files...
+    # Funcion llamado close, este metodo hace la operacion inversa a open
     def release ( self, path, flags ):
         logging.debug('*** release(%s, %d)', path, flags)
 
         level, filename = self.__navigate(path)
 
-        # File exists?
+       
         if not level.has_key(filename):
             return -errno.ENOENT
 
@@ -182,19 +173,19 @@ class DictFS(Fuse):
 
         level, filename = self.__navigate(path)
 
-        # File exists?
+       
         if not level.has_key(filename):
             return -errno.ENOENT
 
-        # Check ranges
+        # Compureban los rangos
         file_size = len(level[filename])
         if offset < file_size:
-            # Fix size
+   # 
             if offset + length > file_size:
                 length = file_size - offset
             buf = level[filename][offset:offset + length]
         else:
-            # Invalid range returns no data, instead error!
+            # Rango invalido
             buf = ''
         return buf
 
@@ -203,14 +194,14 @@ class DictFS(Fuse):
 
         level, entry = self.__navigate(path)
 
-        # File exists?
+       
         if not level.has_key(entry):
             return -errno.ENOENT
 
         # Delete entry
         del(level[entry])
 
-    def truncate ( self, path, size ): ###Error
+    def truncate ( self, path, size ):
         logging.debug('*** truncate(%s, %d)', path, size)
 
         level, filename = self.__navigate(path)
@@ -231,11 +222,11 @@ class DictFS(Fuse):
 
         level, entry = self.__navigate(path)
 
-        # File exists?
+        
         if not level.has_key(entry):
             return -errno.ENOENT
 
-        # Remove entry
+
         del(level[entry])
 
     def write ( self, path, buf, offset ):
@@ -243,27 +234,27 @@ class DictFS(Fuse):
 
         level, filename = self.__navigate(path)
 
-        # Write data into file
+        # Escribir los datos del archivo
         if offset > len(level[filename]):
             offset = (offset % len(level[filename]))
         level[filename] = level[filename][:offset] + str(buf)
         
-        # Return written bytes
+        # Regresan bytes escritos
         return len(buf)
 
     def rename ( self, oldPath, newPath ):
         logging.debug('*** rename(%s, %s)', oldPath, newPath)
 
         oldLevel, oldFilename = self.__navigate(oldPath)
-        # Can't use __navigate() because newPath-filename not exists
+        # si no esite filename, no se usa navigate
         newPath = self.__path_list(newPath)
         newFilename = newPath.pop()
         newLevel = self.__get_dir(self.__join_path(newPath))
 
-        # Make new link
+        # hacer nuevo link
         newLevel[newFilename] = oldLevel[oldFilename]
 
-        # Remove old
+        # quitar viejos
         self.unlink(oldPath)
 
 def main():
