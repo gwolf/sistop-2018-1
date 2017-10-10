@@ -36,7 +36,7 @@ Aparecerá una tabla como la siguiente:
 
 Donde en la primera columna se muestra el **nombre de archivo**, en la segunda el **tipo de archivo**, en la tercera la **fecha de creación**, en la cuarta el **tamaño del archivo**, en la quinta los **permisos** con los que se cuentan, y en la última columna el **inodo** que le corresponde.
 
-*Nota: A pesar de que el programa tiene estructuras pensadas para que el comando ls pueda aplicarse no solo a la raíz sino a cualquier subdirectorio, no se alcanzó a implementar*
+*Nota: A pesar de que el programa tiene estructuras pensadas para que el comando ls pueda aplicarse no solo a la raíz sino a cualquier subdirectorio, no se alcanzó a implementar*.
 
 ### mkd ###
 Crea un nuevo directorio en la raíz y se le debe pasar como argumento el nombre, se invoca, por ejemplo:
@@ -45,7 +45,7 @@ Crea un nuevo directorio en la raíz y se le debe pasar como argumento el nombre
 
 Si esta acción no devuelve ningún texto quiere decir que se creó con éxito el nuevo directorio llamado *juegos*.
 
-*Nota: No se admiten nombres de directorios que contengan espacios en blanco*
+*Nota: No se admiten nombres de directorios que contengan espacios en blanco*.
 
 ### mkf ###
 Crea un nuevo archivo en la raíz y se le debe pasar como argumento el nombre. Por ejemplo:
@@ -54,14 +54,14 @@ Crea un nuevo archivo en la raíz y se le debe pasar como argumento el nombre. P
 
 Si esta acción no devuelve ningún texto quiere decir que se creó con éxito el nuevo archivo llamado *programa.c*.
 
-*Nota: No se admiten nombres de archivos que contengan espacios en blanco*
+*Nota: No se admiten nombres de archivos que contengan espacios en blanco*.
 
 ### rem ###
 Elimina el archivo especificado, ya sea directorio o regular. Por ejemplo:
 
 `R>rem proyectos`
 
-Si esta acción no devuelve ningún texto, se eliminó correctamente el archivo *proyectos*
+Si esta acción no devuelve ningún texto, se eliminó correctamente el archivo *proyectos*.
 
 ### chmod ###
 Cambia los permisos del archivo especificado. Por defecto todos los archivos tienen habilitados los permisos de lectura y escritura. Supongamos que deseo desactivar ambos permisos al archivo *programa.c*, entonces invoco:
@@ -136,4 +136,4 @@ Muestra la información almacenada en el superbloque, se invoca:
 ### exit ###
 Abandona el programa.
 
-*Importante: es necesario usar el comando **exit** para finalizar la ejecución, en caso de no hacerlo se perderán datos importantes*
+*Importante: es necesario usar el comando **exit** para finalizar la ejecución, en caso de no hacerlo se perderán datos importantes*.
