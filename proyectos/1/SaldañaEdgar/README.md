@@ -2,13 +2,13 @@
 
 Este es el primer proyecto de la materia *Sistemas Operativos*. Fue desarrollado por Edgar Saldaña Nieves durante el semestre *2018-1*.
 
-##¿Qué y para qué?##
+## ¿Qué y para qué? ##
 Sistop es un microsistema de archivos, es decir, el problema que busca resolver es la organización de archivos a través de estructuras. Esto incluye acciones como listar el contenido de un directorio, crear, editar y eliminar archivos, así como un manejo básico de permisos.
 
-##¿Cómo lo hace?##
+## ¿Cómo lo hace? ##
 La lógica de implementación es sencilla: el sistema utiliza como volumen de montaje un directorio de tu sistema operativo. Dentro de él realiza todas las operaciones y guarda las estructuras necesarias para un adecuado funcionamiento, como el superbloque, el directorio raíz y el espacio de datos. A su vez, el directorio raíz almacena en dos listas dinámicas los inodos y los nombres de archivos correspondientes, respectivamente.
 
-##Entorno y especificaciones técnicas##
+## Entorno y especificaciones técnicas ##
 Sistop fue desarrollado en lenguaje Java, utilizando el JDK versión 1.8.0_131 en entorno Linux. Al ser Java un lenguaje multiplataforma, Sistop podrá ser ejecutado en cualquier sistema operativo que admita el JDK, el cual puede ser descargado desde su [página oficial](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html). Para compilarlo bastará con escribir en la terminal:
 
 `$ javac *.java`
@@ -17,10 +17,10 @@ Después solo deberás ejecutarlo dentro del directorio que se usará como volum
 
 `$ java Sistema`
 
-##Uso de comandos##
+## Uso de comandos ##
 Con el comando `help` podrás desplegar una lista de los posibles comandos que podrás invocar, estos son:
 
-###ls###
+### ls ###
 Lista el contenido del directorio raíz, se invoca:
 
 `R>ls`
@@ -38,7 +38,7 @@ Donde en la primera columna se muestra el **nombre de archivo**, en la segunda e
 
 *Nota: A pesar de que el programa tiene estructuras pensadas para que el comando ls pueda aplicarse no solo a la raíz sino a cualquier subdirectorio, no se alcanzó a implementar*
 
-###mkd###
+### mkd ###
 Crea un nuevo directorio en la raíz y se le debe pasar como argumento el nombre, se invoca, por ejemplo:
 
 `R>mkd juegos`
@@ -47,7 +47,7 @@ Si esta acción no devuelve ningún texto quiere decir que se creó con éxito e
 
 *Nota: No se admiten nombres de directorios que contengan espacios en blanco*
 
-###mkf###
+### mkf ###
 Crea un nuevo archivo en la raíz y se le debe pasar como argumento el nombre. Por ejemplo:
 
 `R>mkf programa.c`
@@ -56,14 +56,14 @@ Si esta acción no devuelve ningún texto quiere decir que se creó con éxito e
 
 *Nota: No se admiten nombres de archivos que contengan espacios en blanco*
 
-###rem###
+### rem ###
 Elimina el archivo especificado, ya sea directorio o regular. Por ejemplo:
 
 `R>rem proyectos`
 
 Si esta acción no devuelve ningún texto, se eliminó correctamente el archivo *proyectos*
 
-###chmod###
+### chmod ###
 Cambia los permisos del archivo especificado. Por defecto todos los archivos tienen habilitados los permisos de lectura y escritura. Supongamos que deseo desactivar ambos permisos al archivo *programa.c*, entonces invoco:
 
 `R>chmod programa.c -w-r`
@@ -81,7 +81,7 @@ Existen 4 opciones posibles para modificar los permisos:
 
 Es importante observar que en el argumento de los permisos no se deben introducir espacios.
 
-###look###
+### look ###
 Muestra en pantalla el contenido del archivo especificado. Se invoca, por ejemplo:
 
 `R>look programa.c`
@@ -96,19 +96,19 @@ Esto dará como salida:
         return 0;
     }
 
-###add###
+### add ###
 Agrega texto al archivo especificado, únicamente se pasa como argumento el nombre del archivo a modificar. Si, por ejemplo, deseas agregar texto a *hola.txt* debes invocar:
 
 `R>add hola.txt`
 
 Ahora aparecerá el mensaje:
 
-    Escribe lo que agregarás al archivo
+    Escribe lo que agregarás al archivo:
 
 
 En el espacio indicado escribe lo que agregarás, al pulsar la tecla enter se guardará en él.
 
-###enter###
+### enter ###
 Ingresa al directorio especificado. Si deseas entrar, por ejemplo, al directorio *tareas*, deberías escribir:
 
 `R>enter tareas`
@@ -119,7 +119,7 @@ Al hacerlo, observarás un cambio en la ruta donde te encuentras:
 
 *Nota: A pesar de que es posible entrar a un directorio, no se han implementado las funciones necesarias para llevar a cabo operaciones dentro de él.*
 
-###back###
+### back ###
 Regresa al directorio anterior y no recibe argumentos, basta con escribir:
 
 `R>tareas>back `
@@ -128,12 +128,12 @@ Para así de nuevo encontrarnos en la raíz del sistema:
 
 `R> `
 
-###super###
+### super ###
 Muestra la información almacenada en el superbloque, se invoca:
 
 `R>super`
 
-###exit###
+### exit ###
 Abandona el programa.
 
 *Importante: es necesario usar el comando **exit** para finalizar la ejecución, en caso de no hacerlo se perderán datos importantes*
