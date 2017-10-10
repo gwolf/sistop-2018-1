@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Sistema implements Serializable {
 
 	static Superbloque superb;
-	static Directorio R = new Directorio(); //La raíz
+	//Este es el directorio raíz
+	static Directorio R = new Directorio();
 	static String ruta = "R";
 	static Datos dd = new Datos();
 
@@ -32,6 +33,7 @@ public class Sistema implements Serializable {
 		menu();
 	}
 
+	//Crea un superbloque y lo almacena en memoria persistente
 	public static void montar() {
 
 		superb = new Superbloque();
@@ -81,6 +83,7 @@ public class Sistema implements Serializable {
 
 	}
 
+	//Guarda a la raíz y se invoca junto con el comando exitt
 	public static void guardaRaiz(){
 		try (FileOutputStream fos = new FileOutputStream("raiz.bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos)){
@@ -102,7 +105,7 @@ public class Sistema implements Serializable {
 			System.out.print(Sistema.ruta+">");
 			cmd = teclado.nextLine();
 
-			//Separo al comando del argumento
+			//Bloque de separación de argumentos y comandos
 			if (cmd.startsWith("mkd ")){
 				file = cmd.substring(4);
 				cmd = "mkd";
@@ -180,6 +183,7 @@ public class Sistema implements Serializable {
 		}
 	}
 
+	//Se invoca cada vez que se crea un archivo o directorio
 	private static void guardaDatos(){
 		try (FileOutputStream fos = new FileOutputStream("datos.bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos)){

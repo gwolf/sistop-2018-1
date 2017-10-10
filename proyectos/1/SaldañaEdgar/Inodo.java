@@ -38,6 +38,10 @@ public class Inodo implements Serializable {
 		tipo = "archivo";
 	}
 
+	//Genera un número aleatorio, verifica que no se encuentre en la lista de inodos ocupados,
+	//lo asigna al inodo y lo agrega a la lista de inodos ocupados
+	//El rango de generación de aleatorios varía dependiendo del número de archivos que contenga
+	//el sistema. Por lo cual la probabilidad de generar un número no repetido es muy alta
 	private void asignaNum(){
 
 		int elementos =  Sistema.R.inodos_arch.size()+1;
@@ -48,10 +52,10 @@ public class Inodo implements Serializable {
 				valorDado++;
 		}
 		num_inodo = valorDado;
-		//Agrego el numero de inodo a la lista de los numeros de inodo ocupados
 		Sistema.R.inodos_ocupados.add(valorDado);
 	}
 
+	//Actualiza el tamaño del archivo, se invoca despues de haber añadido texto
 	public void update(File nombre){
 		longitud = nombre.length();
 	}

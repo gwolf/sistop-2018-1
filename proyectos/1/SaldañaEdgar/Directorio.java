@@ -5,6 +5,9 @@ public class Directorio implements Serializable {
 
 	String nombre;
 
+	//Lleva la relación entre inodos y nombres de archivos utilizando 
+	//listas dinámicas
+
 	ArrayList<String> nombres_arch = new ArrayList<String>();
 	ArrayList<Inodo> inodos_arch = new ArrayList<Inodo>();
 

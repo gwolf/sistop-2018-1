@@ -9,14 +9,10 @@ public class Comando {
 
 	//Definición de constantes para colorear el texto
 	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_BLACK = "\u001B[30m";
-	public static final String ANSI_RED = "\u001B[31m";
 	public static final String ANSI_GREEN = "\u001B[32m";
 	public static final String ANSI_YELLOW = "\u001B[33m";
 	public static final String ANSI_BLUE = "\u001B[34m";
 	public static final String ANSI_PURPLE = "\u001B[35m";
-	public static final String ANSI_CYAN = "\u001B[36m";
-	public static final String ANSI_WHITE = "\u001B[37m";
 
 	//Listar contenido del directorio
 	public static void ls(String ruta) {
@@ -43,13 +39,13 @@ public class Comando {
 				}else{
 					permisos = permisos.concat("-");
 				}
-
-				System.out.println(ANSI_YELLOW+ String.format("%1$-20s",Sistema.R.nombres_arch.get(i))+ANSI_RESET+"\t"+ tipo+"\t"+Sistema.R.inodos_arch.get(i).fecha_creacion+"\t"+String.format("%1$4d",Sistema.R.inodos_arch.get(i).longitud)+" bytes"+"\t"+permisos+"  "+Sistema.R.inodos_arch.get(i).getNumero());
+				//Obtiene información desde el inodo de cada archivo
+				System.out.println(ANSI_YELLOW+ String.format("%1$-15s",Sistema.R.nombres_arch.get(i))+ANSI_RESET+"\t"+ tipo+"\t"+Sistema.R.inodos_arch.get(i).fecha_creacion+"\t"+String.format("%1$4d",Sistema.R.inodos_arch.get(i).longitud)+" bytes"+"\t"+permisos+"  "+Sistema.R.inodos_arch.get(i).getNumero());
 			}
 		}
 	}
 
-	//Crear directorio y lo guarda como objeto en el espacio de datos
+	//Crear directorio y lo guarda como parte del objeto de espacio de datos
 	public static void mkd(String nombre) {
 		
 		if (nombre.contains(" ")) {
@@ -87,33 +83,37 @@ public class Comando {
 	}
 
 	//Editar archivo
+	//Verifica que se trate de un archivo regular, que se cuente permiso para escribir y que exista
 	public static void add(String nombre){
 
 		int i = Sistema.R.nombres_arch.indexOf(nombre);
-
-		if(Sistema.R.inodos_arch.get(i).escritura){
-			File archivo = new File(nombre);
-			BufferedWriter bw;
-			Scanner teclado = new Scanner(System.in);
-			if (!archivo.exists()) {
-				System.out.println("El archivo no existe, puedes crearlo escribiendo mkf "+nombre);
-			}else {
-				try{
-					FileWriter f = new FileWriter(archivo, true);
-					bw = new BufferedWriter(f);
-					System.out.println("Escribe lo que agregarás al archivo: ");
-	      			bw.write(teclado.nextLine());
-					bw.close();
+		if(Sistema.R.inodos_arch.get(i).tipo.equals("archivo")) {
+			if(Sistema.R.inodos_arch.get(i).escritura){
+				File archivo = new File(nombre);
+				BufferedWriter bw;
+				Scanner teclado = new Scanner(System.in);
+				if (!archivo.exists()) {
+					System.out.println("El archivo no existe, puedes crearlo escribiendo mkf "+nombre);
+				}else {
+					try{
+						FileWriter f = new FileWriter(archivo, true);
+						bw = new BufferedWriter(f);
+						System.out.println("Escribe lo que agregarás al archivo: ");
+		      			bw.write(teclado.nextLine());
+						bw.close();
+					}
+					catch (Exception e){
+						e.printStackTrace();
+					}
+					//Se actualiza el nuevo tamaño del archivo
+					int in = Sistema.R.nombres_arch.indexOf(nombre);
+					Sistema.R.inodos_arch.get(in).update(archivo);
 				}
-				catch (Exception e){
-					e.printStackTrace();
-				}
-				//Se actualiza el nuevo tamaño del archivo
-				int in = Sistema.R.nombres_arch.indexOf(nombre);
-				Sistema.R.inodos_arch.get(in).update(archivo);
+			}else{
+				System.out.println("No tienes permiso para escribir en este archivo");
 			}
 		}else{
-			System.out.println("No tienes permiso para escribir en este archivo");
+			System.out.println(nombre+" no es un archivo regular");
 		}
 	}
 
@@ -134,6 +134,7 @@ public class Comando {
 		}
 	}
 
+	//Cambia los permisos del archivo especificado
 	public static int chmod(String operacion){
 		String[] args = operacion.split(" ");
 		if (args.length != 2) {
@@ -163,32 +164,38 @@ public class Comando {
 	}
 
 	//Abrir archivo
+	//Verifica que sea archivo regular, que se pueda leer y que exista
 	public static void look(String nombre) {
 
 		int i = Sistema.R.nombres_arch.indexOf(nombre);
+		if (Sistema.R.inodos_arch.get(i).tipo.equals("archivo")) {
 
-		if(Sistema.R.inodos_arch.get(i).lectura){
-			File archivo = new File(nombre);
-			if (archivo.exists()) {
-				String cadena;
-				try{
-					FileReader f = new FileReader(archivo);
-					BufferedReader b = new BufferedReader(f);
-					while((cadena = b.readLine())!=null) {
-						System.out.println(cadena);
+			if(Sistema.R.inodos_arch.get(i).lectura){
+				File archivo = new File(nombre);
+				if (archivo.exists()) {
+					String cadena;
+					try{
+						FileReader f = new FileReader(archivo);
+						BufferedReader b = new BufferedReader(f);
+						while((cadena = b.readLine())!=null) {
+							System.out.println(cadena);
+						}
+						b.close();
+					}catch(Exception e){
+						e.printStackTrace();
 					}
-					b.close();
-				}catch(Exception e){
-					e.printStackTrace();
+				}else{
+					System.out.println("El archivo no existe");
 				}
 			}else{
-				System.out.println("El archivo no existe");
+				System.out.println("No tienes permiso para leer el archivo");
 			}
 		}else{
-			System.out.println("No tienes permiso para leer el archivo");
+			System.out.println(nombre+" no es un archivo regular");
 		}
 	}
 
+	//Regresa al directorio anterior
 	public static void back() {
 		if (Sistema.ruta.equals("R")) {
 			System.out.println("Ya estás en el directorio raíz");
@@ -224,14 +231,15 @@ public class Comando {
 		System.out.println(ANSI_GREEN+String.format("\n%1$-26s"+"%2$-15s","COMANDO","DESCRIPCIÓN")+ANSI_RESET);
 		System.out.println(String.format("%1$-26s"+"%2$-15s","ls","Lista el contenido del directorio donde se ejecuta"));
 		System.out.println(String.format("%1$-26s"+"%2$-15s","mkd <nombre>","Crea un directorio con el nombre especificado"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","mkf <nombre>","Crea un archivo"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","rem <nombre>","Elimina al archivo o directorio especificado"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","chmod <nombre> <permisos>","Permisos posibles: +w +r -w -r. Modifica permisos del archivo"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","look <nombre>","Muestra el contenido del archivo especificado"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","add <nombre>","Agrega texto al archivo especificado"));
 		System.out.println(String.format("%1$-26s"+"%2$-15s","enter <nombre>","Entra al directorio especificado"));
 		System.out.println(String.format("%1$-26s"+"%2$-15s","back","Regresa al directorio anterior"));
-		System.out.println(String.format("%1$-26s"+"%2$-15s","rem <nombre>","Elimina al archivo o directorio especificado"));
-		System.out.println(String.format("%1$-26s"+"%2$-15s","add <nombre>","Agrega texto al archivo especificado"));
-		System.out.println(String.format("%1$-26s"+"%2$-15s","mkf <nombre>","Crea un archivo"));
-		System.out.println(String.format("%1$-26s"+"%2$-15s","look <nombre>","Muestra el contenido de el archivo especificado"));
-		System.out.println(String.format("%1$-26s"+"%2$-15s","chmod <nombre> <permisos>","Permisos posibles: +w +r -w -r. Modifica permisos del archivo"));
 		System.out.println(String.format("%1$-26s"+"%2$-15s","super","Muestra la información del superbloque"));
+		System.out.println(String.format("%1$-26s"+"%2$-15s","exit","Finaliza el programa. Se debe ejecutar para guardar los cambios"));
 		System.out.println(String.format("%1$-26s"+"%2$-15s","help","Muestra la ayuda del sistema"));
 	}
 
@@ -244,6 +252,7 @@ public class Comando {
 		System.out.println("Tamaño del bloque: "+Sistema.superb.tamanio_bloque+" bytes");
 	}
 
+	//Verifica que no se repita el nombre
 	private static boolean esValido(String nombre){
 		if (Sistema.R.nombres_arch.contains(nombre)){
 			System.out.println("Ya existe un archivo o directorio con ese nombre, intenta con otro");
@@ -252,6 +261,7 @@ public class Comando {
 	return true;
 	}
 
+	//Regresa una cadena con el nombre del directorio actual
 	private static String getDirActual(String ruta){
 		String[] lista = ruta.split(">");
 		return lista[lista.length-1];
