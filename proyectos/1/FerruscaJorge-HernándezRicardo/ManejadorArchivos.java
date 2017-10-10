@@ -183,23 +183,6 @@ public class ManejadorArchivos
 
             JToolBar toolBar = new JToolBar();
             toolBar.setFloatable(false);
-            //JButton locateFile = new JButton("Encontrar");
-            //locateFile.setMnemonic('l');
-
-            /*locateFile.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent ae) 
-                {
-                    try 
-                    {
-                        System.out.println("Encontrar: " + currentFile.getParentFile());
-                        desktop.open(currentFile.getParentFile());
-                    } catch(Throwable t) {
-                        showThrowable(t);
-                    }
-                    gui.repaint();
-                }
-            });
-            toolBar.add(locateFile);*/
 
             openFile = new JButton("Abrir");
             openFile.setMnemonic('o');
