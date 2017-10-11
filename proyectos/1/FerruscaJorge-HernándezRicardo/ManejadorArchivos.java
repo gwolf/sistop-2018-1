@@ -78,15 +78,18 @@ public class ManejadorArchivos
     {
         if (gui==null) 
         {
-            gui = new JPanel(new BorderLayout(3,3));
+            gui = new JPanel(new BorderLayout(3,3)); //obtenemos un nueg¿vo jpanel
             gui.setBorder(new EmptyBorder(5,5,5,5));
 
+            //creamos objeto para la representación del sistema de archivos, toda la informacion es recopilada del sistema de archivos actual
             fileSystemView = FileSystemView.getFileSystemView();
-            desktop = Desktop.getDesktop();
+            /*Las aplicaciones lanzadas corresponden a las que tienen asociados los archivos que queremos operar*/
+            desktop = Desktop.getDesktop(); //objeto de Desktop que nos permite operaciones basicas con archivos
+
 
             JPanel detailView = new JPanel(new BorderLayout(3,3));
 
-            table = new JTable();
+            table = new JTable(); //creamos un Jtable con caracteristicas
             table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             table.setAutoCreateRowSorter(true);
             table.setShowVerticalLines(false);
@@ -119,8 +122,8 @@ public class ManejadorArchivos
                 }
             };
 
-            File[] roots = fileSystemView.getRoots();
-            for (File fileSystemRoot : roots) 
+            File[] roots = fileSystemView.getRoots(); 
+            for (File fileSystemRoot : roots) //recorremos la(s) raiz buscando creando objetos de tipo nodo
             {
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
                 root.add( node );
@@ -193,7 +196,7 @@ public class ManejadorArchivos
                     try 
                     {
                         System.out.println("Abrir: " + currentFile);
-                        desktop.open(currentFile);
+                        desktop.open(currentFile); //intento por abrir el archivo en cuestion
                     } catch(Throwable t) {
                         showThrowable(t);
                     }
@@ -209,7 +212,7 @@ public class ManejadorArchivos
                 {
                     try 
                     {
-                        desktop.edit(currentFile);
+                        desktop.edit(currentFile); //intendamos editar el archido
                     } catch(Throwable t) {
                         showThrowable(t);
                     }
@@ -224,7 +227,7 @@ public class ManejadorArchivos
                 {
                     try 
                     {
-                        desktop.print(currentFile);
+                        desktop.print(currentFile); //se intenta imprimir el archivo
                     } catch(Throwable t) {
                         showThrowable(t);
                     }
@@ -415,7 +418,7 @@ public class ManejadorArchivos
         worker.execute();
     }
 
-    //Actualizamos los detalles del archivo.
+    //Actualizamos los detalles del archivo, obteniendo propiedades basicas de los objetos de tipo File
     private void setFileDetails(File file) 
     {
         currentFile = file;
@@ -423,7 +426,7 @@ public class ManejadorArchivos
         fileName.setIcon(icon);
         fileName.setText(fileSystemView.getSystemDisplayName(file));
         path.setText(file.getPath());
-        date.setText(new Date(file.lastModified()).toString());
+        date.setText(new Date(file.lastModified()).toString()); //casteo xq devuelve el 'tiempo unix' :(
         size.setText(file.length() + " bytes");
         readable.setSelected(file.canRead());
         writable.setSelected(file.canWrite());
@@ -448,7 +451,7 @@ public class ManejadorArchivos
                 try 
                 {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch(Exception weTried) {}
+                } catch(Exception e) {}
                 JFrame f = new JFrame(APP_TITLE);
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -463,7 +466,7 @@ public class ManejadorArchivos
                     images.add( ImageIO.read(urlBig) );
                     images.add( ImageIO.read(urlSmall) );
                     f.setIconImages(images);
-                } catch(Exception weTried) {}
+                } catch(Exception e) {}
 
                 f.pack();
                 f.setLocationByPlatform(true);
