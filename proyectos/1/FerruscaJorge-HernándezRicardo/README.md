@@ -1,49 +1,50 @@
-#PROYECTO 1: Mini Sistema de Archivos.
+# PROYECTO 1: Mini Sistema de Archivos.
 
-####Integrantes:  
+#### Integrantes:  
 
 Ferrusca Ortíz Jorge Luis  
 Hernández González Ricardo Omar
 
 **Lenguaje de programación:** Java
 
-###¿Qué se necesita para ejecutar el programa?
+### ¿Qué se necesita para ejecutar el programa?
 
-* Tener instalado Java:
+1. Tener instalado Java:
 
 **Hay dos formas de instalarlo:**
 		
-*Línea de comandos
+* Línea de comandos
 
-		Poner en línea de comandos lo siguiente:
+		Poner en tu terminal los siguientes comándos:
+
 		sudo add-apt-repository ppa:webupd8team/java
 		sudo apt-get update
 		sudo apt-get install oracle-java8-installer
 		
-*Descargándolo desde su página e instalarlo
+* Descargándolo desde su página e instalarlo
 
-		Meterse al [link](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html "Descargar Java")
-		y elegir el sistema operativo.
+Meterse al [link](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html "Descargar Java")
+y elegir el sistema operativo.
 
-* Para comprobar que tienes java teclea en línea de comandos lo siguiente:
+2. Para comprobar que tienes java teclea en línea de comandos lo siguiente:
 	
-javac -version
+		javac -version
 
-Este comando te dirá que versión de java tienes, en caso de no tenerlo te lo dirá.
+	Este comando te dirá que versión de java tienes, en caso de no tenerlo te lo dirá.
 
-* Primero tienes que compilar el programa:
+3. Primero tienes que compilar el programa:
 
 	Para compilar un .java tienes que poner en la terminal "javac" y el nombre de tu programa, por ejemplo:
 
-	javac programa.java
+		javac programa.java
 
-* Ejecutar el programa:
+4. Ejecutar el programa:
 
 	Para ejecutar un programa solo basta con poner en linea de comandos, "java" seguido del programa SIN el .java, por ejemplo:
 
-	java programa
+		java programa
 
-##Acerca del programa
+## Acerca del programa
 
 La clase principal que se debe compilar y ejecutar es "ManejadorArchivos.java", la clase "ModeloTablaArchivo.java" solo se utiliza para la clase principal.
 
