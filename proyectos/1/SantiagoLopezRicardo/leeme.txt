@@ -1,0 +1,29 @@
+Importante
+
+para compilar utilizar
+$ gcc main.c -o mySis
+
+para correr
+
+en Linux 
+$ ./mySis
+en Windows 
+ mysis.exe
+
+*** El programa esta desarrollado con ANSI C, el unico problema que vera
+al correrlo en otra plataforma que no sea linux es que al usar el comando
+clean en realidad hago referencia a una orden del shell de linux: el comando
+"clear", por lo que en windows arrojara un mensaje de error similar a:
+"clear no se reconoce como una oreden del sistema".
+ Fuera de ahi la ejecucion sera como indica la documentacion (archivo help.txt)
+y contendra los errores que el programador (o sea yo: Ricardo) no pudo corregir a tiempo
+y lo notifico en el Reporte_de_Errores.txt
+
+*** La documentacion esta distribuida en dos archivos: help.ric e info.ric
+para consultarla puede accederla desde el interprete myShell con los comando
+help o info; o simplemente abriendo en un lector de texto plano los archivos.
+
+help.ric -> despliega la lista de operaciones, especificaciones sobre el uso
+	y la lista de comandos que soporta el interprete myShell
+info.ric -> despliega la informacion acerca del Desarrollador del proyecto,
+	e informacion acerca del mismo proyeto
