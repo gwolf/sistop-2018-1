@@ -1,12 +1,18 @@
-**#PROYECTO 1: Mini Sistema de Archivos.**
+#**PROYECTO 1: Mini Sistema de Archivos.**
 
-**####Integrantes:**  Ferrusca Ortíz Jorge Luis  Hernández González Ricardo Omar
+####**Integrantes:**  
+
+Ferrusca Ortíz Jorge Luis  
+
+Hernández González Ricardo Omar
 
 **Lenguaje de programación:** Java
 
-**###¿Qué se necesita para ejecutar el programa?**
+###**¿Qué se necesita para ejecutar el programa?**
 
-1. Tener instalado Java:
+*Tener instalado Java:
+
+
 	**Hay dos formas de instalarlo:**
 		
 		*Línea de comandos
@@ -21,25 +27,25 @@
 		Meterse al [link](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html)
 		y elegir el sistema operativo.
 
-2. Para comprobar que tienes java teclea en línea de comandos lo siguiente:
+*Para comprobar que tienes java teclea en línea de comandos lo siguiente:
 	
 	javac -version
 
 Este comando te dirá que versión de java tienes, en caso de no tenerlo te lo dirá.
 
-3. Primero tienes que compilar el programa:
+*Primero tienes que compilar el programa:
 
 	Para compilar un .java tienes que poner en la terminal "javac" y el nombre de tu programa, por ejemplo:
 
 	javac programa.java
 
-4. Ejecutar el programa:
+*Ejecutar el programa:
 
 	Para ejecutar un programa solo basta con poner en linea de comandos, "java" seguido del programa SIN el .java, por ejemplo:
 
 	java programa
 
-**##Acerca del programa**
+##**Acerca del programa**
 
 La clase principal que se debe compilar y ejecutar es "ManejadorArchivos.java", la clase "ModeloTablaArchivo.java" solo se utiliza para la clase principal.
 
