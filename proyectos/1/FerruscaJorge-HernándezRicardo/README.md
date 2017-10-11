@@ -5,26 +5,28 @@
 Ferrusca Ortíz Jorge Luis  
 Hernández González Ricardo Omar
 
-**Lenguaje de programación:** Java
+#### Lenguaje de programación: 
+
+Java
 
 ### ¿Qué se necesita para ejecutar el programa?
 
 1. Tener instalado Java:
 
-**Hay dos formas de instalarlo:**
+	Hay dos formas de instalarlo:
 		
-* Línea de comandos
+* Línea de comandos:
 
-		Poner en tu terminal los siguientes comándos:
+Poner en tu terminal los siguientes comándos:
 
 		sudo add-apt-repository ppa:webupd8team/java
 		sudo apt-get update
 		sudo apt-get install oracle-java8-installer
 		
-* Descargándolo desde su página e instalarlo
+* Descargándolo desde su página e instalarlo:
 
-Meterse al [link](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html "Descargar Java")
-y elegir el sistema operativo.
+Meterse a la [página de Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html "Descargar Java"), elegir el sistema operativo y descargar el JDK, posteriormente proceder a instarlo y configurar las variables de entorno (de ser necesario).
+
 
 2. Para comprobar que tienes java teclea en línea de comandos lo siguiente:
 	
@@ -32,11 +34,13 @@ y elegir el sistema operativo.
 
 	Este comando te dirá que versión de java tienes, en caso de no tenerlo te lo dirá.
 
+
 3. Primero tienes que compilar el programa:
 
 	Para compilar un .java tienes que poner en la terminal "javac" y el nombre de tu programa, por ejemplo:
 
 		javac programa.java
+
 
 4. Ejecutar el programa:
 
@@ -50,6 +54,7 @@ La clase principal que se debe compilar y ejecutar es "ManejadorArchivos.java", 
 
 El programa cuenta con una interfaz gráfica en la cual, del lado izquierdo te muestra las carpetas con los que cuenta tu computadora, al momento de seleccionar una carpeta te muestra en la parte derecha, los archivos y carpetas que se encuentren en esta. Para abrir o editar solo debes seleccionar el archivo y darle al botón de la opción que desees. También cuenta con un botón de imprimir.
 En la parte donde te muestra lo que contiene tu directorio, viene el icono del archivo, seguido del nombre, la dirección donde se encuentra y otros datos como el tipo de permisos que tiene cada archivo. En la parte inferior también viene el tipo de archivo. 
+
 
 
 
