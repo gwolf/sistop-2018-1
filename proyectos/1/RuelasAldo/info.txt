@@ -1,0 +1,7 @@
+Programa desarrollado en ubuntu 16.04 
+con python 3.5
+solo utiliza una libreria externa llamada pyfilesystem
+
+instalacion (pip install fs)
+
+
