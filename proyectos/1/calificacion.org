@@ -1,0 +1,246 @@
+#+title: Calificación del primer proyecto parcial (micro-sistema de archivos)
+#+author: Gunnar Wolf
+
+El planteamiento del proyecto y la rúbrica para su calificación están
+[[./README.md][disponibles aquí]].
+
+* Jorge Ferrusca, Ricardo Hernández
+
+- Directorio de entrega :: [[./FerruscaJorge-HernándezRicardo]]
+- Documentación :: [[./FerruscaJorge-HernándezRicardo/README.md]]
+- Estrategia de representación :: Navegador de archivos gráfico en
+     sistema de archivos existente
+- Lenguaje de desarrollo :: Java
+- Observaciones ::
+  - Implementan una interfaz para navegar en el sistema de archivos
+    existente, no es lo que se solicitó.
+  - La documentación pone mucha más atención en cómo instalar y
+    ejecutar el compilador de Java (sin detenerse a explicar que estas
+    instrucciones son específicas a un Linux Ubuntu) que en el
+    programa desarrollado.
+  - Se ve que le invirtieron mucho tiempo al proyecto... Lástima que
+    no lo hicieran en el sentido correcto! :-(
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Complejidad            |         5 |        |     0.33 |
+| Claridad desarrollo    |       7.5 |        |     0.50 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.16 |
+| Doc. externa           |       7.5 |        |     0.50 |
+| Entorno y dependencias |         5 |        |     0.33 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     6.17 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Héctor Martínez, Anibal Medina
+
+- Directorio de entrega :: [[./MartinezHector-MedinaAnibal]]
+- Documentación :: [[./MartinezHector-MedinaAnibal/Documentacion.pdf]]
+- Estrategia de representación :: Manejan una pila con los nombres,
+     otra pila con los datos de los archivos, y las otras dos pilas
+     con... ¿?
+- Lenguaje de desarrollo :: Python
+- Observaciones ::
+  - ¡Ayyyy mis ojos! ¿Cómo puedo revisar un proyecto si [[./MartinezHector-MedinaAnibal/Archivo.py][el primer
+    archivo que abro]] comienza diciendo /«Aqui se resive el contenido
+    del archivo»/? ¿O si ante cualquier órden que yo le dé al programa
+    me dice =«no esta efinido este comando»=? ¡Atención a los detalles
+    importantes!
+  - En [[./MartinezHector-MedinaAnibal/inicio.py]] todos los comandos
+    "efectivos" inician con la instanciación de un objeto
+    =Filesystem()=. Sería más limpio (y más rápido) si instanciaran el
+    objeto antes del =while= (digamos, línea 6). Eso además permitiría
+    que la clase =Filesystem= no dependiera de variables estáticas
+    (todas podrían ser variables de instancia, permitiendo la
+    coexistencia de varios objetos de la misma clase).
+  - Les faltó un /pasito/ para que el sistema de archivos fuera
+    persistente. Un tip: Serialización. La forma más fácil en Python
+    es usando el módulo nativo =pickle=, que ofrece los métodos
+    =dump()= y =load()=. Bastaría con agregar los siguientes métodos
+    dentro de =Filesystem=:
+    #+BEGIN_SRC python
+        def Persistir(self):
+                filename=raw_input("Archivo para persistir:\n")
+                f = open(filename, 'wb')
+                pickle.dump([p, p2, pa, pa2], f)
+                print "Sistema volcado en ", filename, "\n"
+
+        def Recuperar(self):
+                filename=raw_input("Archivo para recuperar:\n")
+                f = open(filename, 'rb')
+                temp = pickle.load(f)
+                print "Recuperado: ", temp
+                p=temp[0]
+                p2=temp[1]
+                pa=temp[2]
+                pa2=temp[3]
+                print "Sistema leido de ", filename, "\n"
+                self.Mostrar()
+    #+END_SRC
+    ...No sería la salida más limpia, epro sería suficiente :-)
+  - ¿No creen que sería natural que la clase =Pila= /heredara/ de
+    =list=? Esto es, podrían definir:
+    #+BEGIN_SRC python
+    class Pila(list):
+        def push(self,x):
+	    self.append(x)
+	# etc
+    #+END_SRC
+  - No generaron =.gitignore= para los =*.pyc=
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       1. |
+| Cumplimiento           |         5 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.33 |
+| Complejidad            |       7.5 |        |     0.50 |
+| Claridad desarrollo    |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.67 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.84 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     7.34 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Aldo Ruelas
+
+- Directorio de entrega :: [[./RuelasAldo]]
+- Documentación :: [[./RuelasAldo/info.txt]]
+- Estrategia de representación :: 
+- Lenguaje de desarrollo :: Python
+- Observaciones ::
+  - Tu documentación es muy carente :(
+  - El empleo de la biblioteca =fs= básicamente significa que no
+    resolviste el problema planteado: Haces una interfaz para navegar
+    entre archivos existentes, no un mini-sistema de archivos.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Complejidad            |         5 |        |     0.33 |
+| Claridad desarrollo    |        10 |        |     0.67 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.33 |
+| Doc. externa           |         5 |        |     0.33 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historia en Git        |         5 |        |     0.33 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |       6. |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Edgar Saldaña
+
+- Directorio de entrega :: [[./SaldañaEdgar]]
+- Documentación :: [[./SaldañaEdgar/README.md]]
+- Estrategia de representación :: 
+- Lenguaje de desarrollo :: Java
+- Observaciones ::
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |       0. |
+| Complejidad            |           |        |     0.00 |
+| Claridad desarrollo    |           |        |     0.00 |
+| Interfaz usuario       |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |       0. |
+| Doc. externa           |           |        |     0.00 |
+| Entorno y dependencias |           |        |     0.00 |
+| Comentarios            |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |       0. |
+| Historia en Git        |           |        |     0.00 |
+| Dir. de proyecto       |           |        |     0.00 |
+| Código válido          |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       0. |
+| Estructura             |           |        |     0.00 |
+| Nomenclatura           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |       0. |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Ricardo Santiago
+
+- Directorio de entrega :: [[./SantiagoLopezRicardo]]
+- Documentación :: [[./SantiagoLopezRicardo/leeme.txt]]
+- Estrategia de representación :: 
+- Lenguaje de desarrollo :: C
+- Observaciones ::
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |       0. |
+| Complejidad            |           |        |     0.00 |
+| Claridad desarrollo    |           |        |     0.00 |
+| Interfaz usuario       |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |       0. |
+| Doc. externa           |           |        |     0.00 |
+| Entorno y dependencias |           |        |     0.00 |
+| Comentarios            |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |       0. |
+| Historia en Git        |           |        |     0.00 |
+| Dir. de proyecto       |           |        |     0.00 |
+| Código válido          |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |       0. |
+| Estructura             |           |        |     0.00 |
+| Nomenclatura           |           |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |       0. |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
