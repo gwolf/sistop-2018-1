@@ -39,6 +39,12 @@ deciden cómo implementarlo, ambas estrategias valen).
 3. Indicar si están resolviendo las solicitudes por _peor ajuste_,
    _mejor ajuste_ o _primer ajuste_.
 
+**Ojo** Uno de sus compañeros me hizo ver, con toda razón, que asumo
+que habrá "hoyos" en la asignación (en el ejemplo anterior, hay un
+hoyo donde estuvieron los procesos C, F, G). Sí, toca también
+implementar que una de las operaciones sea que un proceso termine su
+ejecución, liberando el espacio que ocupaba.
+
 ## Precisiones de la entrega
 
 Esta tarea puede ser entregada _de forma individual_ o _en equipos de
