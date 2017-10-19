@@ -6,3 +6,5 @@
    tareas calificadas sobre 8 hasta el día 10 de octubre. No habrá
    periodo de calificación sobre 5.
 2. [Asignación de memoria](./2/README.md) (Entrega: jueves 19.10.2018)
+3. [La utilización del CPU es incorrecta](./3/README.md) (Entrega:
+   jueves 26.10.2018)
