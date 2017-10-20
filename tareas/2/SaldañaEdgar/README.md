@@ -5,7 +5,7 @@ Los procesos se asignan bajo el criterio del _peor ajuste_, es decir, se escribe
 
 ## Especificaciones técnicas ##
 
-Fue desarrollado en lenguaje Java y en un entorno Linux. Es un lenguaje multiplataforma y para compilarlo y ejecutarlo bastará ejecutar desde consola:
+Fue desarrollado en lenguaje Java y en un entorno Linux. Es un programa multiplataforma y para compilarlo y ejecutarlo bastará ejecutar desde consola:
 
 	$javac Asignador.java
 	$java Asignador
