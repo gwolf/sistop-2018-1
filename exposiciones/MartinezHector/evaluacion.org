@@ -1,0 +1,37 @@
+#+title: Evaluación de exposición: Cargado y ligado
+#+author: Gunnar Wolf
+
+- Tema presentado por :: Héctor Martínez
+- Calificación global :: (6.59 × 0.3) + (6.625 × 0.7) = *6.61*
+
+* Evaluación grupal
+|--------------+------------+----------+-----------+-------|
+| Originalidad | Relevancia | Claridad | Presencia | Total |
+|--------------+------------+----------+-----------+-------|
+|          7.5 |        7.5 |      7.5 |       7.5 |  7.50 |
+|           10 |         10 |       10 |       7.5 |  9.38 |
+|          7.5 |        7.5 |       10 |       7.5 |  8.13 |
+|            5 |        7.5 |      7.5 |       7.5 |  6.88 |
+|          7.5 |        7.5 |        5 |       7.5 |  6.88 |
+|            5 |          5 |        5 |         0 |  3.75 |
+|            5 |          0 |        5 |         5 |  3.75 |
+|          7.5 |        7.5 |        5 |       7.5 |  6.88 |
+|          7.5 |        7.5 |      7.5 |         5 |  6.88 |
+|            5 |          5 |        5 |         5 |     5 |
+|            5 |        7.5 |        5 |         5 |  5.63 |
+|          7.5 |          5 |        5 |       7.5 |  6.25 |
+|           10 |         10 |      7.5 |       7.5 |  8.75 |
+|--------------+------------+----------+-----------+-------|
+|         6.92 |       6.73 |     6.54 |      6.15 |  6.59 |
+#+TBLFM: @>$1..@>$4=vmean(@II..@III-1); f-2::@2$>..@>$>=vmean($1..$4); f-2
+* Evaluación del docente
+
+- Originalidad del tema :: Bueno (7.5)
+- Material desarrollado :: Suficiente (5)
+- Contenido :: Excelente (10)
+- Fuentes bibliográficas :: Insuficiente (0)
+- Uso del tiempo :: Excelente (10)
+- Dominio del tema :: Bueno (7.5)
+- Presencia :: Suficiente (5)
+- Global :: 7.5×0.1 + 5×0.2 + 10×0.2 + 0×0.1 + 10×0.1 + 7.5×0.15 +
+            5×0.15 = *6.625*
