@@ -291,3 +291,12 @@ calificadas sobre 8; no habrá calificación sobre 5.
     #+END_SRC
 
 
+** Eduardo Valdez
+- Lenguaje :: C++
+- Código :: [[./ValdezEduardo/directorio.cpp]]
+- Documentación :: [[./ValdezEduardo/Breve_documentación.pdf]]
+- Estrategia :: Ninguna, no intenta entrar a los directorios derivados
+- Calificación :: 5×0.8=4
+- Comentarios ::
+  - Tu resolución consiste básicamente de la traducción del código que
+    yo presenté a C++; no resuelve el problema que les solicité.

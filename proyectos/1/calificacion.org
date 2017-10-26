@@ -1,0 +1,507 @@
+#+title: Calificación del primer proyecto parcial (micro-sistema de archivos)
+#+author: Gunnar Wolf
+
+El planteamiento del proyecto y la rúbrica para su calificación están
+[[./README.md][disponibles aquí]].
+
+* Jorge Ferrusca, Ricardo Hernández
+
+- Directorio de entrega :: [[./FerruscaJorge-HernándezRicardo]]
+- Documentación :: [[./FerruscaJorge-HernándezRicardo/README.md]]
+- Estrategia de representación :: Navegador de archivos gráfico en
+     sistema de archivos existente
+- Lenguaje de desarrollo :: Java
+- Observaciones ::
+  - Implementan una interfaz para navegar en el sistema de archivos
+    existente, no es lo que se solicitó.
+  - La documentación pone mucha más atención en cómo instalar y
+    ejecutar el compilador de Java (sin detenerse a explicar que estas
+    instrucciones son específicas a un Linux Ubuntu) que en el
+    programa desarrollado.
+  - Se ve que le invirtieron mucho tiempo al proyecto... Lástima que
+    no lo hicieran en el sentido correcto! :-(
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Complejidad            |         5 |        |     0.33 |
+| Claridad desarrollo    |       7.5 |        |     0.50 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.16 |
+| Doc. externa           |       7.5 |        |     0.50 |
+| Entorno y dependencias |         5 |        |     0.33 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     6.17 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Héctor Martínez, Anibal Medina
+
+- Directorio de entrega :: [[./MartinezHector-MedinaAnibal]]
+- Documentación :: [[./MartinezHector-MedinaAnibal/Documentacion.pdf]]
+- Estrategia de representación :: Manejan una pila con los nombres,
+     otra pila con los datos de los archivos, y las otras dos pilas
+     con... ¿?
+- Lenguaje de desarrollo :: Python
+- Observaciones ::
+  - ¡Ayyyy mis ojos! ¿Cómo puedo revisar un proyecto si [[./MartinezHector-MedinaAnibal/Archivo.py][el primer
+    archivo que abro]] comienza diciendo /«Aqui se resive el contenido
+    del archivo»/? ¿O si ante cualquier órden que yo le dé al programa
+    me dice =«no esta efinido este comando»=? ¡Atención a los detalles
+    importantes!
+  - En [[./MartinezHector-MedinaAnibal/inicio.py]] todos los comandos
+    "efectivos" inician con la instanciación de un objeto
+    =Filesystem()=. Sería más limpio (y más rápido) si instanciaran el
+    objeto antes del =while= (digamos, línea 6). Eso además permitiría
+    que la clase =Filesystem= no dependiera de variables estáticas
+    (todas podrían ser variables de instancia, permitiendo la
+    coexistencia de varios objetos de la misma clase).
+  - Les faltó un /pasito/ para que el sistema de archivos fuera
+    persistente. Un tip: Serialización. La forma más fácil en Python
+    es usando el módulo nativo =pickle=, que ofrece los métodos
+    =dump()= y =load()=. Bastaría con agregar los siguientes métodos
+    dentro de =Filesystem=:
+    #+BEGIN_SRC python
+        def Persistir(self):
+                filename=raw_input("Archivo para persistir:\n")
+                f = open(filename, 'wb')
+                pickle.dump([p, p2, pa, pa2], f)
+                print "Sistema volcado en ", filename, "\n"
+
+        def Recuperar(self):
+                filename=raw_input("Archivo para recuperar:\n")
+                f = open(filename, 'rb')
+                temp = pickle.load(f)
+                print "Recuperado: ", temp
+                p=temp[0]
+                p2=temp[1]
+                pa=temp[2]
+                pa2=temp[3]
+                print "Sistema leido de ", filename, "\n"
+                self.Mostrar()
+    #+END_SRC
+    ...No sería la salida más limpia, epro sería suficiente :-)
+  - ¿No creen que sería natural que la clase =Pila= /heredara/ de
+    =list=? Esto es, podrían definir:
+    #+BEGIN_SRC python
+    class Pila(list):
+        def push(self,x):
+	    self.append(x)
+	# etc
+    #+END_SRC
+  - No generaron =.gitignore= para los =*.pyc=
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       1. |
+| Cumplimiento           |         5 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.33 |
+| Complejidad            |       7.5 |        |     0.50 |
+| Claridad desarrollo    |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.67 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.84 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     7.34 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Aldo Ruelas
+
+- Directorio de entrega :: [[./RuelasAldo]]
+- Documentación :: [[./RuelasAldo/info.txt]]
+- Estrategia de representación :: 
+- Lenguaje de desarrollo :: Python
+- Observaciones ::
+  - Tu documentación es muy carente :(
+  - El empleo de la biblioteca =fs= básicamente significa que no
+    resolviste el problema planteado: Haces una interfaz para navegar
+    entre archivos existentes, no un mini-sistema de archivos.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       0. |
+| Cumplimiento           |         0 |        |     0.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |      1.5 |
+| Complejidad            |         5 |        |     0.33 |
+| Claridad desarrollo    |        10 |        |     0.67 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.33 |
+| Doc. externa           |         5 |        |     0.33 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historia en Git        |         5 |        |     0.33 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |       6. |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Edgar Saldaña
+
+- Directorio de entrega :: [[./SaldañaEdgar]]
+- Documentación :: [[./SaldañaEdgar/README.md]]
+- Estrategia de representación :: Serialización nativa Java de una
+     estructura de datos en memoria
+- Lenguaje de desarrollo :: Java
+- Observaciones ::
+  - Casi, casi, *casi* implementas esto a la perfección :-(
+    Implementas todas las estructuras necesarias, pero tendrías que
+    haber serializado /un/ objeto más, que contuviera los datos de
+    cada uno de los archivos
+    - Como está tu código, es vulnerable a que me "escape" de él y vea
+      archivos "reales" fuera de éste. Por ejemplo, partiendo desde
+      una primera invocación:
+      #+BEGIN_SRC text
+	$ java Sistema 
+	No se detectó el sistema de archivos SISTOP en este volumen, a continuación se montará
+
+	¡Bienvenido a SISTOP!
+	Escribe help para listar los comandos posibles
+
+	R>mkf Datos.java
+	R>ls
+	Datos.java     	archivo   	Thu Oct 12 11:30:26 CDT 2017	 344 bytes	RW  3
+	R>look Datos.java
+	/*Solo contiene una lista dinámica donde se guardan los objetos Directorio,
+	los archivos regulares no se guardan aquí, se guardan directamente en el volumen del sistema*/
+
+	import java.util.ArrayList;
+	import java.io.Serializable;
+
+	public class Datos implements Serializable{
+
+		ArrayList<Directorio> directorios = new ArrayList<Directorio>();
+      #+END_SRC
+    - Del mismo modo, puede utilizarse para corromperse a sí mismo de
+      muchas maneras. Esta resulta obvia:
+      #+BEGIN_SRC text
+	$ java Sistema 
+	Reconociendo la configuración del sistema existente
+
+	¡Bienvenido a SISTOP!
+	Escribe help para listar los comandos posibles
+
+	R>ls  
+	Datos.java     	archivo   	Thu Oct 12 11:30:26 CDT 2017	 344 bytes	RW  3
+	R>mkf Sistema.class
+	R>rem Sistema.class
+	R>exit
+      #+END_SRC
+
+  - Pero, al mismo tiempo, excedes parcialmente lo que pedí:
+    - Implementas directorios, e implementas un mapeo bastante
+      interesante en tu directorio, superbloque.
+    - Manejas permisos de lectura y escritura
+  - La implementación de directorios tiene buenas intenciones, pero se
+    rompe demasiado fácil:
+    #+BEGIN_SRC text
+      $ java Sistema 
+      No se detectó el sistema de archivos SISTOP en este volumen, a continuación se montará
+
+      ¡Bienvenido a SISTOP!
+      Escribe help para listar los comandos posibles
+
+      R>mkd uno
+      R>enter uno
+      R>uno>mkd dos
+      R>uno>enter dos
+      R>uno>dos>mkf datos
+      R>uno>dos>add datos
+      Escribe lo que agregarás al archivo: 
+      Aquí estoy
+      R>uno>dos>ls
+      R>uno>dos>back
+      R>uno>back
+      R>ls
+      uno            	directorio	Thu Oct 12 11:15:21 CDT 2017	   0 bytes	RW  10
+      dos            	directorio	Thu Oct 12 11:15:26 CDT 2017	   0 bytes	RW  1
+      datos          	archivo   	Thu Oct 12 11:15:34 CDT 2017	  11 bytes	RW  3
+      R>enter dos
+      R>dos>enter dos
+      R>dos>dos>enter uno
+      R>dos>dos>uno>enter uno
+      R>dos>dos>uno>uno>ls
+      R>dos>dos>uno>uno>look datos
+      Aquí estoy
+      R>dos>dos>uno>uno>
+    #+END_SRC
+    Pero, de vuelta, es un punto completamente opcional a
+    implementar.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     2.01 |
+| Complejidad            |        10 |        |     0.67 |
+| Claridad desarrollo    |        10 |        |     0.67 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     9.03 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Ricardo Santiago
+
+- Directorio de entrega :: [[./SantiagoLopezRicardo]]
+- Documentación :: [[./SantiagoLopezRicardo/leeme.txt]]
+- Estrategia de representación :: 
+- Lenguaje de desarrollo :: C
+- Observaciones ::
+  - Resepcto al punto que mencionas en tu =leeme.txt= e =info.ric=:
+    Podrías usar lo siguiente en vez de un horroroso =system(clear);
+    no dependes de ejecutar programas externos, es más rápido y
+    confiable:
+    #+BEGIN_SRC C
+    printf("\e[2J\e[H");
+    #+END_SRC
+    Te dejo aquí la [[http://www.termsys.demon.co.uk/vtansi.htm][referencia a las /secuencias de escape/ de termnal
+    ANSI/VT100]], con las que puedes generar color, posicionar el cursor
+    en la pantalla y demás. Y claro, podrías incluir en tu encabezado
+    un /macro/ como el siguiente:
+    #+BEGIN_SRC C
+    #define clear() printf("\e[2J\e[H");
+    #+END_SRC
+    Con lo que bastaría con escribir =clear()= en tu código.
+  - Tu programa va guardando los varios archivos dentro de uno sólo,
+    lo cual cumple perfectamente con el espíritu del problema
+    planteado, pero cada vez que lo invocas crea incondicionalmente al
+    archivo — Pierde todos los datos que tenía.
+
+    Curiosamente, no le /falta/ nada de funcionalidad a tu programa:
+    Si ya existe el archivo =raiz= y comento las líneas 20-22 de tu
+    código:
+    #+BEGIN_SRC C
+    raiz = fopen("raiz","w");
+    fprintf(raiz, "Root del micro sistema\n");
+    fclose(raiz);
+    #+END_SRC
+    Puedo entrar de vuelta y mis datos están ahí:
+    #+BEGIN_SRC text
+
+      ,**************************************************
+      ,*-------mySys: myShell---------------------------*
+      ,*-------------------------------test ver 1.09----*
+      ,*-help: ayuda---info: acerca de-----quit: salir--*
+      ,**************************************************
+
+      myShell commad ->readf
+      args[name] >>cuac
+      >> cuac
+      Ahí_van_mis_datos.
+      }
+
+      myShell commad ->
+    #+END_SRC
+    Claro, para que siga creando el archivo necesario, podrías
+    verificar si el archivo existe, abriéndolo para
+    lectura. Reemplaza tus líneas 20-22 por:
+    #+BEGIN_SRC C
+      struct stat test;
+      if (stat("raiz", &test) != NULL) {
+	raiz = fopen("raiz","w");
+	fprintf(raiz, "Root del micro sistema\n");
+	fclose(raiz);
+      }
+    #+END_SRC
+  - El comando de listado no funciona ☹:
+    #+BEGIN_SRC text
+      myShell commad ->lsf
+      Root de MySis
+      No Valid Command
+    #+END_SRC
+    Revisando fuentes... Por alguna razón requiere que los archivos
+    lleven un ".msf" para detectarlos como tal. Ya que usas una noción
+    de /caracter de fin de bloque/ =}= seguido de una línea vacía,
+    podrías haber detectado este patrón para armar el
+    directorio. Además, como lo estás haciendo ahora, cualquier línea
+    de datos que incluya =.msf= será reportada como un archivo.
+  - Asumes que no habrá más de un archivo con el mismo nombre, pero no
+    lo verificas:
+    #+BEGIN_SRC text
+      myShell commad ->newfil
+      args[name] >>cuac
+      >> cuac
+      asdf
+
+      myShell commad ->newfil
+      args[name] >>cuac
+      >> cuac
+      huh?
+
+      myShell commad ->newfil
+      args[name] >>cuac
+      >> cuac
+      Asdf_Asdf
+
+      myShell commad ->readf cuac
+      args[name] >>>> cuac
+      asdf
+      }
+      huh?
+      }
+      Asdf_Asdf
+      }
+    #+END_SRC
+  - A pesar de los puntos anteriores, te marco 7.5 (en vez de 5) en el
+    rubro de /Cumplimiento/, por ser una de las entregas que mejor se
+    aproximó a lo solicitado.
+  - Tu entrega en Git... Bueno, encontraste una manera de trucar a
+    mi esquema de calificación: Agregaste a cada archivo en un commit,
+    en el transcurso de cinco minutos.
+
+    Técnicamente te da para 7.5 en el rubro, pero en la práctca, no
+    estás obteniendo ningún beneficio de Git. No lo estás utilizando
+    para documentar el progreso sobre del desarrollo de tu
+    proyecto. Lo cual... Es triste ☹
+    - Además, no manejas =.gitignore=
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.33 |
+| Complejidad            |         5 |        |     0.33 |
+| Claridad desarrollo    |        10 |        |     0.67 |
+| Interfaz usuario       |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historia en Git        |       7.5 |        |     0.50 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Estructura             |        10 |        |     1.00 |
+| Nomenclatura           |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.01 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+* Jesús Tirado
+
+- Directorio de entrega :: [[./TiradoJesus]]
+- Documentación :: [[./TiradoJesus/proyectoArchivos.pdf]]
+- Estrategia de representación :: Arreglo con objetos =struct= de
+     tamaño fijo
+- Lenguaje de desarrollo :: C
+- Observaciones ::
+  - Faltó el mismo paso importante que le comenté a varios de tus
+    compañeros: /Persistir/ el contenido de tu estructura de
+    datos. Dado que tu estructura está formada alrededor de elementos
+    de tamaño fijo, resultaría casi natural grabar y leer =*pointer=
+    tal como está representado en memoria ☹
+  - Tu programa es vulnerable a /buffer overflows/: Dado que usas
+    buffers de tamaño fijo, puede ocurrir que:
+    #+BEGIN_SRC txt
+    jesusTirado@sistemArchivos:~$ new al.go
+    jesusTirado@sistemArchivos:~$ new ot.ro
+    jesusTirado@sistemArchivos:~$ list
+    al.go
+    ot.ro
+    jesusTirado@sistemArchivos:~$ edit -w al.go
+    		--> MODO ESCRITURA <--
+
+    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 
+    jesusTirado@sistemArchivos:~$ edit -r al.go
+    		--> MODO LECTURA <--
+
+    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+    jesusTirado@sistemArchivos:~$ edit -r ot.ro
+		--> MODO LECTURA <--
+
+    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    #+END_SRC
+  - Me intriga fuertemente... ¿Por qué hiciste así la función
+    =instruccion()=? Esto es... No es que no conozcas la función
+    =strcmp()= para comparar cadenas, pues la usas varias veces. ¿Por
+    qué haces una comparación tan... dolorosa para obtener el comando
+    que solicita el usuario, yendo caracter por caracter?, y ni
+    siquiera aprovechando la copia de los comandos que definiste al
+    principio de la función?
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.67 |
+| Complejidad            |        10 |        |     0.67 |
+| Claridad desarrollo    |       7.5 |        |     0.50 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |      1.5 |
+| Historia en Git        |         5 |        |     0.33 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.42 |
+| Estructura             |       7.5 |        |     0.75 |
+| Nomenclatura           |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |      8.1 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16

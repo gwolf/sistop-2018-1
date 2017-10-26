@@ -1,0 +1,34 @@
+*****************************************************
+*---------------------------------------------------*
+*----MyFileSystem------------version 1.09-----------*
+*---------------------------------------musanlori---*		
+*****************************************************
+
+	Author 		Santiago Lopez Ricardo
+	GitHub		musanlori
+	Email		ricardosantilo96@gmail.com
+	FB			Ricardo Santiago Lopez
+
+	Desarrollado en Lenguage C
+	utilizando Bibliotecas ANSI C
+	2 archivos de cabecera para desarrollo de comandos
+		-ficheros.h 	comandos para ficheros
+		-other.h 		comandos de info/ayuda
+	1 archivo.c
+		-main.c 		muestra shell 'MySis'
+	MySis esta inspirado en la maquina vitual de python
+
+	PARA PLATAFORMAS LINUX (PREFERENTEMENTE) Y MS WINDOWS
+	*EN WINDOWS NO FUNCIONA EL COMANDO "clean"
+
+  El programa crea un archivo llamado raiz, no contiene
+extencion. Dentro de "raiz" simula crear archivos forman-
+do bloques que se distingen por un encabezado con el nom-
+bre del archivo creado y finalizan en un caracter '}'
+  La lectura de dichos archivos se realizan diferenciando 
+los limites de dichos bloques y desplegando el contenido
+entre ellos.
+  Tambien mediante usando los encabezados se identifican
+los nombres de dichos bloques para listarlos como si se 
+de ficheros dentro de una carpeta.
+*********************************************************
