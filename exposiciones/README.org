@@ -1,0 +1,17 @@
+#+title: Exposiciones frente al grupo
+#+author: Gunnar Wolf
+
+* Calendario de exposiciones
+
+La evaluación de las exposiciones sigue los criterios descritos en las
+[[http://gwolf.sistop.org/rubricas.pdf][rúbricas del curso]], particularmente el apartado 2 (Exposición frente
+al grupo)
+
+
+|--------+-------------------------------------------+-----------------+-----------------------------------+---------------------------------|
+| Fecha  | Tema                                      | Integrantes     | Documentos                        | Evaluación                      |
+|--------+-------------------------------------------+-----------------+-----------------------------------+---------------------------------|
+| 3/oct  | Rootkits: Escondiéndose del administrador | Eduardo Valdez  | [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_diapositivas.pdf][Presentación (PDF)]], [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_reporte.pdf][Reporte (PDF)]] | [[./ValdezEduardo/evaluacion.org]]  |
+| 24/oct | Cargado y ligado                          | Héctor Martínez | [[./MartinezHector/CArgado_Ligado.pdf][Presentación (PDF)]]                | [[./MartinezHector/evaluacion.org]] |
+|--------+-------------------------------------------+-----------------+-----------------------------------+---------------------------------|
+

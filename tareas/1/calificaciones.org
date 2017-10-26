@@ -1,0 +1,302 @@
+* Entregadas en tiempo ⇒ Hasta 2017.09.12 23:59:59
+
+** Edgar Saldaña
+- Lenguaje :: C
+- Código :: [[./SaldañaEdgar/rec.c]]
+- Documentación :: [[./SaldañaEdgar/README]]
+- Estrategia :: Recursión sobre la función =openDir(ruta,
+                profundidad)=, decrementando la segunda. 
+- Calificación :: 10
+- Comentarios ::
+  - Bonito y amigable: El que presente el árbol de archivos anidado,
+    representando un verdadero árbol, e indicando claramente el tipo
+    de objeto que es cada objeto representado es muy bienvenido.
+  - Respecto a la documentación: =dirent.h= y =sys/types.h= _sí_ son
+    bibliotecas estándar. De hecho, se les conoce como _la biblioteca
+    estándar_ del lenguaje C; Es el conjunto de bibliotecas que
+    _siempre_ debe esta disponible para que una implementación sea un
+    C válido. Les dejo como referencia un [[https://www.tutorialspoint.com/c_standard_library/][documento en Tutorials Point]]
+    al respecto.
+  - ¡Ojo! Tu variable =salto=, que guarda el espacio en blanco antes
+    de entrar a un directorio, es de longitud fija (500
+    caracteres). Cada que entras a un directorio le agregas siete
+    espacios, y cada que termina dicho directorio le _agregas_ siete
+    retrocesos. Eso significa que con sólo entrar y salir de 35
+    directorios, tu programa se va a morir (tal como lo describes en
+    tu =README=).
+    - ¿No crees que sería más limpio dejar de depender de =salto=, y
+      generar los espacios al vuelo? Algo tan simple como lo
+      siguiente -- Tu línea 55 dice:
+
+      #+BEGIN_SRC C
+      printf("\t%s%s%s\n", salto, KNRM, ent -> d_name);
+      #+END_SRC
+
+      Podrías reemplazarla por una versión más simple, que además
+      considere un ancho máximo de pantalla (digamos, 70 caracteres):
+
+      #+BEGIN_SRC C
+      char salto[70];
+      /* (...) */
+      for (i=0; i<profundidad; i++) {
+            if (i > 10)
+                break;
+            strcat(salto, "      ");
+      }
+      printf("\t%s%s%s\n", salto, KNRM, ent->d_name);
+      #+END_SRC
+
+** Héctor Martínez
+- Lenguaje :: Python
+- Código :: [[./MartinezHector/programa.py]]
+- Documentación :: [[./MartinezHector/documentacion.txt]]
+- Estrategia :: Uso de función propia de Python =os.walk()=
+- Calificación :: 6
+- Comentarios ::
+  - Empleaste una función del lenguaje que hace precisamente la tarea
+    que tenías que realizar tú: =os.walk()= toma un directorio, lo
+    /camina/, y va entregando un objeto por cada archivo dentro del árbol.
+
+** Ricardo Santiago
+- Lenguaje :: C
+- Codigo :: [[./SantiagoRicardo/tarea1.c]]
+- Documentación :: [[./SantiagoRicardo/docTareaUno.txt]],
+                   [[./SantiagoRicardo/prueba1.png]],
+                   [[./SantiagoRicardo/prueba2.png]]
+- Estrategia :: Recursión; omite de ésta a los los directorios que
+                /inician/ con =.= o =..=
+- Calificación :: 8
+- Comentarios ::
+  - La entrega fue en tiempo, pero el commit se "ensució" mucho; le
+    pedí a Ricardo que lo enviara de nuevo.
+  - Cuestiones de estilo: Por legibilidad, te recomiendo fuertemente
+    colocar tus comentarios antes del código en cuestión, no dejando
+    un espacio en blanco tan grande antes de comentar. Vamos, en vez
+    de:
+
+    #+BEGIN_SRC C
+    	if (argc != 2) {				//verifica que el usuario halla indicado el nombre del directorio antes de ejecutar el programa
+		printf("Indique el directorio a mostrar\n");
+		return 1;
+	}
+	dirContenido(argv[1]);			//se listara el directorio indicado en consola
+	printf("\n");
+    #+END_SRC
+
+    Resulta mucho más claro:
+
+    #+BEGIN_SRC C
+        //verifica que el usuario halla indicado el nombre del directorio antes de ejecutar el programa
+    	if (argc != 2) {
+		printf("Indique el directorio a mostrar\n");
+		return 1;
+	}
+	//se listara el directorio indicado en consola
+	dirContenido(argv[1]);
+	printf("\n");
+    #+END_SRC
+  - Otra relativo a los comentarios: Comentar cosas obvias te quita
+    tiempo, y no le agrega nada de claridad al programa. Vale la pena
+    comentar únicamente las cosas que no son obvias al leer el
+    código. Esto es:
+    #+BEGIN_SRC C
+    	DIR *dir; //apuntador a directorio
+	struct dirent *archivo;	//define una apuntador a estructura dirent
+	struct stat info; //define una variable tipo stat para obtener informacion del fichero/directorio
+    #+END_SRC
+    Todos estos comentarios salen sobrando.
+  - Te falta declarar que estás usando funciones de comparación de
+    cadenas:
+    #+BEGIN_SRC sh
+     gcc tarea1.c
+     tarea1.c: In function ‘dirContenido’:
+     tarea1.c:27:7: warning: implicit declaration of function ‘strcmp’ [-Wimplicit-function-declaration]
+     if((strcmp(archivo->d_name,".") != 0)&&(strcmp(archivo->d_name,"..") != 0)!= 0){ //verifica que el archivo no sea el directorio actual o el directorio padre
+         ^~~~~~
+    #+END_SRC
+    Si estás usando =strcmp=, debes declarar =#include <string.h>=
+  - Si estás utilizando enteros en C, el valor verdadero es 0, y los
+    demás números falso. Esto es, puedes simplificar tu comparación:
+    #+BEGIN_SRC C
+    if (strcmp(archivo->d_name, ".") && strcmp(archivo->d_name, "..")) {
+        stat(archivo->d_name, &info);
+	// (...)
+    #+END_SRC
+
+
+** Jorge Ferrusca y Ricardo Hernández
+- Lenguaje :: C
+- Código :: [[./FerruscaJorge-HernandezRicardo/archivos.c]]
+- Documentación :: [[./FerruscaJorge-HernandezRicardo/instrucciones.txt]]
+- Estrategia :: Intentan hacer una recursión sobre
+                =funcionPrincipal()=, pero no alcanzan a implementarla
+                — Manejo equivocado de variables globales (abundo más adelante
+- Calificación :: 9
+- Comentarios ::
+  - Me gustó mucho el programa; se nota que se documentaron e
+    intentaron hacerlo completo
+    - Me gustaría darles el 10 (aunque fuera ×0.8, por la fecha de
+      entrega), pero no implementaron el punto específico que les pedí
+      :-(
+  - La interfaz usuario está trabajada: Muestra información útil de
+    los archivos y demás objetos.
+  - Lo que hacen en =tamArchivo()= es... ¿Ingenioso?  ¿Ingenuo, al
+    mismo tiempo? ¿Por qué abrir un archivo y hacer un =fseek(archivo,
+    0L, SEEK_END)= a cada uno de ellos, en vez de usar =stat()=?
+    - Esto los lleva a algunas distorsiones... Por ejemplo, ¿por qué
+      muchos directorios reportan medir 9223372036854775807 bytes?
+      (tip obvio: 2**63 = 9223372036854775808)
+    - Pero además, es *muchísimo* menos eficiente. ¿Cuántas llamadas
+      al sistema tienen que hacer para averiguar el tamaño? =stat()=
+      es muchísimo más eficiente.
+  - La razón por la que no les funcionó la recursión es su uso de
+    variables globales: ¿Por qué declarar a =char *rutaDirectorio=,
+    =int aux= y =DIR *dir= en el nivel más externo? Si éstas variables
+    fueran internas a la =funcionPrincipal()= y fueran enviadas a las
+    funciones derivadas que lo requirieran, el bloque que tienen
+    comentado en las líneas 48-52 no destruiría el estado del
+    programa.
+
+    Recuerden el punto para ahora que hablemos de la memoria: como
+    está en este momento, estas funciones se guardan en la _sección de
+    datos_, y no en el _stack_ como debería ser.
+
+* Extemporáneas ⇒ Hasta 2017.10.10 23:59:59
+Calificadas sobre 8.0
+
+*Nota:* Por las afectaciones del sismo, el tiempo se "detiene" hasta
+el 10 de octubre. Todas las tareas recibidas hasta ese día serán
+calificadas sobre 8; no habrá calificación sobre 5.
+
+** Jesús Tirado
+- Lenguaje :: C
+- Código :: [[./TiradoJesus/tarea1.c]]
+- Documentación :: [[./TiradoJesus/tarea1.pdf]]
+- Estrategia :: Profundidad fija, con función de primer nivel
+                (=es_directorio()=) y de segundo nivel
+                (=lista_directorio()=) que repiten parte de su
+                funcionalidad
+- Calificación :: 8×0.8=6.4
+- Comentarios ::
+  - El método que empleas para determinar cuándo es directorio y
+    cuándo no (la presencia del caracter =.=) me gusta, por ser una
+    heurística generada por tí y demostrar ingenio. Tristemente, como
+    tú mismo lo documentas, es completamente falsa :-] Los directorios
+    pueden tener "apellidos", y los archivos pueden no tenerlos.
+
+    La respuesta más sencilla sería el uso de la función =stat()=, que
+    entre los datos que arroja es el tipo de archivo del que se trata
+
+  - Qué bueno que incluyes capturas de ejecuciones exitosas... Porque
+    yo no pude llegar tan lejos:
+
+    #+BEGIN_SRC text
+    gwolf@matlalli『49』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out ..
+    README.md
+    ..
+    .
+    MartinezHector
+    -->abriendo el directorio MartinezHector
+    Segmentation fault
+    gwolf@matlalli『50』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out ../..
+    README.md
+    .placeholder
+    ..
+    .
+    1
+    -->abriendo el directorio 1
+    Segmentation fault
+    gwolf@matlalli『51』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /etc/
+    .
+    ..
+    mailcap
+    -->abriendo el directorio mailcap
+    Segmentation fault
+    gwolf@matlalli『52』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /usr/
+    src
+    -->abriendo el directorio src
+    Segmentation fault
+    gwolf@matlalli『53』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /tmp
+    .
+    ..
+    RUM invitación.jpg
+    ssh-4XRqlfp6YU0y
+    -->abriendo el directorio ssh-4XRqlfp6YU0y
+    Segmentation fault
+    gwolf@matlalli『54』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/
+    ..
+    .
+    lost+found
+    -->abriendo el directorio lost+found
+    Segmentation fault
+    gwolf@matlalli『55』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/gwolf/
+    .
+    ..
+    llaves RSA de 1024 a 2048.pdf
+    .gnuplot_history
+    feh_012433_000001_filelist
+    -->abriendo el directorio feh_012433_000001_filelist
+    Segmentation fault
+    gwolf@matlalli『56』~/vcs/sistop-2018-1/tareas/1/TiradoJesus$ ./a.out /home/gwolf/vcs
+    com_transc_y_sist_emerg
+    -->abriendo el directorio com_transc_y_sist_emerg
+    Segmentation fault
+    #+END_SRC
+
+
+** Anibal Medina
+- Lenguaje :: Python
+- Código :: [[./MedinaAnibal/Existencia.py]]
+- Documentación :: [[./MedinaAnibal/instrucciones]]
+- Estrategia :: Uso de función propia de Python =os.walk()=
+- Calificación :: 5×0.8=4
+- Comentarios ::
+  - Respecto a la documentación: Python no es un lenguaje que se
+    compile expresamente como un paso; si lo fuera, te generaría un
+    archivo ejecutable. Lo correcto sería decir, "...para su
+    ejecución..."
+  - Empleaste una función del lenguaje que hace precisamente la tarea
+    que tenías que realizar tú: =os.walk()= toma un directorio, lo
+    /camina/, y va entregando un objeto por cada archivo dentro del
+    árbol; curiosamente /recortas/ la /caminata/ para que sólo muestre
+    el directorio actual.
+  - ¿Probaste el código? No funcionaba por varias razones. El juego de
+    diferencias que tuve que hacer para que tu programa funcionara es
+    casi tan extenso como el programa mismo:
+    #+BEGIN_SRC diff
+--- a/tareas/1/MedinaAnibal/Existencia.py
++++ b/tareas/1/MedinaAnibal/Existencia.py
+@@ -1,13 +1,13 @@
+ #_*_ encoding: utf-8 _*_
+ import os
+-class Existencia:
+-       rut = raw_input("Ingresa tu ruta: ")
+-       if rut == NULL:
+-               rut='.'
+-class Recorrer(Existenci):
++class Recorrer:
++        def __init__(self):
++               self.rut = raw_input("Ingresa tu ruta: ")
++               if self.rut == None:
++                       self.rut='.'
+        def  run(self):
+-               if os.path.isfile(rut)== True:
+-                       for dirName, subdirList, fileList in os.walk(rut):
++                if os.path.isdir(self.rut)== True:
++                       for dirName, subdirList, fileList in os.walk(self.rut):
+                                print('Directorio: %s' % dirName)
+                        for fname in fileList:
+                                print('\t%s' % fname)
+
+    #+END_SRC
+
+
+** Eduardo Valdez
+- Lenguaje :: C++
+- Código :: [[./ValdezEduardo/directorio.cpp]]
+- Documentación :: [[./ValdezEduardo/Breve_documentación.pdf]]
+- Estrategia :: Ninguna, no intenta entrar a los directorios derivados
+- Calificación :: 5×0.8=4
+- Comentarios ::
+  - Tu resolución consiste básicamente de la traducción del código que
+    yo presenté a C++; no resuelve el problema que les solicité.

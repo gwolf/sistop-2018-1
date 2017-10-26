@@ -1,0 +1,36 @@
+operaciones con Ficheros
+	-crea ficheros
+	-Abre ficheros para escritura (por default)
+	-Abre ficheros en modo Lectura
+	-Borra Ficheros
+Especificaciones
+	-para que un archivo sea considerado archivo, debe contener
+	la extencion ".msf"
+	
+	-es importante evitar el uso de Espacios en Blanco para no provocar
+	algun fallo en la lectura del archivo: debido a que los espacios en
+	blanco no estan soportados (' '), utilize en su lugar guion bajo '_' 
+	
+	-no hay restriccion con respecto al formato de los nombres
+		-myShell soporta nombresasi.a.msf @$!ta;am.msf
+	-en el caso del Comando lsf, desplegara solo los archivos
+	creados con la extencion ya especificada (.msf)
+	
+Comandos para operaciones
+Ficheros
+	newfil		-crea fichero
+	readf		-abre fichero en modo Lectura
+	lsf			-lista el nombre de los ficheros
+	dtms		-despliege total del microsistema de archivos
+otro
+	clean		-limpia pantalla
+	help		-despliega este fichero
+	info		-acerca de MySis	(informacion del proyecto)
+	quit		-cierra myshell
+*********************************************************************************
+*-------------------------interfaz de usuario-----------------------------------*
+*********************************************************************************
+Myshell
+Orden -->				//espera una cadena que indique el nombre del comando a ejecutar
+args to [nomComando]: 	//espera argumentos para la funcion invocada mediante el comando
+*****************************************************************************************

@@ -1,0 +1,7 @@
+En todas las pruebas, Al ingresar el comando con el que termina la ejecucion del
+programa, envia un error (no reconoce su propio comando), al parecer queda abierto
+algun flujo hay basura en el buffer que no se logra "limpiar" y provoca dicho pro-
+blema expecificamente con ese comando
+
+Cuando lista el contenido del microsistema de archivos, arroja un mensaje de mas...
+No tengo entendimiento del por que lo hace.

@@ -1,0 +1,7 @@
+Alumno:
+	Medina Mena Anibal
+	
+	El programa se realizo en el lenguaje de programacion python y realizado en un sistema 		operativo linux.
+	
+	Para su compilacion vaya a la terminal ingrese la ruta donde se encuentra el programa y 
+	ejecute el comando python nombreprograma.py y se comentara la ejecucion donde unicamente 	tendra que ingresar la ruta del directorio que dese ver, se mostraran los directorio y 		subdirectorios
