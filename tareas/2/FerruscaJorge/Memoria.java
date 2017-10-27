@@ -3,7 +3,7 @@ import java.util.Scanner;
 /* El programa asigna cada por cada una de las letras del abecedario, es decir 25 VECES */
 
 public class Memoria{
-	static StringBuilder porcionMemoria = new StringBuilder("----------------"); //PORCION DE MEMORIA
+	static StringBuilder porcionMemoria = new StringBuilder("------------------------------"); //PORCION DE MEMORIA
 	static String memToSplit = porcionMemoria.toString();	
 	static Scanner teclado = new Scanner(System.in);
 	public static int asigna(char nombre, int tamanio){
