@@ -24,6 +24,7 @@ Se hizo el manejo de la memoria como una lista, donde un lugar "vacio" en la mem
 
 El programa como tal tiene varias "deficiencias", la primera es que pide al usuario el proceso, el número de veces que se repetirá la secuencia de llenado de la memoria, para liberar un proceso se tiene que modificar el código al momento de mandar a llamar la función "liberar_proceso()", la memoria ya está inicializada antes de empezar el programa (puede ser modificada). Como se puede observar esto puede ser generalizado dependiendo de si se requiere o no.
 
+La solicitud la hicimos por "Primer Ajuste"
 
 
 
