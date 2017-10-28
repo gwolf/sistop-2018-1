@@ -1,0 +1,12 @@
+Instrucciones de uso:
+
+-El programa hace 25 asignaciones (una por cada letra), de longitud aleatoria entre las especificadas.
+
+-Parte de la 'memoria' vacía.
+
+-El programa se basa en colocar el proceso en donde encuentre lugar primero (peor ajuste).
+
+-En caso de que no se pueda colocar al proceso, se intentará hacer una compresión, y se pregunta si se desea borrar alguno de los procesos ya existentes, e intenta colocar el proceso en cuestión UNA VEZ MÁS,
+en caso de no hacerlo, simplemente indicará que no se pudo colocar dicho proceso.
+
+-Cuando se llena aparece un mensaje de "memoria llena", pero deja borrar procesos ya existentes. 
