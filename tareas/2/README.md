@@ -94,7 +94,7 @@ dos personas_.
   - *Comentarios:*
 	- Resulta *mucho* más sencillo leer tus comentarios si los pones
       al inicio del bloque de código al que explican que si los pones
-      después de un comando. Por ejemplo, reemplazazr:
+      después de un comando. Por ejemplo, reemplazar:
 
 			if indice == None: #no hay espacio para meter proceso, comprimimos
 				comprimir()
@@ -143,5 +143,61 @@ dos personas_.
       Muy poco recomendable. Te facilita algunas cosas en programas
       cortos, pero te va a causar problemas si lo haces en un programa
       decentemente largo. Usa variables locales siempre que puedas.
-
   - *Calificación:* 8 × 0.8 = **6.4**
+
+- **Ricardo Santiago y Aníbal Medina**
+  - *Entrega extemporánea* (vale ×0.8)
+  - *Lenguaje:* Python
+  - *Estrategia:* Manejo de un arreglo de elementos donde cada uno
+    indica `'-'` para página libre, ID del proceso de otro
+    modo. Y... Bueno, hay varias variables de apoyo. No 
+  - *Código:* [Lista.py](./MedinaAnibal_SantiagoRicardo/Lista.py)
+  - *Documentación:* 
+  - *Comentarios:*
+    - Ni documentación ni comentario alguno; las variables tienen
+      nombres que no ayudan a comprender en lo más mínimo el
+      desarrollo :-(
+    - No me queda claro qué es lo que indican como "mejor ajuste" o
+      "peor ajuste", pero no es lo que definimos en clase.
+    - Me parece que siempre que lanza una compactación (¡no es
+      compresión!) se queda en un ciclo sin fin
+    - Muchas veces detecta que hace falta una compactación sin que sea
+      así:
+
+			$ python Lista.py 
+			proceso actual
+
+			['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
+			Ingrese el proceso:
+			A 
+			Ingrese cantidad del proceso
+			10
+			peor ajuste
+			proceso nuevo:
+
+			['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '-', '-', '-', '-']
+			desea realizar otro proceso? (s/n):
+			s
+			proceso actual
+
+			['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', '-', '-', '-', '-']
+			Ingrese el proceso:
+			B
+			Ingrese cantidad del proceso
+			10
+			se realizara una compresion
+    - El programa presenta varios errores lógicos; sobreescribe
+      procesos habiendo espacio disponible:
+	  proceso actual
+
+			['A', 'B', 'B', 'B', 'C', 'C', 'C', 'C', '-', 'D', 'D', 'D', 'D', 'D', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
+			Ingrese el proceso:
+			E
+			Ingrese cantidad del proceso
+			2
+			mejor ajuste
+
+			proceso nuevo:
+
+			['A', 'B', 'B', 'B', 'C', 'C', 'C', 'C', '-', 'E', 'E', 'D', 'D', 'D', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
+  - *Calificación:* 7 × 0.8 = **5.6**
