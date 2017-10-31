@@ -49,3 +49,99 @@ ejecución, liberando el espacio que ocupaba.
 
 Esta tarea puede ser entregada _de forma individual_ o _en equipos de
 dos personas_.
+
+## Calificaciones
+- **Edgar Saldaña**
+  - *Lenguaje:* Java
+  - *Estrategia:* La memoria es un arreglo de caracteres; el asignador
+    busca suficientes caracteres '-' contiguos.
+  - *Código:* [Asignador.java](./SaldañaEdgar/Asignador.java)
+  - *Documentación:* [README.md](./SaldañaEdgar/README.md)
+  - *Calificación:* **10**
+
+- **Jorge Ferrusca**
+  - *Entrega extemporánea* (vale ×0.8)
+  - *Lenguaje:* Java
+  - *Estrategia:* La memoria es una cadena de texto; se reemplazan los
+    caracteres dentro de ésta. Las letras A-Z representan procesos, el
+    guión indica espacio vacío.
+  - *Código:* [Memoria.java](./FerruscaJorge/Memoria.java) y
+    [TestMemoria.java](./FerruscaJorge/TestMemoria.java)
+  - *Documentación:*
+    [instrucciones.txt](./FerruscaJorge/instrucciones.txt)
+  - *Comentarios:*
+    - Corrección: Si (citando a tu documentación) *se basa en colocar
+      el proceso en donde encuentre lugar primero* no se trata de
+      *peor ajuste* (dejar el espacio contiguo máximo tras la
+      asignación), sino que *primer ajuste*.
+    - Tuve que corregir tu código; la línea 147 de `Memoria.java` dice
+      `if(Tabla.asigna(nombre, tamanio) == 1)`, pero no hay ninguna
+      clase llamada `Tabla` ⇒ Reemplacé por `if
+      (Memoria.asigna(nombre, tamanio == 1)`, y funcionó
+      correctamente.
+    - Tus instrucciones no indican cuál es el programa primario. Ya
+      que incluyes instrucciones, deberías indicar que es `TestMemoria`.
+  - *Calificación:* 9 × 0.8 = **7.2**
+
+- **Ricardo Hernández**
+  - *Entrega extemporánea* (vale ×0.8)
+  - *Lenguaje:* Python
+  - *Estrategia:* La *memoria* es un arreglo, parte de un *prellenado*
+    constante; uno de los procesos es *finalizado* en el transcurso de
+    la vida del programa, que dura cinco iteraciones.
+  - *Código:* [memoria.py](./HernándezRicardo/memoria.py)
+  - *Documentación:* [README.md](./HernándezRicardo/README.md)
+  - *Comentarios:*
+	- Resulta *mucho* más sencillo leer tus comentarios si los pones
+      al inicio del bloque de código al que explican que si los pones
+      después de un comando. Por ejemplo, reemplazazr:
+
+			if indice == None: #no hay espacio para meter proceso, comprimimos
+				comprimir()
+				print('*Compactación requerida*\n')
+				contador_guiones()
+				indice = indice_para_insertar()
+				if indice == None: #no hay espacio para proceso después de comprimir
+					print ("Espacio insuficiente para proceso\n")
+
+	  Por:
+
+			if indice == None:
+				# No hay espacio para meter proceso, comprimimos
+				comprimir()
+				print('*Compactación requerida*\n')
+				contador_guiones()
+				indice = indice_para_insertar()
+				if indice == None:
+					# No hay espacio para proceso después de comprimir
+					print ("Espacio insuficiente para proceso\n")
+
+	  Aumentas mucho la legibilidad de lo que escribes. Va lo mismo
+      todo a lo largo del programa.
+    - Cuando recibes un proceso, no verificas si ya existe en
+      memoria.
+    - No especificas qué tipo de ajuste estás realizando (*primer
+      ajuste*). No implementas ningún otro tipo.
+    - Identificas correctamente cuando hace falta *compactación*. Ojo,
+      es *compactar*, no *comprimir*.
+    - Te recomiendo asomarte a las funciones de manejo de listas en
+      Python. ¡Son mucho más útiles de lo que imaginas! Por ejemplo,
+      tu función `contador_guiones()` mide once líneas. Podrías
+      reemplazarla por una sola:
+
+			len( filter( lambda x: x=='-', memoria ) )
+
+      La función `filter()` recibe dos parámetros: Una *función
+      lambda* (que es básicamente una función anónima que *reduce* su
+      entrada, entregando `True` o `False` para cada elemento). El
+      segundo elemento es tu arreglo, `memoria`. Entrega una lista
+      tomando únicamente los elementos para los cuales la función
+      lambda resultó verdadera. Y `len()` mide la longitud de esa
+      lista.
+    - En `contador_guiones()`, me llama la atención que declaras la
+      variable como global *para evitar el retorno*... ¡Mal estilo!
+      Muy poco recomendable. Te facilita algunas cosas en programas
+      cortos, pero te va a causar problemas si lo haces en un programa
+      decentemente largo. Usa variables locales siempre que puedas.
+
+  - *Calificación:* 8 × 0.8 = **6.4**
