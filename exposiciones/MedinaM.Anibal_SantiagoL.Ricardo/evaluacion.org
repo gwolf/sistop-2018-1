@@ -2,7 +2,7 @@
 #+author: Gunnar Wolf
 
 - Tema presentado por :: Aníbal Medina y Ricardo Santiago
-- Calificación global :: 5.64
+- Calificación global :: 6.34
 
 * Evaluación grupal
 |--------------+------------+----------+-----------+-------|
@@ -27,11 +27,11 @@
 * Evaluación del docente
 
 - Originalidad del tema :: Excelente (10)
-- Material desarrollado :: Insuficiente (0)
+- Material desarrollado :: Suficiente (5)
 - Contenido :: Suficiente (5)
 - Fuentes bibliográficas :: Insuficiente (0)
 - Uso del tiempo :: Excelente (10)
 - Dominio del tema :: Bueno (7.5)
 - Presencia :: Bueno (7.5)
-- Global :: 10×0.1 + 0×0.2 + 5×0.2 + 0×0.1 + 10×0.1 + 7.5×0.15 +
-            7.5×0.15 = *5.25*
+- Global :: 10×0.1 + 5×0.2 + 5×0.2 + 0×0.1 + 10×0.1 + 7.5×0.15 +
+            7.5×0.15 = *6.25*
