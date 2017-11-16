@@ -3,11 +3,13 @@ import java.util.concurrent.Semaphore;
 
 class MonitorGral {
 
-	private static Semaphore lanzaInterfaz = new Semaphore(-1);
+	private static Semaphore llegaMem = new Semaphore(0);
+	private static Semaphore llegaCPU = new Semaphore(0);
+	private static Semaphore lleganMonitores = new Semaphore(0);
 
-	private static MonitorMem monitorMemoria = new MonitorMem(lanzaInterfaz);
-	private static MonitorCPU monitorCPU = new MonitorCPU(lanzaInterfaz);
-	private static Interfaz interfaz = new Interfaz(lanzaInterfaz);
+	private static MonitorMem monitorMemoria = new MonitorMem(llegaMem,llegaCPU, lleganMonitores);
+	private static MonitorCPU monitorCPU = new MonitorCPU(llegaMem,llegaCPU);
+	private static Interfaz interfaz = new Interfaz(lleganMonitores);
 
 	private static ArrayList<String> datosMem = new ArrayList<String>();
 	private static ArrayList<String> datosCPU = new ArrayList<String>();
@@ -21,6 +23,12 @@ class MonitorGral {
 
 	public static boolean addMem(String aux){
 		return datosMem.add(aux);
+	}
+	public static void clearMem(){
+		datosMem.clear();
+	}
+	public static void clearCPU(){
+		datosCPU.clear();
 	}
 	public static boolean addCPU(String aux){
 		return datosCPU.add(aux);
