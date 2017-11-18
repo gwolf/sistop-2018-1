@@ -5,7 +5,9 @@
 Problema a resolver:
 		   Los alumnos y el asesor
 
-Estrategia:
+Estrategia:Se trato de implementar de una forma que se fuera asignando uno a uno
+	   y con  que no exita la posibilidad de que un proceso sea interrupido 
+	   por otro hasta que no finalice este.
 	  
 
 Patrones:
