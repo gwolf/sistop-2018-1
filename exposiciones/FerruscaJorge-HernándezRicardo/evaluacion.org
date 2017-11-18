@@ -1,0 +1,33 @@
+#+title: Evaluación de exposición: Algoritmo de Dekker
+#+author: Gunnar Wolf
+
+- Tema presentado por :: Jorge Ferrusca, Ricardo Hernández
+- Calificación global :: (8.27 × 0.3) + (8.25 × 0.7) = *8.256*
+
+* Evaluación grupal
+|--------------+------------+----------+-----------+-------|
+| Originalidad | Relevancia | Claridad | Presencia | Total |
+|--------------+------------+----------+-----------+-------|
+|           10 |         10 |      7.5 |       7.5 |  8.75 |
+|          7.5 |         10 |      7.5 |        10 |  8.75 |
+|          7.5 |         10 |      7.5 |       7.5 |  8.13 |
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|           10 |         10 |       10 |        10 |    10 |
+|          7.5 |         10 |      7.5 |       7.5 |  8.13 |
+|          7.5 |        7.5 |        5 |         5 |  6.25 |
+|           10 |         10 |       10 |        10 |    10 |
+|          7.5 |        7.5 |      7.5 |        10 |  8.13 |
+|--------------+------------+----------+-----------+-------|
+|         8.33 |       9.17 |     7.50 |      8.06 |  8.27 |
+#+TBLFM: @>$1..@>$4=vmean(@II..@III-1); f-2::@2$>..@>$>=vmean($1..$4); f-2
+* Evaluación del docente
+
+- Originalidad del tema :: Bueno (7.5)
+- Material desarrollado :: Bueno (7.5)
+- Contenido :: Excelente (10)
+- Fuentes bibliográficas :: Bueno (7.5)
+- Uso del tiempo :: Excelente (10)
+- Dominio del tema :: Bueno (7.5)
+- Presencia :: Bueno (7.5)
+- Global :: 7.5×0.1 + 7.5×0.2 + 10×0.2 + 7.5×0.1 + 10×0.1 + 7.5×0.15 +
+            7.5×0.15 = *8.25*
