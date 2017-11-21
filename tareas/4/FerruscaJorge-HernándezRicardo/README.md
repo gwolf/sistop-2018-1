@@ -23,9 +23,9 @@ Python
 El código está comentado línea por línea para su mejor entendimiento.
 
 El problema de resolvió con 2 mutex, uno para proteger las funciones principales y el otro como una ayuda para hacer átomica la función de cruzandoRio.
-Se usaron 2 semáforos para señalizar cuando había el número necesario de hackers y de selfs para abordar la balsa.
+Se usaron 2 semáforos para señalizar cuando había el número necesario de hackers y de serfs para abordar la balsa.
 
 La lógica fue la siguiente:
-* Se utilizó un contador para hackers y uno para selfs, los cuáles iban aumentando conforme se fueran creando hilos del tipo correspondiente, se hizo la comparación según las restricciones del programa (solo podían viajar 4 del mismo bando o dos y dos), dependiendo del caso en que cayera se hicieron los release() correspondientes de los semáforos para señalar que pueden abordar, todo esto protegido con un mutex para que no haya problemas con el contador y las comparaciones..
-Posteriormente se hizo el acquire() para que se quedarán esperando ahí hasta que se juntara el número correspondiente de hackers o selfs.
-Una vez liberado se procede a abordar la balsa, para esto se hace uso de la función cruzandoRio(), la cual recibe como argumento una cadena de qué desarrollador está abordando, después se aumenta el contador de personas que abordaron y si han abordado 4, la balsa parte. Se hace uso de comparaciones auxiliares solo para saber si abordó un hacker o abordó un self y al final imprimir cuántos de cada uno está viajando en la balsa.
+* Se utilizó un contador para hackers y uno para serfs, los cuáles iban aumentando conforme se fueran creando hilos del tipo correspondiente, se hizo la comparación según las restricciones del programa (solo podían viajar 4 del mismo bando o dos y dos), dependiendo del caso en que cayera se hicieron los release() correspondientes de los semáforos para señalar que pueden abordar, todo esto protegido con un mutex para que no haya problemas con el contador y las comparaciones..
+Posteriormente se hizo el acquire() para que se quedarán esperando ahí hasta que se juntara el número correspondiente de hackers o serfs.
+Una vez liberado, se procede a abordar la balsa, para esto se hace uso de la función cruzandoRio(), la cual recibe como argumento una cadena de qué desarrollador está abordando, después se aumenta el contador de personas que abordaron y si han abordado 4, la balsa parte. Se hace uso de comparaciones auxiliares solo para saber si abordó un hacker o abordó un serf y al final imprimir cuántos de cada uno está viajando en la balsa.
