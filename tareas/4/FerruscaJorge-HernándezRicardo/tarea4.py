@@ -1,5 +1,3 @@
-# *-* Encoding: utf-8 *-*
-
 # Problema: El Cruce del Río.
 # Planteamiento:
 # Para llegar a un encuentro de desarrolladores de sistemas operativos, hace falta cruzar un río en balsa.
@@ -34,12 +32,15 @@ barrera = threading.Barrier(4)
 # Función para señalar que se envía la balsa con x hackers y x selfs
 def cruzandoRio(desarrollador):
 	global personasBalsa, numHackers, numSerfs
+	# Ha abordado una persona
 	print("Aborda un ", desarrollador)
 	personasBalsa += 1
+	# Comparaciones para saber si el que abordó es hacker o serf
 	if desarrollador == "hacker":
 		numHackers += 1
 	if desarrollador == "self":
 		numSerfs += 1
+	# Si ya hay 4 personas en la balsa, ésta puede partir
 	if personasBalsa == 4:
 		print("La balsa se ha ido con ", numHackers, " hackers y con ", numSerfs, " serfs")
 		personasBalsa = 0
@@ -84,7 +85,7 @@ def llegaHacker(idHacker):
 		mutex.release()
 	# Cada hacker adquiere el semáforo señalando que está en la fila de espera
 	filaHackers.acquire()
-	# Si la barrera entra en "estado roto" se reinicia
+	# Si la barrera entra en "estado roto" se reinicia, solo por cualquier error
 	if barrera.broken:
 		barrera.reset()
 	# Se queda esperando hasta que 4 hilos esten en este "wait"
@@ -132,7 +133,7 @@ def llegaSerf(idSerf):
 		mutex.release()
 	# Serf se queda esperando a abordar
 	filaSerfs.acquire()
-	# Si la barrera entra en "estado roto" se reinicia
+	# Si la barrera entra en "estado roto" se reinicia, solo por cualquier error
 	if barrera.broken:
 		barrera.reset()
 	# Se queda esperando hasta que 4 hilos esten en este "wait"
@@ -141,6 +142,7 @@ def llegaSerf(idSerf):
 	proteccionBalsa.acquire()
 	cruzandoRio("self")
 	proteccionBalsa.release()
+
 
 # Empieza programa...
 hackers = 0
