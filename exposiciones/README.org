@@ -8,14 +8,16 @@ La evaluación de las exposiciones sigue los criterios descritos en las
 al grupo)
 
 
-|--------+-------------------------------------------+----------------------------------+-----------------------------------+---------------------------------------------------|
-| Fecha  | Tema                                      | Integrantes                      | Documentos                        | Evaluación                                        |
-|--------+-------------------------------------------+----------------------------------+-----------------------------------+---------------------------------------------------|
-| 3/oct  | Rootkits: Escondiéndose del administrador | Eduardo Valdez                   | [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_diapositivas.pdf][Presentación (PDF)]], [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_reporte.pdf][Reporte (PDF)]] | [[./ValdezEduardo/evaluacion.org]]                    |
-| 24/oct | Cargado y ligado                          | Héctor Martínez                  | [[./MartinezHector/CArgado_Ligado.pdf][Presentación (PDF)]]                | [[./MartinezHector/evaluacion.org]]                   |
-| 2/nov  | GitHub como un mini sistema de archivos   | Ricardo Santiago y Aníbal Medina | [[MedinaM.Anibal_SantiagoL.Ricardo/GitHub.pptx][Presentación (Powerpoint)]]         | [[./MedinaM.Anibal_SantiagoL.Ricardo/evaluacion.org]] |
-| 16/nov | Dekker                                    | Ferrusca, Ricardo Hernández      |                                   |                                                   |
-| 23/nov | Sistemas de inicio Unix                   | Edgar Saldaña                    |                                   |                                                   |
-|--------+-------------------------------------------+----------------------------------+-----------------------------------+---------------------------------------------------|
+|--------+--------------------------------------------------+------------------------------------+---------------------------------------------+------------|
+| Fecha  | Tema                                             | Integrantes                        | Documentos                                  | Evaluación |
+|--------+--------------------------------------------------+------------------------------------+---------------------------------------------+------------|
+| 3/oct  | Rootkits: Escondiéndose del administrador        | Eduardo Valdez                     | [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_diapositivas.pdf][Presentación (PDF)]], [[./ValdezEduardo/Rootkits_escondiéndose_del_administrador/Rootkits_reporte.pdf][Reporte (PDF)]]           | [[./ValdezEduardo/evaluacion.org][Evaluación]] |
+| 24/oct | Cargado y ligado                                 | Héctor Martínez                    | [[./MartinezHector/CArgado_Ligado.pdf][Presentación (PDF)]]                          | [[./MartinezHector/evaluacion.org][Evaluación]] |
+| 2/nov  | GitHub como un mini sistema de archivos          | Ricardo Santiago y Aníbal Medina   | [[MedinaM.Anibal_SantiagoL.Ricardo/GitHub.pptx][Presentación (Powerpoint)]]                   | [[./MedinaM.Anibal_SantiagoL.Ricardo/evaluacion.org][Evaluación]] |
+| 16/nov | Algoritmo de Dekker                              | Jorge Ferrusca y Ricardo Hernández | [[./FerruscaJorge-Hern%C3%A1ndezRicardo/Algoritmo%20Dekker%20SO.pdf][Presentación (PDF)]], [[./FerruscaJorge-Hern%C3%A1ndezRicardo/dekker.py][Implementación (Python)]] | [[./FerruscaJorge-Hern%C3%A1ndezRicardo/evaluacion.org][Evaluación]] |
+| 21/nov | Ataques a la seguridad mediante ligas simbólicas | Mijael Vázquez                     |                                             |            |
+| 23/nov | Sistemas de inicio Unix                          | Edgar Saldaña                      |                                             |            |
+| 28/nov | Sistemas cliente/servidor                        | Alberto Montalbán y Jesús Tirado   |                                             |            |
+|--------+--------------------------------------------------+------------------------------------+---------------------------------------------+------------|
 
 
