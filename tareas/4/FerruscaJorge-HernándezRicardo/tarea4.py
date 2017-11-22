@@ -30,10 +30,10 @@ barrera = threading.Barrier(4)
 
 
 # Función para señalar que se envía la balsa con x hackers y x selfs
-def cruzandoRio(desarrollador):
+def cruzandoRio(desarrollador,id):
 	global personasBalsa, numHackers, numSerfs
 	# Ha abordado una persona
-	print("Aborda un ", desarrollador)
+	print("Aborda el",desarrollador,id)
 	personasBalsa += 1
 	# Comparaciones para saber si el que abordó es hacker o serf
 	if desarrollador == "hacker":
@@ -42,7 +42,7 @@ def cruzandoRio(desarrollador):
 		numSerfs += 1
 	# Si ya hay 4 personas en la balsa, ésta puede partir
 	if personasBalsa == 4:
-		print("La balsa se ha ido con ", numHackers, " hackers y con ", numSerfs, " serfs")
+		print("La balsa se ha ido con",numHackers,"hackers y con",numSerfs,"serfs")
 		personasBalsa = 0
 		numSerfs = 0
 		numHackers = 0
@@ -56,7 +56,7 @@ def llegaHacker(idHacker):
 	global serfs
 	# Ha ingresado un hacker
 	hackers += 1
-	print("Hacker ", idHacker, " llegó")
+	print("Hacker",idHacker,"llegó")
 	# Hay mínimo 4 hackers (Primera posibilidad: 4 del mismo bando)
 	if hackers >= 4:
 		# Se liberan 4 hackers de la fila para poderse subir a la balsa
@@ -92,7 +92,7 @@ def llegaHacker(idHacker):
 	barrera.wait()
 	# Mutex para proteger la función cruzandoRio
 	proteccionBalsa.acquire()
-	cruzandoRio("hacker")
+	cruzandoRio("hacker",idHacker)
 	proteccionBalsa.release()
 
 
@@ -104,7 +104,7 @@ def llegaSerf(idSerf):
 	global serfs
 	# Ha ingresado un serf
 	serfs += 1
-	print("Serf ", idSerf, " llegó")
+	print("Serf",idSerf,"llegó")
 	# Hay mínimo 4 serfs en la fila
 	if serfs >= 4:
 		# Se señaliza que pueden pasar los 4 serfs
@@ -140,7 +140,7 @@ def llegaSerf(idSerf):
 	barrera.wait()
 	# Mutex para proteger la función cruzandoRio
 	proteccionBalsa.acquire()
-	cruzandoRio("self")
+	cruzandoRio("self",idSerf)
 	proteccionBalsa.release()
 
 
