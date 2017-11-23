@@ -1,0 +1,18 @@
+ Desarrolladores :
+		   Martinez Garduño Hector A. 
+		   Fuentes Rodriguez Jaziel G.
+
+Problema a resolver:
+		   Los alumnos y el asesor
+
+Estrategia:Se trato de implementar de una forma que se fuera asignando uno a uno
+	   y con  que no exita la posibilidad de que un proceso sea interrupido 
+	   por otro hasta que no finalice este.
+	  
+
+Patrones:
+	Se pude ver que si un alumno solo hace su pregunta se le es respondida,
+	Asi tambien solo tiene un numero limitado de estudiantes que es 5 y un 
+	numero limitado de 2 preguntas por cada uno, cada que el profesor 
+	contesta se cierra la asesoria, pero en algunos casos se pude volver que
+	un alumno vuelva a preguntar, recibiendo su respuesta.
