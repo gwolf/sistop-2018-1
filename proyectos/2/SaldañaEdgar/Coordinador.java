@@ -10,30 +10,41 @@ class Coordinador extends Thread {
 	private Semaphore coordinacionLista;
 	private Semaphore mutex = new Semaphore(1);
 	private Semaphore barrera = new Semaphore(0);
+	private static int cuenta = 0;
+
+	//datos recuperados por los colectores
+	private static String[] datos = new String[5];
 
 	private int libre;
 	private int total;
+
+	private static int num_datos = 5;
+
 	private static ColectorDeProceso[] colectores = new ColectorDeProceso[5];
+	static Semaphore colectoresListos = new Semaphore(1-colectores.length);
+
+	//Relación entre la variable a monitorear del sistema
+	// y la etiqueta que se mostrará en pantalla
+	private String[] variable = {"MemTotal",
+								"MemFree",
+								"MemAvailable",
+								"Dirty",
+								"Dirty"};
+
+	private String[] etiqueta = {"Total",
+								"Libre",
+								"Disponible",
+								"Sucia",
+								"Promedios"};
 
 	Coordinador(Semaphore coordinacionLista){
 		this.coordinacionLista = coordinacionLista;
 	}
 
 	public void run(){
-		colectores[0] = new ColectorDeProceso(0, "meminfo", "MemTotal", "Total", mutex, barrera);
-		colectores[1] = new ColectorDeProceso(1, "meminfo", "MemFree", "Libre", mutex, barrera);
-		colectores[2] = new ColectorDeProceso(2, "meminfo", "MemAvailable", "Disponible", mutex, barrera);
-		colectores[3] = new ColectorDeProceso(3, "meminfo", "Dirty", "Sucia", mutex, barrera);
-		colectores[4] = new ColectorDeProceso(4, "meminfo", "Dirty", "Promedios", mutex, barrera);
-
-		for (int i = 0; i < 10; i++) {
-			Monitor.addDatos("");
-		}
-
 		for (int i = 0; i < colectores.length; i++) {
-			colectores[i].start();
+			new ColectorDeProceso(i,"meminfo",variable[i],etiqueta[i],mutex,barrera).start();
 		}
-
 		try{
 			leeInfo("/proc/meminfo");
 		}catch(Exception e){
@@ -45,14 +56,19 @@ class Coordinador extends Thread {
 		Monitor.addDatos(obtenBarra(100-(libre*100)/total));
 		Monitor.addDatos(Interfaz.getLinea());
 
-		//Señal a la interfaz
-		coordinacionLista.release();
-
+		//Espero a que todos hayan llegado a la barrera
 		try{
-			sleep(2000);
+			colectoresListos.acquire();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+
+		for (int i = 0; i < datos.length; i++) {
+			Monitor.addDatos(datos[i]);
+			//System.out.println("Se añadió "+datos[i]);
+		}
+		//Señal a la interfaz
+		coordinacionLista.release();
 	}
 
 	//Lee información para la barra
@@ -69,9 +85,6 @@ class Coordinador extends Thread {
         b.close();
     }
 
-    public static int getNumColectores(){
-    	return colectores.length;
-    }
 
 	public int buscarNumero(String cadena){
     	String aux = "";
@@ -94,4 +107,17 @@ class Coordinador extends Thread {
 		barra = barra.concat(" "+ocupado + "%");
 		return barra;
 	}
+
+	public static int getNumColectores(){
+    	return colectores.length;
+    }
+    public static int getCuenta(){
+    	return cuenta;
+    }
+    public static void addCuenta(){
+    	cuenta++;
+    }
+    public static void addDato(int i, String dato){
+    	datos[i] = dato;
+    }
 }
