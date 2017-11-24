@@ -16,8 +16,9 @@ al grupo)
 | 2/nov  | GitHub como un mini sistema de archivos          | Ricardo Santiago y Aníbal Medina   | [[MedinaM.Anibal_SantiagoL.Ricardo/GitHub.pptx][Presentación (Powerpoint)]]                         | [[./MedinaM.Anibal_SantiagoL.Ricardo/evaluacion.org][Evaluación]] |
 | 16/nov | Algoritmo de Dekker                              | Jorge Ferrusca y Ricardo Hernández | [[./FerruscaJorge-Hern%C3%A1ndezRicardo/Algoritmo%20Dekker%20SO.pdf][Presentación (PDF)]], [[./FerruscaJorge-Hern%C3%A1ndezRicardo/dekker.py][Implementación (Python)]]       | [[./FerruscaJorge-Hern%C3%A1ndezRicardo/evaluacion.org][Evaluación]] |
 | 21/nov | Ataques a la seguridad mediante ligas simbólicas | Mijael Vázquez                     | [[./VazquezMijael/exposicion.odp][Exposición (ODP)]], [[./VazquezMijael/exposicion.pdf][Exposición (PDF)]], [[./VazquezMijael/reporte_exposicion.odt][Reporte (ODT)]] | [[./VazquezMijael/evaluacion.org][Evaluación]] |
-| 23/nov | Sistemas de inicio Unix                          | Edgar Saldaña                      |                                                   |            |
+| 23/nov | Sistemas de inicio Unix                          | Edgar Saldaña                      | [[./SaldañaEdgar/Sistemas de inicio.pdf][Reporte (PDF)]]                                     | [[./SaldañaEdgar/evaluacion.org][Evaluación]] |
 | 28/nov | Sistemas cliente/servidor                        | Alberto Montalbán y Jesús Tirado   |                                                   |            |
+| 30/nov |                                                  | Jaziel Fuentes                     |                                                   |            |
 |--------+--------------------------------------------------+------------------------------------+---------------------------------------------------+------------|
 
 
