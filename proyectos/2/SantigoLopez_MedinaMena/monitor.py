@@ -21,7 +21,7 @@ def CPU_info():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion de la memoria de la Computadora anfitriona
 def memory_info():
 	global semaforo
@@ -32,7 +32,7 @@ def memory_info():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion del tiempo de uso del cpu
 def use_time():
 	global semaforo
@@ -43,7 +43,7 @@ def use_time():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informcaion del uso de CPU
 def use_CPU():
 	global semaforo
@@ -54,7 +54,7 @@ def use_CPU():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion de las particiones de Disco
 def disk_part():
 	global semaforo
@@ -65,20 +65,20 @@ def disk_part():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion de los ultimos procesos ejecutados
 def process_act():
 	global semaforo
 	semaforo.acquire()
 	os.system("ps -l"); #mostramos los mas recientes en formato largo
-	semaforo.relase();
+	semaforo.release();
 #desplegando informacion del uso de memoria
 def mem_st():
 	global semaforo
 	semaforo.acquire()
 	os.system("free -h"); #mostramos espacio en memoria en formato Humano :V
 						  #eso quiere decir: escalado para que sea entendible
-	semaforo.relase();
+	semaforo.release();
 #desplegando informacion sobre los sistemas de archivos soportados por el OS
 def fileSys_info():
 	global semaforo
@@ -89,7 +89,7 @@ def fileSys_info():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion de ayuda para el manejo del monitor
 def info():
 	global semaforo
@@ -100,7 +100,7 @@ def info():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 #desplegando informacion sobre los desarrolladores
 def acerca_de():
 	global semaforo
@@ -111,7 +111,7 @@ def acerca_de():
 		print lectura
 		lectura = file.readline()
 	file.close()
-	semaforo.relase()
+	semaforo.release()
 """
 En este bloque se define el selector que controlara
 la ejecucion de cada Subproceso que se seleccione
@@ -121,6 +121,7 @@ def selector(eleccion):
 	if eleccion == "CPU_info":
 		hilo=threading.Thread(target = CPU_info)
 		hilo.start()
+
 	elif eleccion ==	"memory_info":
 		hilo=threading.Thread(target = memory_info)
 		hilo.start()
@@ -148,6 +149,15 @@ def selector(eleccion):
 	elif eleccion == "(??)":
 		hilo=threading.Thread(target = acerca_de)
 		hilo.start()
+	elif eleccion == "clean":
+		os.system("clear")
+		archivo = open("int_usuario.mon")
+		imagen = archivo.readline()
+		#generamos la impresion total de la interfaz
+		while imagen != "":
+			print imagen
+			imagen = archivo.readline()
+		archivo.close()	#cierre del flujo de archivo
 	elif eleccion == "quit":
 		return 0
 	else:
@@ -161,8 +171,9 @@ el siguiente bloque dibuja la interfaz en modo de texto
 plano para el monitor de recursos 
 """
 def interfaz_Usuario():
-	estado  = 1
+	estado = 1
 	#leemos interfaz desde un archivo
+	os.system("clear");
 	archivo = open("int_usuario.mon")
 	imagen = archivo.readline()
 	#generamos la impresion total de la interfaz
@@ -170,8 +181,9 @@ def interfaz_Usuario():
 		print imagen
 		imagen = archivo.readline()
 	archivo.close()	#cierre del flujo de archivo
-	command = raw_input("[choice]>>> " )
 	while estado == 1:
+		command = raw_input("[choice]>>> " )
 		estado = selector(command)
-		
+		time.sleep(0.1)
+	semaforo.release()	
 interfaz_Usuario()

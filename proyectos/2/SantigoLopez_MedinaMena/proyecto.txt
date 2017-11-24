@@ -5,6 +5,7 @@
 
 	Lenguaje utilizado
 		Python
+	Plataforma Linux - Ubuntu (Distibuciones Linux)
 
 	utilizando thread y Semaphore de threading para
 	la sincronizacion de los hilos, debido a que el
