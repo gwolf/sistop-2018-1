@@ -1,0 +1,14 @@
+-----------------Buenas---------------------
+
+este documento solo es para que te informes
+de que tienes que consultar la documentacion
+en "proyecto2.pdf" antes de utilizarlo.
+En dicho documento viene un apartado acerca
+del uso del monitor para que no andes perdido
+con la introduccion de comandos
+en todo caso es util que introduzcas el comando
+(?) en la linea [choice
+
+fin del comunicado
+---------------------------------------------
+
