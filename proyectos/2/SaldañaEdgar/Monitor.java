@@ -18,9 +18,6 @@ class Monitor {
 	public static boolean addDatos(String aux){
 		return datos.add(aux);
 	}
-	public static void addDatos(int id, String aux){
-		datos.add(id,aux);
-	}
 	public static void clearDatos(){
 		datos.clear();
 	}
