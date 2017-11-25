@@ -10,8 +10,8 @@ import tkinter
 num_nucleos = int(subprocess.getoutput("grep processor /proc/cpuinfo | wc -l"))
 
 # Lista de las funciones que se lanzarán en los hilos
-funcionesALanzar = [cpuUsuario,cpuSistema,cpuInactivo,memTotal,memLibre,memDisponible,memUso,memSwapTotal,memSwapLibre,memSwapUso,numProcesos,numProcEjecucion,tFuncionamiento,tInactivo,listaProc]
-func_monitor = len(funcionesALanzar)
+#funcionesALanzar = [cpuUsuario,cpuSistema,cpuInactivo,memTotal,memLibre,memDisponible,memUso,memSwapTotal,memSwapLibre,memSwapUso,numProcesos,numProcEjecucion,tFuncionamiento,tInactivo,listaProc]
+#func_monitor = len(funcionesALanzar)
 
 # Mutex para proteger al contador
 mutex = threading.Semaphore(1)
@@ -21,8 +21,8 @@ cont_hilos = 0
 # Semáforo para señalizar que todos los hilos cumplieron con su funcion
 senal = threading.Semaphore(0)
 
-######################################################
-
+####################################################################################################################
+'''
 # Función para señalizar entre hilos
 def senalProcesos():
 	global cont_hilos
@@ -35,8 +35,8 @@ def senalProcesos():
 		senal.release()
 	# Se libera mutex
 	mutex.release()
-
-############################################
+'''
+######################################################################################################################
 
 # Función que nos da el modelo del CPU de la computadora donde se corra el programa
 def modeloCPU():
@@ -57,7 +57,7 @@ def kernel():
     version_so = subprocess.getoutput("cat /proc/version | while read c1 c2 c3 c4; do echo $c1 $c2 $c3; done")
     return version_so
 
-########################################################
+########################################################################################################################
 
 # Función para saber el porcentaje de uso del cpu que está manejando el Usuario
 def cpuUsuario():
@@ -66,8 +66,8 @@ def cpuUsuario():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3; do echo $c2; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	senalProcesos()
-	return cpu_uso+"%"
+    #senalProcesos()
+    print(cpu_uso)
 
 # Función para saber el porcentaje de uso del cpu que está manejando el Sistema
 def cpuSistema():
@@ -76,8 +76,7 @@ def cpuSistema():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5; do echo $c4; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	senalProcesos()
-	return cpu_uso+"%"
+    return cpu_uso
 
 # Función para saber el porcentaje de uso que está Inactivo
 def cpuInactivo():
@@ -86,72 +85,57 @@ def cpuInactivo():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5 c6; do echo $c5; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	senalProcesos()
-	return cpu_uso+"%"
+    return cpu_uso
 
-####################################################
+#########################################################################################################################
 
 # Función para saber la memoria total que tiene nuestra computadora, se muestra en kB
 def memTotal():
     mem_total =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '1 p'")
-	senalProcesos()
-	return mem_total
+    return mem_total
 
 # Función para saber la memoria libre que tiene nuestra computadora, se muestra en kB
 def memLibre():
     mem_libre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '2 p'")
-	senalProcesos()
-	return mem_libre
-
-# Función para saber la memoria disponible que tiene nuestra computadora, se muestra en kB
-def memDisponible():
-    mem_disponible =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '3 p'")
-	senalProcesos()
-	return mem_disponible
+    return mem_libre
 
 # Función para saber la memoria que está usando el usuario, se muestra en kB
 def memUso():
     mem_uso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '7 p'")
-	senalProcesos()
-	return mem_uso
+    return mem_uso
 
 # Función para saber la memoria de intercambio total que tiene nuestra computadora, se muestra en kB
 def memSwapTotal():
     mem_swap =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '19 p'")
-	senalProcesos()
-	return mem_swap
+    return mem_swap
 
 # Función para saber la memoria de intercambio libre que tiene nuestra computadora, se muestra en kB
 def memSwapLibre():
     mem_swaplibre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '20 p'")
-	senalProcesos()
-	return mem_swaplibre
+    return mem_swaplibre
 
 # Función para saber la memoria de intercambio que está usando, se muestra en kB
 def memSwapUso():
     mem_swapuso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '6 p'")
-	senalProcesos()
-	return mem_swapuso
+    return mem_swapuso
 
-###############################################
+###########################################################################################################################
 
 # Función para saber el número de procesos que tenemos
 def numProcesos():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '/[0-9]*'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[1:]
-	senalProcesos()
-	return num_procesos
+    return num_procesos
 
 # Función para el número de procesos que estén ejecutandose en este momento
 def numProcEjecucion():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '[0-9]*/'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[:-1]
-	senalProcesos()
-	return num_procesos
+    return num_procesos
 
-##################################################
+###########################################################################################################################
 
 # Función de ayuda para convertir los segundos en un formato de HH:MM:SS para mayor estetica al momento de mostrarlo
 def horaCompleta(segundos):
@@ -180,8 +164,7 @@ def tFuncionamiento():
     t_funcionamiento = int(t_funcionamiento[:-3])
     # Transformamos los segundos en un formato más presentable
     t_funcionamiento = horaCompleta(t_funcionamiento)
-	senalProcesos()
-	return t_funcionamiento
+    return t_funcionamiento
 
 # Función para el tiempo que ha estado inactivo el sistema
 def tInactivo():
@@ -190,10 +173,9 @@ def tInactivo():
     t_inactivo = int(t_inactivo[:-3])
     # Transformamos los segundos en un formato más presentable
     t_inactivo = horaCompleta(t_inactivo)
-	senalProcesos()
-	return t_inactivo
+    return t_inactivo
 
-######################################################
+#####################################################################################################################
 
 # Función para listar los procesos que tengamos, hacemos uso del módulo "psutil"
 def listaProc():
@@ -216,19 +198,18 @@ def listaProc():
                 nombre.append(valor)
             elif llave == 'status':
                 status.append(valor)
-    for i in range(len(username)):
-        print("username:",username[i],"\tpid:",pid[i],"\tname:",nombre[i],"\tstatus:",status[i]+"\n")
-	senalProcesos()
+    return [len(username),username,pid,nombre,status]
 
-###############################################################################
-
+##########################################################################################################################
+'''
 # Función para lanzar los hilos, las variables que se usan están declaradas al principio del programa
 def iniciaHilos(arg):
     for i in funcionesALanzar:
         threading.Thread(target = i,args = []).start()
+'''
+##########################################################################################################################
 
-###############################################################
-
+# Función que contiene la interfaz gráfica con tkinter
 def interfaz():
 	contenedor = Tk()
 	contenedor.title("Monitor")
@@ -252,12 +233,12 @@ def interfaz():
 	label8 = Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=140)
 	label9 = Label(frame,text="*CPU",font="Verdana 10",bg="black",fg="red").place(x=0,y=160)
 	label10 = Label(frame,text="%CPU:",font="Verdana 10",bg="black",fg="white").place(x=0,y=180)
-	labelCU = Label(frame,text=" Uso",font="Verdana 10",bg="black",fg="white").place(x=80,y=180)
-	labelCS = Label(frame,text=" Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
-	labelCI = Label(frame,text=" Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
+	labelCU = Label(frame,text=cpuUsuario()+" Uso",font="Verdana 10",bg="black",fg="white").place(x=80,y=180)
+	labelCS = Label(frame,text=cpuSistema()+" Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
+	labelCI = Label(frame,text=cpuInactivo()+" Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
 	label11 = Label(frame,text="Tiempo: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
-	labelTF = Label(frame,text=" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
-	labelTI = Label(frame,text=" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
+	labelTF = Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
+	labelTI = Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
 	label12 = Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
 	label13 = Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
 	label14 = Label(frame,text="Total:",font="Verdana 10",bg="black",fg="white").place(x=0,y=260)
@@ -267,22 +248,6 @@ def interfaz():
 
 	frame.mainloop()
 
-###############################################################
+###########################################################################################################################
 
-modeloCPU()
-kernel()
-cpuUsuario()
-cpuSistema()
-cpuInactivo()
-memTotal()
-memLibre()
-memDisponible()
-memUso()
-memSwapTotal()
-memSwapLibre()
-memSwapUso()
-numProcesos()
-numProcEjecucion()
-tFuncionamiento()
-tInactivo()
-listaProc()
+interfaz()
