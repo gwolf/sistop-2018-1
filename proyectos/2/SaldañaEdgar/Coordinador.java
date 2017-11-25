@@ -7,68 +7,74 @@ import java.io.IOException;
 
 class Coordinador extends Thread {
 
-	private Semaphore coordinacionLista;
+	private Semaphore puedesImprimir = new Semaphore(0);
 	private Semaphore mutex = new Semaphore(1);
 	private Semaphore barrera = new Semaphore(0);
+	private Semaphore torniquete = new Semaphore(1);
 	private static int cuenta = 0;
-
-	//datos recuperados por los colectores
-	private static String[] datos = new String[5];
-
+	//private Interfaz interfaz = new Interfaz(torniquete,puedesImprimir);
 	private int libre;
 	private int total;
 
-	private static int num_datos = 5;
-
-	private static ColectorDeProceso[] colectores = new ColectorDeProceso[5];
-	static Semaphore colectoresListos = new Semaphore(1-colectores.length);
-
 	//Relación entre la variable a monitorear del sistema
 	// y la etiqueta que se mostrará en pantalla
-	private String[] variable = {"MemTotal",
-								"MemFree",
-								"MemAvailable",
-								"Dirty",
-								"Dirty"};
+	private String[] variable = {"MemTotal:",
+								"MemFree:",
+								"MemAvailable:",
+								"Dirty:",
+								"Active:",
+								"Inactive:",
+								"AnonPages:"};
 
-	private String[] etiqueta = {"Total",
-								"Libre",
-								"Disponible",
-								"Sucia",
-								"Promedios"};
+	private static String[] etiqueta = {"Total",
+										"Libre",
+										"Disponible",
+										"Sucia",
+										"Activa",
+										"Inactiva",
+										"Páginas anónimas"};
 
-	Coordinador(Semaphore coordinacionLista){
-		this.coordinacionLista = coordinacionLista;
-	}
+	private static int num_datos = etiqueta.length;
+	private static ColectorDeProceso[] colectores = new ColectorDeProceso[num_datos];
+	static Semaphore colectoresListos = new Semaphore(1-colectores.length);
+	//datos recuperados por los colectores
+	private static String[] datos = new String[num_datos];
 
 	public void run(){
-		for (int i = 0; i < colectores.length; i++) {
-			new ColectorDeProceso(i,"meminfo",variable[i],etiqueta[i],mutex,barrera).start();
-		}
-		try{
-			leeInfo("/proc/meminfo");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		Monitor.clearDatos();
-		Monitor.addDatos("MEMORIA");
-		//El argumento de obtenBarra es el porcentaje ocupado
-		Monitor.addDatos(obtenBarra(100-(libre*100)/total));
-		Monitor.addDatos(Interfaz.getLinea());
+		while(true){
+			for (int i = 0; i < colectores.length; i++) {
+				new ColectorDeProceso(i,"meminfo",variable[i],etiqueta[i],mutex,barrera,torniquete,puedesImprimir).start();
+			}
+			try{
+				leeInfo("/proc/meminfo");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			Monitor.clearDatos();
+			Monitor.addDatos("MEMORIA");
+			//El argumento de obtenBarra es el porcentaje ocupado
+			Monitor.addDatos(obtenBarra(100-(libre*100)/total));
+			Monitor.addDatos(Interfaz.getLinea());
 
-		//Espero a que todos hayan llegado a la barrera
-		try{
-			colectoresListos.acquire();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+			//Espero a que todos hayan pasado la barrera
+			try{
+				colectoresListos.acquire();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 
-		for (int i = 0; i < datos.length; i++) {
-			Monitor.addDatos(datos[i]);
-			//System.out.println("Se añadió "+datos[i]);
+			for (int i = 0; i < datos.length; i++)
+				Monitor.addDatos(datos[i]);
+
+
+			new Interfaz(torniquete,puedesImprimir).start();
+
+			try{
+				sleep(1500);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
-		//Señal a la interfaz
-		coordinacionLista.release();
 	}
 
 	//Lee información para la barra

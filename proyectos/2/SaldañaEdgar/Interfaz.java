@@ -2,29 +2,41 @@ import java.util.concurrent.Semaphore;
 
 class Interfaz extends Thread {
 	
-	static final int WIDE = 80;
-	private Semaphore coordinacionLista;
+	static final int WIDE = 60;
+	private Semaphore torniquete;
+	private Semaphore puedesImprimir;
 
-	Interfaz(Semaphore coordinacionLista){
-		this.coordinacionLista = coordinacionLista;
+	Interfaz(Semaphore torniquete, Semaphore puedesImprimir){
+		this.torniquete = torniquete;
+		this.puedesImprimir = puedesImprimir;
 	}
 
 	public void run(){
 		dibujaVentana();
 	}
 
-	private void dibujaVentana(){
+	private void dibujaVentana(){	
 
-		try{
-			coordinacionLista.acquire();
-		}catch(Exception e){
-			e.printStackTrace();
-		}			
+		clear();
+
+		System.out.println("Monitor de Memoria\n\n");	
 
 		for (int i = 0; i <= WIDE; i++) {
 			System.out.print("=");
 		}
 		System.out.println();
+
+		try{
+			torniquete.acquire();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		try{
+			puedesImprimir.acquire();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
 		for(int i = 0; i < Monitor.sizeDatos(); i++){
 			//Columna de la memoria
@@ -40,6 +52,9 @@ class Interfaz extends Thread {
 			System.out.print("=");
 		}
 		System.out.println();
+
+		torniquete.release();
+		puedesImprimir.release();
 	}
 
 	static public String getLinea(){

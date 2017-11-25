@@ -8,28 +8,42 @@ import java.io.BufferedReader;
 class ColectorDeProceso extends Thread {
 
 	String ruta = "/proc/";
-	//variable como está escrita en el sistema
+	//nombre de la variable como está escrita en el sistema
 	String var;
 	String etiqueta;
 	int id;
+	int num_hilos_escribiendo = 0;
 	
 	Semaphore mutex;
 	Semaphore barrera;
+	Semaphore torniquete;
+	Semaphore puedesImprimir;
 	int num_hilos = Coordinador.getNumColectores();
 	int cuenta;
 	
 
-	ColectorDeProceso(int id, String archivo, String var, String eti, Semaphore mutex, Semaphore barrera){
+	ColectorDeProceso(int id, String archivo, String var, String eti, Semaphore mutex, Semaphore barrera, Semaphore torniquete, Semaphore puedesImprimir){
 		this.ruta = ruta.concat(archivo);
 		this.var = var;
 		this.id = id;
 		this.etiqueta = eti;
 		this.mutex = mutex;
 		this.barrera = barrera;
-		this.cuenta = cuenta;
+		this.torniquete = torniquete;
+		this.puedesImprimir = puedesImprimir;
 	}
 
 	public void run(){
+
+		//torniquete para funcionamiento al estilo lectores-escritores
+		try{
+			torniquete.acquire();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		torniquete.release();
+
+		//System.out.println("Soy "+this.getName());
         String cadena;
         try{
         	FileReader f = new FileReader(ruta);
@@ -42,11 +56,15 @@ class ColectorDeProceso extends Thread {
 		}catch(Exception e){
         	e.printStackTrace();
         }
+        if(num_hilos_escribiendo == 0)
+        	puedesImprimir.release();
         //System.out.println("Añado - "+this.getName());
 	}
 
     //Implementación de la barrera
     public void agregaDatos(String cadena){
+
+    	num_hilos_escribiendo++;
     	
     	String aux = daFormato(cadena);
 
@@ -70,6 +88,8 @@ class ColectorDeProceso extends Thread {
     	//Punto crítico
 		Coordinador.addDato(id,aux);
 		Coordinador.colectoresListos.release();
+
+		num_hilos_escribiendo--;
     }
 
 	public String buscarNumero(String cadena){
@@ -84,6 +104,6 @@ class ColectorDeProceso extends Thread {
 
     public String daFormato(String cadena){
     	String aux = buscarNumero(cadena);
-    	return etiqueta.concat(":    "+aux+" kb");
+    	return etiqueta.concat(": "+aux+" kb");
     }
 }

@@ -3,15 +3,10 @@ import java.util.concurrent.Semaphore;
 
 class Monitor {
 
-	private static Semaphore coordinacionLista = new Semaphore(0);
-
-	private static Coordinador coordinador = new Coordinador(coordinacionLista);
-	private static Interfaz interfaz = new Interfaz(coordinacionLista);
-
+	private static Coordinador coordinador = new Coordinador();
 	private static ArrayList<String> datos = new ArrayList<String>();
 
 	public static void main(String[] args) {
-		interfaz.start();
 		coordinador.start();
 	}
 
