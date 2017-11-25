@@ -1,7 +1,6 @@
 # Proyecto 2 
 ## Monitor
 
-<<<<<<< HEAD
 ### Autores
 
 ### Lenguaje
@@ -44,5 +43,5 @@ El Monitor muestra datos como: Memoria, porcentaje de CPU, tu SO, y lo mas impor
 #### Entorno 
 Fue programado en sistemas basados en Debian.
 
-### Interfaz 
+#### Interfaz 
 Se hizo uso del modulo *tkinter* para la interfaz gráfica.
