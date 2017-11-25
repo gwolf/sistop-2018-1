@@ -1,10 +1,10 @@
+from tkinter import *
+from tkinter import ttk
 import subprocess
 import time
 import sys
 import threading
 import psutil
-import tkinter
-
 
 # Variable para saber el numero de nucleos que tiene nuestra computadora
 num_nucleos = int(subprocess.getoutput("grep processor /proc/cpuinfo | wc -l"))
@@ -67,7 +67,7 @@ def cpuUsuario():
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
     #senalProcesos()
-    print(cpu_uso)
+    return str(cpu_uso)
 
 # Función para saber el porcentaje de uso del cpu que está manejando el Sistema
 def cpuSistema():
@@ -76,7 +76,7 @@ def cpuSistema():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5; do echo $c4; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-    return cpu_uso
+    return str(cpu_uso)
 
 # Función para saber el porcentaje de uso que está Inactivo
 def cpuInactivo():
@@ -85,7 +85,7 @@ def cpuInactivo():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5 c6; do echo $c5; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-    return cpu_uso
+    return str(cpu_uso)
 
 #########################################################################################################################
 
@@ -217,33 +217,37 @@ def interfaz():
 	frame.pack(padx=20,pady=20)
 	frame.configure(bg = "black")
 
-	label1 = Label(frame,text="*Características",fg="red",font="Verdana 10",bg="black").place(x=0,y=0)
-	label2 = Label(frame,text="Kernel:   " +  kernel(),font="Verdana 10",bg="black",fg="white").place(x=0,y=20)
-	label3 = Label(frame,text="Procesador:   " + modeloCPU(),font="Verdana 10",bg="black",fg="white").place(x=0,y=40)
-	label4 = Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=60)
-	label5 = Label(frame,text="*Memoria",font="Verdana 10",bg="black",fg="red").place(x=0,y=80)
-	label6 = Label(frame,text="memoria: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=100)
-	labelT = Label(frame,text=memTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=100)
-	labelL = Label(frame,text=memLibre() + " Libre",font="Verdana 10",bg="black",fg="white").place(x=210,y=100)
-	labelU = Label(frame,text=memUso() + " En uso",font="Verdana 10",bg="black",fg="white").place(x=340,y=100)
-	label7 = Label(frame,text="swap: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=120)
-	labelST = Label(frame,text=memSwapTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=120)
-	labelSL = Label(frame,text=memSwapLibre() + " Libre",font="Verdana 10",bg="black",fg="white").place(x=210,y=120)
-	labelSU = Label(frame,text=memSwapUso() + " En uso",font="Verdana 10",bg="black",fg="white").place(x=340,y=120)
-	label8 = Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=140)
-	label9 = Label(frame,text="*CPU",font="Verdana 10",bg="black",fg="red").place(x=0,y=160)
-	label10 = Label(frame,text="%CPU:",font="Verdana 10",bg="black",fg="white").place(x=0,y=180)
-	labelCU = Label(frame,text=cpuUsuario()+" Uso",font="Verdana 10",bg="black",fg="white").place(x=80,y=180)
-	labelCS = Label(frame,text=cpuSistema()+" Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
-	labelCI = Label(frame,text=cpuInactivo()+" Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
-	label11 = Label(frame,text="Tiempo: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
-	labelTF = Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
-	labelTI = Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
-	label12 = Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
-	label13 = Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
-	label14 = Label(frame,text="Total:",font="Verdana 10",bg="black",fg="white").place(x=0,y=260)
-	labelCU = Label(frame,text="",font="Verdana 10",bg="black",fg="white").place(x=80,y=2600)
-	label15 = Label(frame,text="Activos: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
+	Label(frame,text="*Características",fg="red",font="Verdana 10",bg="black").place(x=0,y=0)
+	Label(frame,text="Kernel:   " +  kernel(),font="Verdana 10",bg="black",fg="white").place(x=0,y=20)
+	Label(frame,text="Procesador:   " + modeloCPU(),font="Verdana 10",bg="black",fg="white").place(x=0,y=40)
+	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=60)
+	Label(frame,text="*Memoria",font="Verdana 10",bg="black",fg="red").place(x=0,y=80)
+	Label(frame,text="memoria: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=100)
+	Label(frame,text=memTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=100)
+	Label(frame,text=memLibre() + " Libre",font="Verdana 10",bg="black",fg="white").place(x=210,y=100)
+	Label(frame,text=memUso() + " En uso",font="Verdana 10",bg="black",fg="white").place(x=340,y=100)
+	Label(frame,text="swap: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=120)
+	Label(frame,text=memSwapTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=120)
+	Label(frame,text=memSwapLibre() + " Libre",font="Verdana 10",bg="black",fg="white").place(x=210,y=120)
+	Label(frame,text=memSwapUso() + " En uso",font="Verdana 10",bg="black",fg="white").place(x=340,y=120)
+	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=140)
+	Label(frame,text="*CPU",font="Verdana 10",bg="black",fg="red").place(x=0,y=160)
+	Label(frame,text="%CPU:",font="Verdana 10",bg="black",fg="white").place(x=0,y=180)
+	Label(frame,text=cpuUsuario()+" Uso",font="Verdana 10",bg="black",fg="white").place(x=80,y=180)
+	Label(frame,text=cpuSistema()+" Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
+	Label(frame,text=cpuInactivo()+" Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
+	Label(frame,text="Tiempo: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
+	Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
+	Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
+	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
+	Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
+	Label(frame,text="Total:",font="Verdana 10",bg="black",fg="white").place(x=0,y=260)
+	Label(frame,text="",font="Verdana 10",bg="black",fg="white").place(x=80,y=2600)
+	Label(frame,text="Activos: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
+	Label(frame,text="Username ",font="Verdana 10",bg="black",fg="cyan").place(x=0,y=290)
+	Label(frame,text="PID ",font="Verdana 10",bg="black",fg="cyan").place(x=125,y=290)
+	Label(frame,text="Nombre ",font="Verdana 10",bg="black",fg="cyan").place(x=250,y=290)
+	Label(frame,text="Estado ",font="Verdana 10",bg="black",fg="cyan").place(x=375,y=290)
 	ttk.Button( text='Salir', command=quit).pack(side=BOTTOM)
 
 	frame.mainloop()
