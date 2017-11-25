@@ -1,0 +1,22 @@
+================================================
+			  monitor de recursos
+(?)ayuda 	 					   acerca_de(??)
+================================================
+CPU_info|memory_info|use_time|use_CPU|disk_part|
+	process_act|mem_st|fileSys_info
+[choice]>>{espera_cadena_elegida}
+
+
+(?) 			despliega este documento
+(??) 			despliega informacion acerca del proyecto
+	 			y sus desarrolladores
+quit			cierra el monitor
+CPU_info 		muestra informacion del CPU
+memory_info 	Muestra informacion de la memoria instalada
+use_time 		tiempo de uso de la computadora
+use_CPU 		uso del CPU
+disk_part 		particiones de disco
+process_act 	ultimos procesos ejecutados
+mem_st 			estado de memoria
+fileSys_info 	sitemas de Archivos soportados
+

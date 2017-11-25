@@ -1,0 +1,32 @@
+=============================Monitor de Recursos===================================
+	Autores
+		-Santiago Lopez Ricardo
+		-Medina Mena Anibal
+
+	Lenguaje utilizado
+		Python
+	Plataforma Linux - Ubuntu (Distibuciones Linux)
+
+	utilizando thread y Semaphore de threading para
+	la sincronizacion de los hilos, debido a que el
+	semaforo, a diferencia de los otros mecanismos 
+	nos facilita la sincronizacion entre multiples 
+	procesos y ademas nos resulto mas sencilla y 
+	entendible su implementacion.
+
+
+	Toda la informacion consultada acerca de los re-
+	cursos de la computadora fueron extraidos de la
+	carpeta /proc
+
+
+	Listado de recursos que nos parecio interesantes
+		-CPU (informacion tecnica y tiempo de uso)
+		-Memoria (informacion tecnica y uso)
+		-particiones de disco
+		-sistemas de archivos soportados
+		-procesos recientes
+		-tiempo de uso de la Computadora
+
+	pagina de referencia donde consulte el contenido de /proc
+	https://www.linuxtotal.com.mx/index.php?cont=info_admon_016
