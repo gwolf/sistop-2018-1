@@ -1,0 +1,3 @@
+Programa de administracion de Memoria
+Diseñado por programacion en C,
+En este se puede ver el caso donde calcula la mejor opcion para la ocupacion en la memoria.
