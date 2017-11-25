@@ -1,10 +1,8 @@
 # Proyecto 2 
 ## Monitor
 
+<<<<<<< HEAD
 ### Autores
-
-* Ferrusca Ortiz Jorge Luis
-* Hernández González Ricardo Omar 
 
 ### Lenguaje
 
@@ -18,7 +16,7 @@ Escribir el siguiente comando en terminal
 python3 Monitor.py
 ```
 
-### Dependencias:
+### Dependencias
 
 Se necesitan instalar los siguientes modulos: 
 
