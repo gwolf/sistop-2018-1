@@ -22,7 +22,7 @@ python3 Monitor.py
 Se necesitan instalar los siguientes modulos: 
 
 * *psutil* 
-Descargar la versión 5.4.1, de [Python psutil](https://pypi.python.org/pypi?:action=display&name=psutil#downloads), descomprimirlo, entrar a la carpeta descomprimida y escribir el siguiente comando en terminal
+- Descargar la versión 5.4.1, de [Python psutil](https://pypi.python.org/pypi?:action=display&name=psutil#downloads), descomprimirlo, entrar a la carpeta descomprimida y escribir el siguiente comando en terminal
 
 ```
 sudo python3 setup.py install
@@ -35,7 +35,7 @@ sudo apt-get install python3-dev
 ```
 
 * *tkinter* 
-Ejecutar en terminal
+- Ejecutar en terminal
 
 ```
 sudo apt-get install python3-tk
