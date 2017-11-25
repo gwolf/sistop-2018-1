@@ -16,35 +16,57 @@ class Coordinador extends Thread {
 	private int libre;
 	private int total;
 
-	//Relación entre la variable a monitorear del sistema
-	// y la etiqueta que se mostrará en pantalla
+	/*Relación entre la variable a monitorear del sistema
+	y la etiqueta que se mostrará en pantalla
+	para agregar o eliminar variables qué monitorear
+	bastará con agregar o quitar elementos de
+	ambas listas.
+	*/
 	private String[] variable = {"MemTotal:",
 								"MemFree:",
 								"MemAvailable:",
-								"Dirty:",
+								"Buffers",
 								"Active:",
+								"Active(anon)",
+								"Inactive(anon)",
 								"Inactive:",
-								"AnonPages:"};
+								"AnonPages:",
+								"SwapTotal",
+								"SwapFree",
+								"Dirty:"
+								};
 
 	private static String[] etiqueta = {"Total",
 										"Libre",
 										"Disponible",
-										"Sucia",
+										"Buffers",
 										"Activa",
+										"Activa anónima",
+										"Inactiva anónima",
 										"Inactiva",
-										"Páginas anónimas"};
+										"Páginas anónimas",
+										"Swap total",
+										"Swap libre",
+										"Sucia"
+										};
 
 	private static int num_datos = etiqueta.length;
 	private static ColectorDeProceso[] colectores = new ColectorDeProceso[num_datos];
-	static Semaphore colectoresListos = new Semaphore(1-colectores.length);
+	static Semaphore colectoresListos = new Semaphore(1 - num_datos);
 	//datos recuperados por los colectores
 	private static String[] datos = new String[num_datos];
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_RESET = "\u001B[0m";
+
+
 
 	public void run(){
+
 		while(true){
-			for (int i = 0; i < colectores.length; i++) {
-				new ColectorDeProceso(i,"meminfo",variable[i],etiqueta[i],mutex,barrera,torniquete,puedesImprimir).start();
+			for (int i = 0; i < etiqueta.length; i++) {
+				new ColectorDeProceso(i,variable[i],etiqueta[i],mutex,barrera,torniquete,puedesImprimir).start();
 			}
+			
 			try{
 				leeInfo("/proc/meminfo");
 			}catch(Exception e){
@@ -66,7 +88,6 @@ class Coordinador extends Thread {
 			for (int i = 0; i < datos.length; i++)
 				Monitor.addDatos(datos[i]);
 
-
 			new Interfaz(torniquete,puedesImprimir).start();
 
 			try{
@@ -77,7 +98,7 @@ class Coordinador extends Thread {
 		}
 	}
 
-	//Lee información para la barra
+	//Lee información para la barra de utilización de la memoria
     public void leeInfo(String archivo) throws FileNotFoundException, IOException {
         String cadena;
         FileReader f = new FileReader(archivo);
@@ -91,7 +112,6 @@ class Coordinador extends Thread {
         b.close();
     }
 
-
 	public int buscarNumero(String cadena){
     	String aux = "";
         char[] arreglo = cadena.toCharArray();
@@ -104,14 +124,14 @@ class Coordinador extends Thread {
 
     public String obtenBarra(int ocupado){
 		String barra = "";
-		for (int i =0; i < ((Interfaz.WIDE*ocupado)/200)-((ocupado)/15); i++) {
+		for (int i =0; i < ((Interfaz.WIDE*ocupado)/100)-((ocupado)/20); i++) {
 			barra = barra + '#';
 		}
-		for (int i =0; i < (((Interfaz.WIDE*100)-1000-(ocupado*Interfaz.WIDE)+(10*ocupado))/200); i++) {
+		for (int i =0; i < Interfaz.WIDE-5-(((Interfaz.WIDE*ocupado)/100)-((ocupado)/20)); i++) {
 			barra = barra + '·';
 		}
 		barra = barra.concat(" "+ocupado + "%");
-		return barra;
+		return ANSI_YELLOW+barra+ANSI_RESET;
 	}
 
 	public static int getNumColectores(){

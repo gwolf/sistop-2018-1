@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 
 class ColectorDeProceso extends Thread {
 
-	String ruta = "/proc/";
+	String ruta = "/proc/meminfo";
 	//nombre de la variable como está escrita en el sistema
 	String var;
 	String etiqueta;
@@ -20,10 +20,8 @@ class ColectorDeProceso extends Thread {
 	Semaphore puedesImprimir;
 	int num_hilos = Coordinador.getNumColectores();
 	int cuenta;
-	
 
-	ColectorDeProceso(int id, String archivo, String var, String eti, Semaphore mutex, Semaphore barrera, Semaphore torniquete, Semaphore puedesImprimir){
-		this.ruta = ruta.concat(archivo);
+	ColectorDeProceso(int id, String var, String eti, Semaphore mutex, Semaphore barrera, Semaphore torniquete, Semaphore puedesImprimir){
 		this.var = var;
 		this.id = id;
 		this.etiqueta = eti;

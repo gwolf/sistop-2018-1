@@ -6,6 +6,10 @@ class Interfaz extends Thread {
 	private Semaphore torniquete;
 	private Semaphore puedesImprimir;
 
+	//Definición de constantes para colorear el texto
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+
 	Interfaz(Semaphore torniquete, Semaphore puedesImprimir){
 		this.torniquete = torniquete;
 		this.puedesImprimir = puedesImprimir;
@@ -19,19 +23,19 @@ class Interfaz extends Thread {
 
 		clear();
 
-		System.out.println("Monitor de Memoria\n\n");	
+		System.out.println("---------------------MONITOR DE MEMORIA---------------------\n\n");	
 
 		for (int i = 0; i <= WIDE; i++) {
 			System.out.print("=");
 		}
 		System.out.println();
-
+		//bloqueo del torniquete de los colectores
 		try{
 			torniquete.acquire();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
+		//verifica que no haya hilos colectores escribiendo
 		try{
 			puedesImprimir.acquire();
 		}catch(Exception e){
@@ -52,7 +56,6 @@ class Interfaz extends Thread {
 			System.out.print("=");
 		}
 		System.out.println();
-
 		torniquete.release();
 		puedesImprimir.release();
 	}
