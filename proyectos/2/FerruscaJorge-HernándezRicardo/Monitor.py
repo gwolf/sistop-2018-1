@@ -16,6 +16,7 @@ func_monitor = len(funcionesALanzar)
 # Mutex para proteger al contador
 mutex = threading.Semaphore(1)
 global cont_hilos
+frame = False
 cont_hilos = 0
 
 # Semáforo para señalizar que todos los hilos cumplieron con su funcion
@@ -226,6 +227,7 @@ def iniciaHilos():
 
 # Función que contiene la interfaz gráfica con tkinter
 def interfaz():
+	global frame
 	contenedor = Tk()
 	contenedor.title("Monitor")
 	frame = Frame(contenedor,heigh=1000,width=1000)
@@ -236,6 +238,8 @@ def interfaz():
 	Label(frame,text="Kernel:   " +  kernel(),font="Verdana 10",bg="black",fg="white").place(x=0,y=20)
 	Label(frame,text="Procesador:   " + modeloCPU(),font="Verdana 10",bg="black",fg="white").place(x=0,y=40)
 	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=60)
+	
+def actualiza():
 	Label(frame,text="*Memoria",font="Verdana 10",bg="black",fg="red").place(x=0,y=80)
 	Label(frame,text="memoria: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=100)
 	Label(frame,text=memTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=100)
@@ -273,24 +277,27 @@ def interfaz():
 	        ejey += 20
 	    ejex += 125
 	ttk.Button( text='Salir', command=quit).pack(side=BOTTOM)
-
-	frame.mainloop()
+	frame.after(2000, actualiza)
 
 ###########################################################################################################################
 
 def funcPrincipal():
 	global cont_hilos
+	global frame
 	while True:
 		iniciaHilos()
 		# Espera a que todos los hilos terminen
+		print("una vez")
 		senal.acquire()
 		interfaz()
+		actualiza()
 		time.sleep(2)
 		# Mutex para reiniciar contador
 		mutex.acquire()
 		cont_hilos -= func_monitor
 		#Lo libera y continúa con su tarea (limpiar la interfaz para una nueva impresión)
 		mutex.release()
+		frame.mainloop()
 
 ##########################################################################################################################
 
