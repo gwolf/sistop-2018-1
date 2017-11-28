@@ -9,12 +9,9 @@ import psutil
 # Variable para saber el numero de nucleos que tiene nuestra computadora
 num_nucleos = int(subprocess.getoutput("grep processor /proc/cpuinfo | wc -l"))
 
-# Lista de las funciones que se lanzarán en los hilos
-funcionesALanzar = ["cpuUsuario","cpuSistema","cpuInactivo","memTotal","memLibre","memUso","memSwapTotal","memSwapLibre","memSwapUso","numProcesos","numProcEjecucion","tFuncionamiento","tInactivo","listaProc"]
-func_monitor = len(funcionesALanzar)
-
 # Mutex para proteger al contador
 mutex = threading.Semaphore(1)
+mutex_aviso = threading.Semaphore(1)
 global cont_hilos
 cont_hilos = 0
 
@@ -25,16 +22,16 @@ senal = threading.Semaphore(0)
 
 # Función para señalizar entre hilos
 def avisoProc():
-	global cont_hilos
 	# Adquirimos el mutex para escritura y lectura de la variable contador de hilos
-	mutex.acquire()
+	mutex_aviso.acquire()
+	global cont_hilos
     # Un hilo ha pasado por aquí
 	cont_hilos += 1
 	# Si todos los hilos ya pasaron por aquí, mandan la señal para que se vuelvan a lanzar
 	if cont_hilos == func_monitor:
 		senal.release()
 	# Se libera mutex
-	mutex.release()
+	mutex_aviso.release()
 
 ######################################################################################################################
 
@@ -76,8 +73,8 @@ def cpuSistema():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5; do echo $c4; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	avisoProc()
-	return str(cpu_uso)
+    avisoProc()
+    return str(cpu_uso)
 
 # Función para saber el porcentaje de uso que está Inactivo
 def cpuInactivo():
@@ -86,7 +83,7 @@ def cpuInactivo():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5 c6; do echo $c5; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	avisoProc()
+    avisoProc()
     return str(cpu_uso)
 
 #########################################################################################################################
@@ -94,37 +91,37 @@ def cpuInactivo():
 # Función para saber la memoria total que tiene nuestra computadora, se muestra en kB
 def memTotal():
     mem_total =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '1 p'")
-	avisoProc()
+    avisoProc()
     return mem_total
 
 # Función para saber la memoria libre que tiene nuestra computadora, se muestra en kB
 def memLibre():
     mem_libre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '2 p'")
-	avisoProc()
+    avisoProc()
     return mem_libre
 
 # Función para saber la memoria que está usando el usuario, se muestra en kB
 def memUso():
     mem_uso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '7 p'")
-	avisoProc()
+    avisoProc()
     return mem_uso
 
 # Función para saber la memoria de intercambio total que tiene nuestra computadora, se muestra en kB
 def memSwapTotal():
     mem_swap =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '19 p'")
-	avisoProc()
+    avisoProc()
     return mem_swap
 
 # Función para saber la memoria de intercambio libre que tiene nuestra computadora, se muestra en kB
 def memSwapLibre():
     mem_swaplibre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '20 p'")
-	avisoProc()
+    avisoProc()
     return mem_swaplibre
 
 # Función para saber la memoria de intercambio que está usando, se muestra en kB
 def memSwapUso():
     mem_swapuso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '6 p'")
-	avisoProc()
+    avisoProc()
     return mem_swapuso
 
 ###########################################################################################################################
@@ -134,7 +131,7 @@ def numProcesos():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '/[0-9]*'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[1:]
-	avisoProc()
+    avisoProc()
     return num_procesos
 
 # Función para el número de procesos que estén ejecutandose en este momento
@@ -142,7 +139,7 @@ def numProcEjecucion():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '[0-9]*/'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[:-1]
-	avisoProc()
+    avisoProc()
     return num_procesos
 
 ###########################################################################################################################
@@ -174,7 +171,7 @@ def tFuncionamiento():
     t_funcionamiento = int(t_funcionamiento[:-3])
     # Transformamos los segundos en un formato más presentable
     t_funcionamiento = horaCompleta(t_funcionamiento)
-	avisoProc()
+    avisoProc()
     return t_funcionamiento
 
 # Función para el tiempo que ha estado inactivo el sistema
@@ -184,7 +181,7 @@ def tInactivo():
     t_inactivo = int(t_inactivo[:-3])
     # Transformamos los segundos en un formato más presentable
     t_inactivo = horaCompleta(t_inactivo)
-	avisoProc()
+    avisoProc()
     return t_inactivo
 
 #####################################################################################################################
@@ -210,15 +207,18 @@ def listaProc():
                 nombre.append(valor)
             elif llave == 'status':
                 status.append(valor)
-	avisoProc()
+    avisoProc()
     return [len(username),username,pid,nombre,status]
 
 ##########################################################################################################################
 
+funcionesALanzar = [cpuUsuario, cpuSistema,cpuInactivo, memTotal,memLibre,memUso,memSwapTotal,memSwapLibre,memSwapUso,numProcesos,numProcEjecucion,tFuncionamiento,tInactivo,listaProc]
+func_monitor = len(funcionesALanzar)
+
 # Función para lanzar los hilos, las variables que se usan están declaradas al principio del programa
 def iniciaHilos():
     for i in funcionesALanzar:
-        threading.Thread(target = i,args = []).start()
+        threading.Thread(target = i).start()
 
 ##########################################################################################################################
 
@@ -226,7 +226,7 @@ def iniciaHilos():
 def interfaz():
 	contenedor = Tk()
 	contenedor.title("Monitor")
-	frame = Frame(contenedor,heigh=1000,width=1000)
+	frame = Frame(contenedor,heigh=600,width=500)
 	frame.pack(padx=20,pady=20)
 	frame.configure(bg = "black")
 
@@ -250,29 +250,30 @@ def interfaz():
 	Label(frame,text=cpuSistema()+"% Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
 	Label(frame,text=cpuInactivo()+"% Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
 	Label(frame,text="Tiempo: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
-	Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
-	Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
+	Label(frame,text=tFuncionamiento()+" Funcionando",font="Verdana 10",bg="black",fg="white").place(x=120,y=200)
+	Label(frame,text=tInactivo()+" Inactivo",font="Verdana 10",bg="black",fg="white").place(x=320,y=200)
 	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
-	procesoss = listaProc()
+	procesosListado = listaProc()
 	Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
 	Label(frame,text="Total:",font="Verdana 10",bg="black",fg="white").place(x=0,y=260)
-	Label(frame,text=len(procesoss),font="Verdana 10",bg="black",fg="white").place(x=80,y=260)
+	Label(frame,text=procesosListado[0],font="Verdana 10",bg="black",fg="white").place(x=80,y=260)
 	Label(frame,text="Activos: ",font="Verdana 10",bg="black",fg="white").place(x=250,y=260)
 	Label(frame,text="Username ",font="Verdana 10",bg="black",fg="cyan").place(x=0,y=290)
 	Label(frame,text="PID ",font="Verdana 10",bg="black",fg="cyan").place(x=125,y=290)
 	Label(frame,text="Nombre ",font="Verdana 10",bg="black",fg="cyan").place(x=250,y=290)
 	Label(frame,text="Estado ",font="Verdana 10",bg="black",fg="cyan").place(x=375,y=290)
-	ejey = 310
+	Button( text='Salir', command=quit, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
+	Button( text='Actualizar', command=contenedor.destroy, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
 	ejex = 0
-	for i in range(1,len(procesoss)):
+	for i in range(1,len(procesosListado)):
 	    ejey = 310
-	    for j in range(procesoss[0]):
-	        Label(frame,text=procesoss[i][j],font="Verdana 10",bg="black",fg="white").place(x=ejex,y=ejey)
+	    for j in range(procesosListado[0]):
+	        Label(frame,text=procesosListado[i][j],font="Verdana 10",bg="black",fg="white").place(x=ejex,y=ejey)
 	        ejey += 20
 	    ejex += 125
-	ttk.Button( text='Salir', command=quit).pack(side=BOTTOM)
-
 	frame.mainloop()
+
+
 
 ###########################################################################################################################
 
@@ -281,13 +282,12 @@ def funcPrincipal():
 	while True:
 		iniciaHilos()
 		# Espera a que todos los hilos terminen
+		print("una vez")
 		senal.acquire()
 		interfaz()
-		time.sleep(2)
 		# Mutex para reiniciar contador
 		mutex.acquire()
-		cont_hilos -= func_monitor
-		#Lo libera y continúa con su tarea (limpiar la interfaz para una nueva impresión)
+		cont_hilos = 0
 		mutex.release()
 
 ##########################################################################################################################
