@@ -76,8 +76,8 @@ def cpuSistema():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5; do echo $c4; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	avisoProc()
-	return str(cpu_uso)
+    avisoProc()
+    return str(cpu_uso)
 
 # Función para saber el porcentaje de uso que está Inactivo
 def cpuInactivo():
@@ -86,7 +86,7 @@ def cpuInactivo():
     cpu_estado2 = subprocess.getoutput("cat /proc/stat | grep 'cpu ' | while read c1 c2 c3 c4 c5 c6; do echo $c5; done")
     # Para calcular el tiempo se toman dos muestreos con un segundo de diferencia y se divide entre el número de nucleos
     cpu_uso = (int(cpu_estado2) - int(cpu_estado1)) / num_nucleos
-	avisoProc()
+    avisoProc()
     return str(cpu_uso)
 
 #########################################################################################################################
@@ -94,37 +94,37 @@ def cpuInactivo():
 # Función para saber la memoria total que tiene nuestra computadora, se muestra en kB
 def memTotal():
     mem_total =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '1 p'")
-	avisoProc()
+    avisoProc()
     return mem_total
 
 # Función para saber la memoria libre que tiene nuestra computadora, se muestra en kB
 def memLibre():
     mem_libre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '2 p'")
-	avisoProc()
+    avisoProc()
     return mem_libre
 
 # Función para saber la memoria que está usando el usuario, se muestra en kB
 def memUso():
     mem_uso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '7 p'")
-	avisoProc()
+    avisoProc()
     return mem_uso
 
 # Función para saber la memoria de intercambio total que tiene nuestra computadora, se muestra en kB
 def memSwapTotal():
     mem_swap =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '19 p'")
-	avisoProc()
+    avisoProc()
     return mem_swap
 
 # Función para saber la memoria de intercambio libre que tiene nuestra computadora, se muestra en kB
 def memSwapLibre():
     mem_swaplibre =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '20 p'")
-	avisoProc()
+    avisoProc()
     return mem_swaplibre
 
 # Función para saber la memoria de intercambio que está usando, se muestra en kB
 def memSwapUso():
     mem_swapuso =  subprocess.getoutput("cat /proc/meminfo | while read c1 c2; do echo $c2; done | sed -n '6 p'")
-	avisoProc()
+    avisoProc()
     return mem_swapuso
 
 ###########################################################################################################################
@@ -134,7 +134,7 @@ def numProcesos():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '/[0-9]*'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[1:]
-	avisoProc()
+    avisoProc()
     return num_procesos
 
 # Función para el número de procesos que estén ejecutandose en este momento
@@ -142,7 +142,7 @@ def numProcEjecucion():
     num_procesos = subprocess.getoutput("cat /proc/loadavg | grep -o '[0-9]*/'")
     # Filtramos la información que nos sirve
     num_procesos = num_procesos[:-1]
-	avisoProc()
+    avisoProc()
     return num_procesos
 
 ###########################################################################################################################
@@ -174,7 +174,7 @@ def tFuncionamiento():
     t_funcionamiento = int(t_funcionamiento[:-3])
     # Transformamos los segundos en un formato más presentable
     t_funcionamiento = horaCompleta(t_funcionamiento)
-	avisoProc()
+    avisoProc()
     return t_funcionamiento
 
 # Función para el tiempo que ha estado inactivo el sistema
@@ -184,7 +184,7 @@ def tInactivo():
     t_inactivo = int(t_inactivo[:-3])
     # Transformamos los segundos en un formato más presentable
     t_inactivo = horaCompleta(t_inactivo)
-	avisoProc()
+    avisoProc()
     return t_inactivo
 
 #####################################################################################################################
@@ -210,10 +210,12 @@ def listaProc():
                 nombre.append(valor)
             elif llave == 'status':
                 status.append(valor)
-	avisoProc()
+    avisoProc()
     return [len(username),username,pid,nombre,status]
 
 ##########################################################################################################################
+
+funcionesALanzar = [cpuUsuario, cpuSistema,cpuInactivo, memTotal,memLibre,memUso,memSwapTotal,memSwapLibre,memSwapUso,numProcesos,numProcEjecucion,tFuncionamiento,tInactivo,listaProc]
 
 # Función para lanzar los hilos, las variables que se usan están declaradas al principio del programa
 def iniciaHilos():
