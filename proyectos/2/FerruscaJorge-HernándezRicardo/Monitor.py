@@ -250,8 +250,8 @@ def interfaz():
 	Label(frame,text=cpuSistema()+"% Sys",font="Verdana 10",bg="black",fg="white").place(x=210,y=180)
 	Label(frame,text=cpuInactivo()+"% Inac",font="Verdana 10",bg="black",fg="white").place(x=340,y=180)
 	Label(frame,text="Tiempo: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=200)
-	Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
-	Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
+	Label(frame,text=tFuncionamiento()+" Funcionando",font="Verdana 10",bg="black",fg="white").place(x=120,y=200)
+	Label(frame,text=tInactivo()+" Inactivo",font="Verdana 10",bg="black",fg="white").place(x=320,y=200)
 	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
 	procesosListado = listaProc()
 	Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
@@ -283,13 +283,11 @@ def funcPrincipal():
 		iniciaHilos()
 		# Espera a que todos los hilos terminen
 		print("una vez")
-		interfaz()
 		senal.acquire()
-		#interfaz()
+		interfaz()
 		# Mutex para reiniciar contador
 		mutex.acquire()
 		cont_hilos = 0
-		#Lo libera y continúa con su tarea (limpiar la interfaz para una nueva impresión)
 		mutex.release()
 
 ##########################################################################################################################
