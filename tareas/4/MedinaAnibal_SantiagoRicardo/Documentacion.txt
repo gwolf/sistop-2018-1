@@ -1,0 +1,20 @@
+Desarrolladores:
+	-Medina Mena Anibal
+	-Santiago Lopez Ricardo
+Promebla elegido:
+	-Interseccion de caminos
+Estrategia:
+	-Atacamos el problema comparandolo con el transito en la vida real y lo resolvimo 		implementado semaforos, esto permite que solamente un hilo pase en ves de que traten de 	pasar todos lo hilos al mismo tiempo
+Diagrama de la Intersccion de caminos implementada:
+
+		|   A	|	|
+		|   ↓    |  	|
+		|	|	|
+	--------		--------		
+	C  →			      	
+	--------    semaforos	--------		
+		                                 ←    D
+	--------		--------
+		|	|	|
+		|	|   ↑	|
+		|	|    B	|
