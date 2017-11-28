@@ -9,14 +9,10 @@ import psutil
 # Variable para saber el numero de nucleos que tiene nuestra computadora
 num_nucleos = int(subprocess.getoutput("grep processor /proc/cpuinfo | wc -l"))
 
-# Lista de las funciones que se lanzarán en los hilos
-funcionesALanzar = ["cpuUsuario","cpuSistema","cpuInactivo","memTotal","memLibre","memUso","memSwapTotal","memSwapLibre","memSwapUso","numProcesos","numProcEjecucion","tFuncionamiento","tInactivo","listaProc"]
-func_monitor = len(funcionesALanzar)
-
 # Mutex para proteger al contador
 mutex = threading.Semaphore(1)
+mutex_aviso = threading.Semaphore(1)
 global cont_hilos
-frame = False
 cont_hilos = 0
 
 # Semáforo para señalizar que todos los hilos cumplieron con su funcion
@@ -26,16 +22,16 @@ senal = threading.Semaphore(0)
 
 # Función para señalizar entre hilos
 def avisoProc():
-	global cont_hilos
 	# Adquirimos el mutex para escritura y lectura de la variable contador de hilos
-	mutex.acquire()
+	mutex_aviso.acquire()
+	global cont_hilos
     # Un hilo ha pasado por aquí
 	cont_hilos += 1
 	# Si todos los hilos ya pasaron por aquí, mandan la señal para que se vuelvan a lanzar
 	if cont_hilos == func_monitor:
 		senal.release()
 	# Se libera mutex
-	mutex.release()
+	mutex_aviso.release()
 
 ######################################################################################################################
 
@@ -217,20 +213,20 @@ def listaProc():
 ##########################################################################################################################
 
 funcionesALanzar = [cpuUsuario, cpuSistema,cpuInactivo, memTotal,memLibre,memUso,memSwapTotal,memSwapLibre,memSwapUso,numProcesos,numProcEjecucion,tFuncionamiento,tInactivo,listaProc]
+func_monitor = len(funcionesALanzar)
 
 # Función para lanzar los hilos, las variables que se usan están declaradas al principio del programa
 def iniciaHilos():
     for i in funcionesALanzar:
-        threading.Thread(target = i,args = []).start()
+        threading.Thread(target = i).start()
 
 ##########################################################################################################################
 
 # Función que contiene la interfaz gráfica con tkinter
 def interfaz():
-	global frame
 	contenedor = Tk()
 	contenedor.title("Monitor")
-	frame = Frame(contenedor,heigh=1000,width=1000)
+	frame = Frame(contenedor,heigh=600,width=500)
 	frame.pack(padx=20,pady=20)
 	frame.configure(bg = "black")
 
@@ -238,8 +234,6 @@ def interfaz():
 	Label(frame,text="Kernel:   " +  kernel(),font="Verdana 10",bg="black",fg="white").place(x=0,y=20)
 	Label(frame,text="Procesador:   " + modeloCPU(),font="Verdana 10",bg="black",fg="white").place(x=0,y=40)
 	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=60)
-	
-def actualiza():
 	Label(frame,text="*Memoria",font="Verdana 10",bg="black",fg="red").place(x=0,y=80)
 	Label(frame,text="memoria: ",font="Verdana 10",bg="black",fg="white").place(x=0,y=100)
 	Label(frame,text=memTotal() + " Total",font="Verdana 10",bg="black",fg="white").place(x=80,y=100)
@@ -259,45 +253,44 @@ def actualiza():
 	Label(frame,text=tFuncionamiento()+" Total",font="Verdana 10",bg="black",fg="white").place(x=140,y=200)
 	Label(frame,text=tInactivo()+" Libre",font="Verdana 10",bg="black",fg="white").place(x=280,y=200)
 	Label(frame,text="-----------------------------------------------------------------------------------------------------------------------------",bg="black",fg="white").place(x=0,y=220)
-	procesoss = listaProc()
+	procesosListado = listaProc()
 	Label(frame,text="*Procesos",font="Verdana 10",bg="black",fg="red").place(x=0,y=240)
 	Label(frame,text="Total:",font="Verdana 10",bg="black",fg="white").place(x=0,y=260)
-	Label(frame,text=len(procesoss),font="Verdana 10",bg="black",fg="white").place(x=80,y=260)
+	Label(frame,text=procesosListado[0],font="Verdana 10",bg="black",fg="white").place(x=80,y=260)
 	Label(frame,text="Activos: ",font="Verdana 10",bg="black",fg="white").place(x=250,y=260)
 	Label(frame,text="Username ",font="Verdana 10",bg="black",fg="cyan").place(x=0,y=290)
 	Label(frame,text="PID ",font="Verdana 10",bg="black",fg="cyan").place(x=125,y=290)
 	Label(frame,text="Nombre ",font="Verdana 10",bg="black",fg="cyan").place(x=250,y=290)
 	Label(frame,text="Estado ",font="Verdana 10",bg="black",fg="cyan").place(x=375,y=290)
-	ejey = 310
+	Button( text='Salir', command=quit, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
+	Button( text='Actualizar', command=contenedor.destroy, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
 	ejex = 0
-	for i in range(1,len(procesoss)):
+	for i in range(1,len(procesosListado)):
 	    ejey = 310
-	    for j in range(procesoss[0]):
-	        Label(frame,text=procesoss[i][j],font="Verdana 10",bg="black",fg="white").place(x=ejex,y=ejey)
+	    for j in range(procesosListado[0]):
+	        Label(frame,text=procesosListado[i][j],font="Verdana 10",bg="black",fg="white").place(x=ejex,y=ejey)
 	        ejey += 20
 	    ejex += 125
-	ttk.Button( text='Salir', command=quit).pack(side=BOTTOM)
-	frame.after(2000, actualiza)
+	frame.mainloop()
+
+
 
 ###########################################################################################################################
 
 def funcPrincipal():
 	global cont_hilos
-	global frame
 	while True:
 		iniciaHilos()
 		# Espera a que todos los hilos terminen
 		print("una vez")
-		senal.acquire()
 		interfaz()
-		actualiza()
-		time.sleep(2)
+		senal.acquire()
+		#interfaz()
 		# Mutex para reiniciar contador
 		mutex.acquire()
-		cont_hilos -= func_monitor
+		cont_hilos = 0
 		#Lo libera y continúa con su tarea (limpiar la interfaz para una nueva impresión)
 		mutex.release()
-		frame.mainloop()
 
 ##########################################################################################################################
 
