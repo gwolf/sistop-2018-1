@@ -1,0 +1,367 @@
+#+title: Calificación del segundo proyecto parcial (monitor de sistema)
+#+author: Gunnar Wolf
+
+El planteamiento del proyecto y la rúbrica para su calificación están
+[[./README.md][disponibles aquí]].
+
+* Jorge Ferrusca, Ricardo Hernández
+
+- Directorio de entrega :: [[./FerruscaJorge-HernándezRicardo]]
+- Documentación :: [[./FerruscaJorge-Hern%C3%A1ndezRicardo/README.md][README.md]]
+- Código :: [[./FerruscaJorge-Hern%C3%A1ndezRicardo/Monitor.py][Monitor.py]]
+- Lenguaje de desarrollo :: Python
+- Interfaz :: GUI (tkinter)
+- Aspecto monitoreado :: Presenta características del sistema, uso de
+     memoria, uso de CPU y algunos de los procesos en ejecución
+- Uso de multitarea / sincronización :: Varios hilos obtienen
+     diferentes tipos de información de forma concurrente, y señalizan
+     a =funcPrincipal()=. Hay dos mutexes protegiendo el contador de
+     hilos vivos, =cont_hilos= (esto es un error, ¡debería ser el
+     mismo mutex!)
+- Observaciones ::
+  - Tuve que pedirles que revisaran el código para que el programa
+    funcionara :( Afortunadamente fueron cambios menores, y funcionó
+    a la primera una vez que revisado.
+  - Si fuera para un programa en producción, les insistiría en hacer
+    el procesamiento de la información de =/proc/cpuinfo=,
+    =/proc/stat=, =/proc/version= y demás archivos que leen mediante
+    un =subprocess.getoutput(...)= compuesto internamente en Python —
+    Es mucho más eficiente y menos frágil, y Python tiene todo lo
+    necesario para el procesamiento de texto.
+  - Mencionan en su documentación, /no encontramos como "refrescar" la
+    interfaz, por/ /lo que optamos a poner un botón para actualizar la
+    interfaz,/ /el cual obliga a que cierre por completo la ventana y
+    al momento de/ /volverse a llamar la función es cuando se vuelven
+    a mostrar los datos/. Esto se divide en dos problemas:
+
+    1. ¿Cómo independizar la obtención de datos de su despliegue?
+    2. ¿Cómo hacer que la información se /mantenga/ refrescada?
+
+    Hay muchas maneras de resolverlo. Veamos una propuesta:
+
+    1. lo primero que se me ocurre es que =interfaz()= podría
+       separarse en dos partes: Por un lado, el /maquetado/ de la
+       interfaz, y por el otro el llenado de información.
+
+       Para hacer esto /bien/, sería conveniente que la interfaz
+       constara de elementos direccionables, esto es, con nombre
+       propio cada uno y no como el equivalente de una interfaz de
+       consola con texto "agregado". Pero, así como está, creo que
+       podrían ejecutar esto una sola vez al iniciar la ejecución:
+
+       #+BEGIN_SRC python
+	 def inicializa_interfaz():
+	      contenedor = Tk()
+	      contenedor.title("Monitor")
+	      frame = Frame(contenedor,heigh=600,width=500)
+	      frame.pack(padx=20,pady=20)
+	      frame.configure(bg = "black")
+
+	      Button( text='Salir', command=quit, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
+	      Button( text='Actualizar', command=contenedor.destroy, bg="black",fg="white", relief="raised", bd=5).pack(side=RIGHT)
+
+	      frame.mainloop()
+       #+END_SRC
+
+       Muy probablemente querrán entregar de vuelta =frame= para
+       podernos referir a él más adelante. Y, claro, haría falta una
+       =llena_interfaz(frame)= con el resto del código que incluye su
+       =interfaz()=.
+
+    2. Ya teniendo esto desacoplado, bastaría darle una /patada/
+       periódicamente a los hilos recopiladores de información y
+       actualizar el despliegue. Tal vez bastaría con modificar su
+       =funcPrincipal()= a algo como:
+       #+BEGIN_SRC python
+	 def funcPrincipal():
+		 global cont_hilos
+		 inicializa_interfaz()
+		 while True:
+			 iniciaHilos()
+			 # Espera a que todos los hilos terminen
+			 senal.acquire()
+			 llena_interfaz()
+			 # Mutex para reiniciar contador
+			 mutex.acquire()
+			 cont_hilos = 0
+			 mutex.release()
+			 time.sleep(2)
+       #+END_SRC
+
+
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.84 |
+| Creatividad            |       7.5 |        |     0.50 |
+| Complejidad            |        10 |        |     0.67 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.67 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |      1.5 |
+| Multiproceso           |        10 |        |     1.00 |
+| Sincronización         |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.52 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Héctor Martínez, Jaziel Fuentes
+
+- Directorio de entrega :: [[./MartinezHector-FuentesJaziel/]]
+- Documentación :: [[./MartinezHector-FuentesJaziel/Documentacion_Monitor.pdf][Documentacion_Monitor.pdf]]
+- Código :: [[./MartinezHector-FuentesJaziel/Monitor.py][Monitor.py]]
+- Lenguaje de desarrollo :: Python
+- Interfaz :: ncurses
+- Aspecto monitoreado :: Uso de CPU y memoria, lista de procesos
+- Uso de multitarea / sincronización :: Barrera señalizando que los
+     hilos procesaron ya su información y actualizaron la pantalla
+     antes de refrescar la interfaz
+- Observaciones ::
+  - La interfaz es limpia, aunque limitar el número de procesos a que
+    *siempre* muestre 13 resulta incómodo
+    - Ya que =procesos()= escribe directo mediante
+      =pantalla.addstr()=, podrían obtener el tamaño con
+      =pantalla.getmaxyx()=. Esto es, bastaría con agregar lo siguiente
+      en su línea 34:
+      #+BEGIN_SRC python
+	alto,ancho = pantalla.getmaxyx()
+	tamanio = alto - 12
+      #+END_SRC
+    - Ya sea en su versión o con mi modificación, ¿por qué el
+      requisito de "visualizar el programa en pantalla completa"? (¿Y
+      qué significa "pantalla completa? ☺)
+  - =porcentaje()= y =memoriaUsada()= llaman a =inbarre()= para
+    "formarse" frente a la barrera. ¿Por qué no lo hace también
+    =procesos()=?
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.84 |
+| Creatividad            |       7.5 |        |     0.50 |
+| Complejidad            |        10 |        |     0.67 |
+| Interfaz usuario       |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.67 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     2.01 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |        10 |        |     0.67 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.25 |
+| Multiproceso           |       7.5 |        |     0.75 |
+| Sincronización         |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     8.27 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Edgaer Saldaña
+
+- Directorio de entrega :: [[./SaldañaEdgar/]]
+- Documentación :: [[./Salda%C3%B1aEdgar/README.md][README.md]]
+- Código :: [[./Salda%C3%B1aEdgar/ColectorDeProceso.java][ColectorDeProceso]], [[./Salda%C3%B1aEdgar/Coordinador.java][Coordinador]], [[./Salda%C3%B1aEdgar/Interfaz.java][Interfaz]], [[./Salda%C3%B1aEdgar/Monitor.java][Monitor]]
+- Lenguaje de desarrollo :: Java
+- Interfaz :: Genera un recuadro de texto mostrando la información
+- Aspecto monitoreado :: División del uso de la memoria
+- Uso de multitarea / sincronización :: Exclusión mutua (apagador)
+     entre varios hilos que hacen obtención de datos y uno que hace
+     impresión de información. Un hilo colector por cada una de las
+     líneas a recibir/imprimir.
+- Observaciones ::
+  - Comprendo que es únicamente un ejercicio, y puede costar un poco
+    encontrar dónde aplicar paralelismo, pero me toca comentar como si
+    fuera verdaderamente un programa en producción :-]
+    
+    Abres el archivo =/proc/meminfo= en cada uno de los hilos que
+    pasan por =ColectorDeProceso().run()=. Abrir un archivo y leer de
+    él es lento (requiere de varias llamadas al sistema); creo que
+    sería mucho más ágil hacer una sola lectura y trabajar
+    paralelamente sobre los datos leídos, o incluso abrir el archivo
+    una sola vez y compartir el descriptor.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.16 |
+| Creatividad            |         5 |        |     0.33 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     1.67 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |     1.84 |
+| Historia en Git        |        10 |        |     0.67 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.67 |
+| Multiproceso           |        10 |        |     1.00 |
+| Sincronización         |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     7.84 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Santiago López, Aníbal Medina
+
+- Directorio de entrega :: [[./SantigoLopez_MedinaMena/]]
+- Documentación :: [[./SantigoLopez_MedinaMena/proyecto2.pdf]]
+- Código :: [[./SantigoLopez_MedinaMena/monitor.py]]
+- Lenguaje de desarrollo :: Python
+- Interfaz :: Línea de comando
+- Aspecto monitoreado :: Muestra el contenido de varios archivos de
+     =/proc= y de la ejecución de algunos procesos
+- Uso de multitarea / sincronización :: Mutex para las unidades de
+     ejecución de cada comando
+- Observaciones ::
+  - ¡No se por qué tantos de ustedes obtienen la idea de que es buena
+    idea ejecutar un =system(clear)= para limpiar la pantalla! Si
+    asumen una terminal suficientemente inteligente para saber limpiar
+    la pantalla (¡que no siempre es el caso!), hay *muchas* maneras de
+    hacerlo limpiamente — [[https://stackoverflow.com/questions/2084508/clear-terminal-in-python][Va una liga con unas cuantas
+    ideas]]. Posiblemente la más sencilla, aunque suene a magia negra,
+    es imprimir una cadena de comandos ANSI: =print "\x1b[2J\x1b[H"=
+  - Una de las /particularidades/ de Python es que si quieren imprimir
+    información que /ya termina/ con fin de línea (=\n=) hay que
+    agregarle una coma final a la órden — Algo así:
+    #+BEGIN_SRC python
+      lectura = file.readline()
+      while lectura != "":
+	  print lectura,
+	  lectura = file.readline()
+    #+END_SRC
+    - ¡Ojo! El estilo de este código ejemplo es
+      también... Cuestionable, por decir lo menos ☺ Podrían recibir
+      todas las líneas de una a un arreglo:
+      #+BEGIN_SRC python
+      file=open('/proc/mounts')
+      lectura = file.readlines()
+      for linea in lectura:
+          print linea,
+      #+END_SRC
+      Esto además resultaría más rápido (muchas menos llamadas al
+      sistema). Claro, hay muchas maneras de hacer lo mismo, este es
+      sólo un ejemplo.
+  - El manejo de hilos y sincronización cumple con /la letra/ de lo
+    pedido, pero no logra ninguna ventaja: Incluso ponen un
+    =time.sleep(0.1)= en =interfaz_Usuario()= para esperar a que
+    termine de ejecutarse la salida del comando especificado. ¡Esa
+    sincronización debería darse mediante una /señalización/!
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |      1.5 |
+| Cumplimiento           |       7.5 |        |     1.50 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.16 |
+| Creatividad            |         5 |        |     0.33 |
+| Complejidad            |         5 |        |     0.33 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |      1.5 |
+| Historia en Git        |       7.5 |        |     0.50 |
+| Dir. de proyecto       |         5 |        |     0.33 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.08 |
+| Multiproceso           |       7.5 |        |     0.75 |
+| Sincronización         |         5 |        |     0.33 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     7.25 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
+* Jesús Tirado, Alberto Montalban
+
+- Directorio de entrega :: [[./TiradoJesus-MontalbanAlberto]]
+- Documentación :: [[./TiradoJesus-MontalbanAlberto/documentacion.pdf][documentacion.pdf]]
+- Código :: [[./TiradoJesus-MontalbanAlberto/monitor.c][monitor.c]]
+- Lenguaje de desarrollo :: C
+- Interfaz ::
+- Aspecto monitoreado :: 
+- Uso de multitarea / sincronización :: Espera al proceso hijo con =wait(&estado)=
+- Observaciones ::
+  - Lo primero que llama mi atención es que no implementaron lo que yo
+    pedí (un monitor de sistema) sino que un intérprete de comandos
+    - ¡Me gustó el intérprete de comandos! Es uno de los mejores
+      programas que he revisado por alumnos de esta materia. Pero no
+      es lo que pedí, y tengo que calificarlo siguiendo ese criterio ☹
+    - Muestra curiosidad e interés por comprender la programación
+      multiprocesos. Y eso es *muy* bueno.
+  - Las funciones de manejo de cadenas de C son débiles e
+    incómodas... Pero existen. Es recomendable, en vez de:
+    #+BEGIN_SRC C
+      while ((comando[j]==cadFin[j])&&(comando[j]!='\0')&&(cadFin[j]!='\0')) // se comparan las cadenas para ver si se tecleó "salir"
+	j++;
+      if ((comando[j]==cadFin[j])&&(comando[j]=='\0')&&(cadFin[j]=='\0')) 
+	exit(0);
+    #+END_SRC
+    Es mucho más rápido, claro, y confiable:
+    #+BEGIN_CENTER C
+    if (strcmp(comando, cadFin) == 0)
+      exit(0);
+    #+END_CENTER
+  - ¡Importante pequeño fallo! Si quieres comunicar a un proceso padre
+    e hijo con un =pipe()=, debes hacerlo /antes/ del =fork()=, para
+    que ambos procesos lo compartan. En este caso, están haciendo un
+    doble =fork()=, pero el =pipe()= sólo existe después del primero;
+    El proceso padre jamás lo recibe.
+
+| *Rubro*                | *Parcial* | *Peso* | *Puntos* |
+|------------------------+-----------+--------+----------|
+| *Requisitos*           |           |    0.2 |       1. |
+| Cumplimiento           |         5 |        |     1.00 |
+|------------------------+-----------+--------+----------|
+| *Proyecto*             |           |    0.2 |     1.84 |
+| Creatividad            |        10 |        |     0.67 |
+| Complejidad            |        10 |        |     0.67 |
+| Interfaz usuario       |       7.5 |        |     0.50 |
+|------------------------+-----------+--------+----------|
+| *Documentación*        |           |    0.2 |     2.01 |
+| Doc. externa           |        10 |        |     0.67 |
+| Entorno y dependencias |        10 |        |     0.67 |
+| Comentarios            |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Entrega*              |           |    0.2 |      1.5 |
+| Historia en Git        |         5 |        |     0.33 |
+| Dir. de proyecto       |       7.5 |        |     0.50 |
+| Código válido          |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *Legibilidad*          |           |    0.2 |     1.42 |
+| Multiproceso           |       7.5 |        |     0.75 |
+| Sincronización         |        10 |        |     0.67 |
+|------------------------+-----------+--------+----------|
+| *TOTAL*                |           |        |     7.77 |
+|------------------------+-----------+--------+----------|
+#+TBLFM: @2$4=@3::@3$4=@3$2*@2$3 ; f-2::@4$4=@5+@6+@7::@5$4=$2*@4$3/3 ; f-2::@6$4=$2*@4$3/3 ; f-2::@7$4=$2*@4$3/3 ; f-2::@8$4=@9+@10+@11::@9$4=$2*@8$3/3 ; f-2::@10$4=$2*@8$3/3 ; f-2::@11$4=$2*@8$3/3 ; f-2::@12$4=@13+@14+@15::@13$4=$2*@12$3/3 ; f-2::@14$4=$2*@12$3/3 ; f-2::@15$4=$2*@12$3/3 ; f-2::@16$4=@17+@18::@17$4=$2*@16$3/2 ; f-2::@18$4=$2*@16$3/3 ; f-2::@19$4=@2+@4+@8+@12+@16
+
