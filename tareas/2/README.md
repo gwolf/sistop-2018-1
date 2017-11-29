@@ -201,3 +201,24 @@ dos personas_.
 
 			['A', 'B', 'B', 'B', 'C', 'C', 'C', 'C', '-', 'E', 'E', 'D', 'D', 'D', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-']
   - *Calificación:* 7 × 0.8 = **5.6**
+
+- **Héctor Martínez**
+  - *Entrega muy extemporánea* (vale ×0.5)
+  - *Lenguaje:* C
+  - *Estrategia:* Maneja un arreglo de asignación de memoria y una
+    matriz con las áreas libres.
+  - *Código:* [Memoria.c](./MartinezHector/Memoria.c)
+  - *Documentacion:*
+    [documentacion.txt](./MartinezHector/documentacion.txt)
+  - *Comentarios:*
+	 - Complicado entender tu lógica... Me parece muy bizantina :-|
+     - La asignación que haces no sigue un modelo contiguo; no me
+       queda claro qué haces dividiendo / repartiendo a cada proceso
+       en varios segmentos de memoria
+     - ¡El resultado es interesante sin duda! Dado lo demorado que
+       está, no puedo dedicarle más tiempo, pero se ve que le
+       trabajaste... ¡Quisiera entender qué quisiste hacer :-Þ
+     - Y la documentación... Sencillamente no es tal :( Tuve que
+       revisar para entender qué contenido debía tener el archivo que
+       requiere como parámetro.
+     - Calificación: 7 × 0.5 = *3.5*
