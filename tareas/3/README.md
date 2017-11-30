@@ -82,3 +82,13 @@ después de eso:
     (Windows), no entraste a lo que sugiere el autor: Ninguna de estas
     herramientas considera las instrucciones por ciclo (IPC) ni el
     rendimiento mejor o peor debido al acceso a memoria.
+
+## Muy extemporáneas (×0.5)
+- Anibal Medina
+  - **Calificación: 8 × 0.5 = 4**
+  - Mostraste la ejecución de un par de comandos. Pero no mostraste lo
+    que pide la tarea — evaluar la salida, intentar explicar o
+    comprender lo que éstos reportan (en el caso de perf, el sistema
+    simplemente te dijo, "no lo has instalado, hay que instalarlo"!)
+  - Jajajaj, ¿Tres imágenes porque no cabía en una sola? :-(
+  - Buen mapa, con todo.

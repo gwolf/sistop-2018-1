@@ -143,3 +143,26 @@ La fecha límite para entrega en tiempo es el *martes 21 de noviembre*.
       `Balsa`s.
     - También me parece raro... ¿El evento que dispara el cruce de la
       balsa es lanzado por la persona que se queda abajo? Hmmmm...
+
+## Entregas extemporáneas (× 0.8)
+- Anibal Medina y Ricardo Santiago
+  - **Calificación:** 10 × 0.8 = 8
+  - *Problema resuelto:* Intersección de caminos
+  - *Estrategia:*
+  - *Código:* [camino.py](./MedinaAnibal_SantiagoRicardo/camino.py), [Transitp.py](./MedinaAnibal_SantiagoRicardo/Transitp.py) [Accion.py](./MedinaAnibal_SantiagoRicardo/Accion.py)
+  - *Documentación:* [Documentacion.txt](./MedinaAnibal_SantiagoRicardo/Documentacion.txt)
+  - *Comentarios:*
+    - ¡Un poquito de cariño por la ortografía, por favor! "En ves",
+      "cruze"... ☹
+    - Probablemente el programa mejor estructurado de los que recibí
+      este semestre. ¡Bien!
+    - La solución que presentan es buena y completa. Claro, el
+      planteamiento dice que es un cruce _sin señalamiento vial_, esto
+      es, sin semáforo. Ustedes decidieron ponerlo; yo esperaba una
+      solución que "implementaran" los automovilistas, no la autoridad
+      ;-)
+    - En la planeación vial real similar a la del problema,
+      normalmente hay semáforos con turno más largo para los que van
+      de frente o giran a la derecha, lo cual permitiría el avance
+      simultáneo de _casi_ todos los autos de A y B o de C y D. Claro,
+      esto entra en el terreno del _refinamiento 2_ planteado
