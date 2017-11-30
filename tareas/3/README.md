@@ -92,3 +92,7 @@ después de eso:
     simplemente te dijo, "no lo has instalado, hay que instalarlo"!)
   - Jajajaj, ¿Tres imágenes porque no cabía en una sola? :-(
   - Buen mapa, con todo.
+
+- Jorge Ferrusca
+  - **Calificación: 10 × 0.5 = 5**
+  - Muy buen trabajo... Lástima que no lo enviaste a tiempo ☹
