@@ -166,3 +166,32 @@ La fecha límite para entrega en tiempo es el *martes 21 de noviembre*.
       de frente o giran a la derecha, lo cual permitiría el avance
       simultáneo de _casi_ todos los autos de A y B o de C y D. Claro,
       esto entra en el terreno del _refinamiento 2_ planteado
+    - Por confiabilidad y mantenibilidad: Eviten copiar y pegar (o
+      repetir) secciones de su código. Particularmente dentro de
+      `Transito.Cruze`, el `while` interno difiere únicamente en la
+      cadena que imprime. Podrían reemplazar las líneas 31 a 58 de
+      `Transitp.py` por:
+
+		    while limit<50:
+			    while j<4:
+                    # ASCII 65 = 'A'
+				    print("Pueden avanzar los de la calle %s\n" % chr(j+65))
+				    semaforo.acquire()
+                    machineCar.Autos()
+				    time.sleep( 3 )
+            	    semaforo.release()
+            		j=j+1
+            	j=0
+
+	  Una sugerencia más: Si quieren que `j` vaya ciclando entre 0 y
+      3, podrían simplificar otro poquito usando residuo (módulo):
+
+		    while limit<50:
+                # ASCII 65 = 'A'
+			    print("Pueden avanzar los de la calle %s\n" % chr(j+65))
+			    semaforo.acquire()
+                machineCar.Autos()
+			    time.sleep( 3 )
+                semaforo.release()
+            	j=(j+1) % 4
+
